@@ -85,7 +85,7 @@
 
     .shell { max-width: 960px; margin: 0 auto; padding: 48px 20px 64px; display: none; }
     .shell.show { display: block; animation: rise .4s ease-out; }
-    .brand { margin-bottom: 32px; }
+    .brand { margin-bottom: 28px; }
     .brand .eyebrow {
       font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
@@ -95,13 +95,17 @@
       font-size: clamp(32px, 5vw, 44px); font-weight: 700; letter-spacing: -0.02em;
       margin-bottom: 10px;
     }
-    .brand p { max-width: 38rem; color: var(--muted); font-size: 16px; line-height: 1.55; }
+    .brand p { max-width: 40rem; color: var(--muted); font-size: 16px; line-height: 1.55; }
 
+    .section-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); margin: 6px 0 10px;
+    }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 22px;
     }
     .card {
       background: var(--card);
@@ -139,7 +143,7 @@
       font-size: 13px;
       color: var(--muted);
       line-height: 1.5;
-      margin-top: 8px;
+      margin-top: 4px;
     }
     .hint strong { color: var(--ink); }
 
@@ -189,36 +193,22 @@
     <div class="brand">
       <div class="eyebrow">Kinfold Inns Admin</div>
       <h1>Assistant desk</h1>
-      <p>Daily invoice work only — Failed, Questions, Upload, Archive. Ask Charlie before Settings, Xero, or merging duplicates.</p>
+      <p>Same invoicing system as Charlie — your landing is invoices, questions, statements, and Xero. Not the full owner dashboard (pricing, GP, duplicates, compare).</p>
     </div>
 
+    <div class="section-label">Invoices</div>
     <div class="grid">
-      <a class="card primary" href="#" onclick="openApp('assistant'); return false;">
-        <div class="icon">🧾</div>
-        <h2>Assistant desk</h2>
-        <p>Counts, daily order, and shortcuts into the invoice system.</p>
-        <span class="cta">Open desk →</span>
-      </a>
-      <a class="card" href="#" onclick="openApp('guide'); return false;">
-        <div class="icon">📖</div>
-        <h2>Guidebook</h2>
-        <p>How the system works, screen-by-screen notes, printable flowcharts.</p>
-        <span class="cta">Open guide →</span>
-      </a>
-    </div>
-
-    <div class="grid">
-      <a class="card" href="#" onclick="openApp('upload'); return false;">
+      <a class="card primary" href="#" onclick="openApp('upload'); return false;">
         <div class="icon">📤</div>
         <h2>Upload</h2>
-        <p>Dashboard upload area for supplier PDFs email missed.</p>
+        <p>Drop supplier PDFs the email monitor missed.</p>
         <span class="cta">Open upload →</span>
       </a>
-      <a class="card" href="#" onclick="openApp('questions'); return false;">
-        <div class="icon">❓</div>
-        <h2>Questions</h2>
-        <p>Unknown or incomplete products needing measure / category.</p>
-        <span class="cta">Open Questions →</span>
+      <a class="card" href="#" onclick="openApp('invoicehub'); return false;">
+        <div class="icon">📋</div>
+        <h2>Invoice Hub</h2>
+        <p>Browse and manage processed invoices.</p>
+        <span class="cta">Open Invoice Hub →</span>
       </a>
       <a class="card" href="#" onclick="openApp('failed'); return false;">
         <div class="icon">⚠️</div>
@@ -226,11 +216,55 @@
         <p>PDFs that did not process — set supplier/pub and retry.</p>
         <span class="cta">Open Failed →</span>
       </a>
+      <a class="card" href="#" onclick="openApp('archive'); return false;">
+        <div class="icon">🗄️</div>
+        <h2>Archive</h2>
+        <p>Find a PDF and its line items by pub, supplier, or date.</p>
+        <span class="cta">Open Archive →</span>
+      </a>
+    </div>
+
+    <div class="section-label">Daily work</div>
+    <div class="grid">
+      <a class="card primary" href="#" onclick="openApp('questions'); return false;">
+        <div class="icon">❓</div>
+        <h2>Questions</h2>
+        <p>Unknown or incomplete products needing measure / category.</p>
+        <span class="cta">Open Questions →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('statements'); return false;">
+        <div class="icon">📑</div>
+        <h2>Statements</h2>
+        <p>Supplier statements and reconciliation.</p>
+        <span class="cta">Open Statements →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('xero'); return false;">
+        <div class="icon">📤</div>
+        <h2>Xero Export</h2>
+        <p>Build CSV bills for Xero import by period and supplier.</p>
+        <span class="cta">Open Xero Export →</span>
+      </a>
+    </div>
+
+    <div class="section-label">Help</div>
+    <div class="grid">
+      <a class="card" href="#" onclick="openApp('guide'); return false;">
+        <div class="icon">📖</div>
+        <h2>Guidebook</h2>
+        <p>How the system works, screen-by-screen notes, printable flowcharts.</p>
+        <span class="cta">Open guide →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('assistant'); return false;">
+        <div class="icon">🧾</div>
+        <h2>Desk with counts</h2>
+        <p>Same shortcuts inside the web app, plus live Failed / Questions counts.</p>
+        <span class="cta">Open in-app desk →</span>
+      </a>
     </div>
 
     <div class="hint">
-      <strong>Suggested daily order:</strong> Failed → Questions → Upload missing PDFs → Archive check.
-      Bookmark <code>admin.kinfoldinns.co.uk</code> once DNS is live.
+      <strong>Suggested order:</strong> Failed → Questions → Upload missing PDFs → Statements → Xero when ready → Archive if you need a PDF.
+      Bookmark <code>admin.kinfoldinns.co.uk</code>. Ask Charlie before Settings, merging duplicates, or pricing changes.
     </div>
   </div>
 
@@ -256,18 +290,26 @@
     // Production invoicing web app (same deployment as owner portal)
     var BASE = 'https://script.google.com/macros/s/AKfycbw_o2Xb6kidks5eKUyT-C2XoQyQ0QlpVKt895FwUNlulh9q0YLFuO7VYVMImULi3SrE/exec';
     var URLS = {
-      assistant: BASE + '?page=assistant',
-      guide: BASE + '?page=guide',
-      upload: BASE,                       // dashboard has upload
+      upload: BASE,
+      invoicehub: BASE + '?page=invoicehub',
+      failed: BASE + '?page=failed',
+      archive: BASE + '?page=archive',
       questions: BASE + '?page=questions',
-      failed: BASE + '?page=failed'
+      statements: BASE + '?page=statements',
+      xero: BASE + '?page=xero',
+      guide: BASE + '?page=guide',
+      assistant: BASE + '?page=assistant'
     };
     var TITLES = {
-      assistant: 'Assistant desk',
-      guide: 'System guidebook',
-      upload: 'Upload / dashboard',
+      upload: 'Upload',
+      invoicehub: 'Invoice Hub',
+      failed: 'Failed invoices',
+      archive: 'Archive',
       questions: 'Questions',
-      failed: 'Failed invoices'
+      statements: 'Statements',
+      xero: 'Xero Export',
+      guide: 'System guidebook',
+      assistant: 'Desk with counts'
     };
 
     if (sessionStorage.getItem('kinfold_admin_auth') === 'yes') {
