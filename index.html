@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kinfold Inns Admin</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ink: #1c1917;
+      --muted: #78716c;
+      --paper: #f7f4ef;
+      --card: #ffffff;
+      --line: #e7e0d5;
+      --accent: #0f766e;
+      --accent-soft: rgba(15,118,110,0.12);
+      --amber: #b45309;
+    }
+    html, body {
+      min-height: 100%;
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 8% 0%, rgba(15,118,110,0.14), transparent 42%),
+        radial-gradient(ellipse at 92% 12%, rgba(180,83,9,0.09), transparent 38%),
+        linear-gradient(180deg, #faf7f2 0%, var(--paper) 100%);
+      color: var(--ink);
+    }
+    .login-overlay {
+      position: fixed; inset: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      background: rgba(28,25,23,0.03);
+      backdrop-filter: blur(2px);
+      transition: opacity .4s;
+    }
+    .login-overlay.hidden { opacity: 0; pointer-events: none; }
+    .login-card {
+      width: 100%; max-width: 400px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 40px 30px 32px;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(28,25,23,0.08);
+      animation: rise .45s ease-out;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: none; }
+    }
+    .login-card .brand-mark {
+      width: 52px; height: 52px; margin: 0 auto 14px;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 22px; font-weight: 700;
+    }
+    .login-card .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+    .login-card h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 30px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em;
+    }
+    .login-card p { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.45; }
+    .login-card input {
+      width: 100%; padding: 14px 16px; border-radius: 12px;
+      border: 1px solid var(--line); background: #f8f5ef; color: var(--ink);
+      font-size: 18px; text-align: center; letter-spacing: 0.35em; outline: none;
+    }
+    .login-card input:focus { border-color: var(--accent); background: #fff; }
+    .login-btn {
+      width: 100%; margin-top: 14px; padding: 14px;
+      border: none; border-radius: 12px; cursor: pointer;
+      background: var(--accent); color: #fff; font-size: 15px; font-weight: 700;
+    }
+    .login-btn:hover { filter: brightness(1.05); }
+    .error { color: #b91c1c; font-size: 13px; margin-top: 12px; display: none; }
+    .error.show { display: block; }
+
+    .shell { max-width: 960px; margin: 0 auto; padding: 48px 20px 64px; display: none; }
+    .shell.show { display: block; animation: rise .4s ease-out; }
+    .brand { margin-bottom: 32px; }
+    .brand .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    }
+    .brand h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(32px, 5vw, 44px); font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .brand p { max-width: 38rem; color: var(--muted); font-size: 16px; line-height: 1.55; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex; flex-direction: column; gap: 8px;
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(15,118,110,0.35);
+      box-shadow: 0 14px 36px rgba(28,25,23,0.08);
+    }
+    .card.primary {
+      border-color: rgba(15,118,110,0.35);
+      background: linear-gradient(160deg, #fff 60%, rgba(15,118,110,0.06));
+    }
+    .card .icon {
+      width: 40px; height: 40px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft); font-size: 18px;
+    }
+    .card h2 { font-size: 17px; font-weight: 700; }
+    .card p { font-size: 13px; color: var(--muted); line-height: 1.45; flex: 1; }
+    .card .cta { font-size: 13px; font-weight: 700; color: var(--accent); }
+
+    .hint {
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+    .hint strong { color: var(--ink); }
+
+    .app-view {
+      display: none; position: fixed; inset: 0; z-index: 30;
+      background: #0f1419; flex-direction: column;
+    }
+    .app-view.active { display: flex; }
+    .app-bar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 16px; background: #1a1f2e; border-bottom: 1px solid #2a3040;
+    }
+    .app-bar-back {
+      background: none; border: 1px solid #2a3040; color: #e8eaed;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600;
+    }
+    .app-bar-title { color: #e8eaed; font-size: 14px; font-weight: 600; }
+    .app-frame { flex: 1; width: 100%; border: none; background: #fff; }
+    .app-loader {
+      position: absolute; inset: 0; top: 48px; background: #0f1419;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: #8b92a5; z-index: 5; transition: opacity .4s;
+    }
+    .app-loader.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 3px solid #2a3040; border-top-color: #0f766e;
+      animation: spin .8s linear infinite; margin-bottom: 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="brand-mark">KI</div>
+      <div class="eyebrow">Kinfold Inns</div>
+      <h1>Admin</h1>
+      <p>Invoice desk for The Windmill Inn and The Eight Bells.</p>
+      <input type="password" id="pw" placeholder="PIN" maxlength="6" inputmode="numeric" autocomplete="off">
+      <button class="login-btn" type="button" onclick="checkPw()">Sign in</button>
+      <div class="error" id="err">Incorrect PIN</div>
+    </div>
+  </div>
+
+  <div class="shell" id="shell">
+    <div class="brand">
+      <div class="eyebrow">Kinfold Inns Admin</div>
+      <h1>Assistant desk</h1>
+      <p>Daily invoice work only — Failed, Questions, Upload, Archive. Ask Charlie before Settings, Xero, or merging duplicates.</p>
+    </div>
+
+    <div class="grid">
+      <a class="card primary" href="#" onclick="openApp('assistant'); return false;">
+        <div class="icon">🧾</div>
+        <h2>Assistant desk</h2>
+        <p>Counts, daily order, and shortcuts into the invoice system.</p>
+        <span class="cta">Open desk →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('guide'); return false;">
+        <div class="icon">📖</div>
+        <h2>Guidebook</h2>
+        <p>How the system works, screen-by-screen notes, printable flowcharts.</p>
+        <span class="cta">Open guide →</span>
+      </a>
+    </div>
+
+    <div class="grid">
+      <a class="card" href="#" onclick="openApp('upload'); return false;">
+        <div class="icon">📤</div>
+        <h2>Upload</h2>
+        <p>Dashboard upload area for supplier PDFs email missed.</p>
+        <span class="cta">Open upload →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('questions'); return false;">
+        <div class="icon">❓</div>
+        <h2>Questions</h2>
+        <p>Unknown or incomplete products needing measure / category.</p>
+        <span class="cta">Open Questions →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('failed'); return false;">
+        <div class="icon">⚠️</div>
+        <h2>Failed</h2>
+        <p>PDFs that did not process — set supplier/pub and retry.</p>
+        <span class="cta">Open Failed →</span>
+      </a>
+    </div>
+
+    <div class="hint">
+      <strong>Suggested daily order:</strong> Failed → Questions → Upload missing PDFs → Archive check.
+      Bookmark <code>admin.kinfoldinns.co.uk</code> once DNS is live.
+    </div>
+  </div>
+
+  <div class="app-view" id="appView">
+    <div class="app-bar">
+      <button class="app-bar-back" type="button" onclick="closeApp()">← Back</button>
+      <span class="app-bar-title" id="appTitle">—</span>
+    </div>
+    <div class="app-loader" id="appLoader">
+      <div class="spinner"></div>
+      <p>Loading…</p>
+    </div>
+    <iframe class="app-frame" id="appFrame" src="about:blank" allow="clipboard-write" title="Kinfold invoicing"></iframe>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════
+    //  ADMIN ASSISTANT PIN — change here
+    // ═══════════════════════════════════
+    var PIN = '9889';
+    // ═══════════════════════════════════
+
+    // Production invoicing web app (same deployment as owner portal)
+    var BASE = 'https://script.google.com/macros/s/AKfycbw_o2Xb6kidks5eKUyT-C2XoQyQ0QlpVKt895FwUNlulh9q0YLFuO7VYVMImULi3SrE/exec';
+    var URLS = {
+      assistant: BASE + '?page=assistant',
+      guide: BASE + '?page=guide',
+      upload: BASE,                       // dashboard has upload
+      questions: BASE + '?page=questions',
+      failed: BASE + '?page=failed'
+    };
+    var TITLES = {
+      assistant: 'Assistant desk',
+      guide: 'System guidebook',
+      upload: 'Upload / dashboard',
+      questions: 'Questions',
+      failed: 'Failed invoices'
+    };
+
+    if (sessionStorage.getItem('kinfold_admin_auth') === 'yes') {
+      document.getElementById('loginOverlay').classList.add('hidden');
+      document.getElementById('shell').classList.add('show');
+    }
+
+    document.getElementById('pw').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') checkPw();
+    });
+    document.getElementById('pw').focus();
+
+    function checkPw() {
+      if (document.getElementById('pw').value.trim() === PIN) {
+        sessionStorage.setItem('kinfold_admin_auth', 'yes');
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('shell').classList.add('show');
+      } else {
+        document.getElementById('err').classList.add('show');
+        document.getElementById('pw').value = '';
+        document.getElementById('pw').focus();
+      }
+    }
+
+    function openApp(key) {
+      var url = URLS[key];
+      if (!url) return;
+      document.getElementById('appTitle').textContent = TITLES[key] || key;
+      document.getElementById('appLoader').classList.remove('hidden');
+      var frame = document.getElementById('appFrame');
+      frame.src = url;
+      frame.onload = function () {
+        setTimeout(function () { document.getElementById('appLoader').classList.add('hidden'); }, 500);
+      };
+      setTimeout(function () { document.getElementById('appLoader').classList.add('hidden'); }, 15000);
+      document.getElementById('shell').classList.remove('show');
+      document.getElementById('appView').classList.add('active');
+      history.pushState({ view: 'app', key: key }, '', '#' + key);
+    }
+
+    function closeApp() {
+      document.getElementById('appView').classList.remove('active');
+      document.getElementById('shell').classList.add('show');
+      document.getElementById('appFrame').src = 'about:blank';
+      history.pushState({ view: 'landing' }, '', '#');
+    }
+
+    window.addEventListener('message', function (e) {
+      if (!e.data || typeof e.data !== 'object') return;
+      if (e.data.type === 'navigate' && e.data.url) {
+        document.getElementById('appLoader').classList.remove('hidden');
+        var frame = document.getElementById('appFrame');
+        frame.src = e.data.url;
+        frame.onload = function () {
+          setTimeout(function () { document.getElementById('appLoader').classList.add('hidden'); }, 500);
+        };
+      }
+      if (e.data.type === 'kinfold-page-change' && e.data.page) {
+        document.getElementById('appTitle').textContent = e.data.page;
+      }
+    });
+
+    window.addEventListener('popstate', function (event) {
+      var state = event.state;
+      if (!state || state.view === 'landing') {
+        closeApp();
+        return;
+      }
+      if (state.view === 'app' && state.key) openApp(state.key);
+    });
+
+    history.replaceState({ view: 'landing' }, '', '#');
+  </script>
+</body>
+</html>
