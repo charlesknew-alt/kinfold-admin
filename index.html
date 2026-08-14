@@ -275,6 +275,18 @@
         <p>Find a PDF and its line items by pub, supplier, or date.</p>
         <span class="cta">Open Archive →</span>
       </a>
+      <a class="card" href="#" onclick="openApp('products'); return false;">
+        <div class="icon">📦</div>
+        <h2>Products</h2>
+        <p>Product master, measures, and sell prices.</p>
+        <span class="cta">Open Products →</span>
+      </a>
+      <a class="card" href="#" onclick="openApp('draughtpricing'); return false;">
+        <div class="icon">🍺</div>
+        <h2>Draught Pricing</h2>
+        <p>Pint costs, GP targets, and set new draught sell prices.</p>
+        <span class="cta">Open Draught Pricing →</span>
+      </a>
       <a class="card" href="#" onclick="openApp('guide'); return false;">
         <div class="icon">📖</div>
         <h2>Guidebook</h2>
@@ -319,6 +331,9 @@
       questions: BASE + '?page=questions',
       statements: BASE + '?page=statements',
       xero: BASE + '?page=xero',
+      products: BASE + '?page=products',
+      draughtpricing: BASE + '?page=draughtpricing',
+      pricing: BASE + '?page=pricing',
       guide: BASE + '?page=guide'
     };
     var TITLES = {
@@ -330,6 +345,9 @@
       questions: 'Questions',
       statements: 'Statements',
       xero: 'Xero Export',
+      products: 'Products',
+      draughtpricing: 'Draught Pricing',
+      pricing: 'Price Review',
       guide: 'System guidebook'
     };
 

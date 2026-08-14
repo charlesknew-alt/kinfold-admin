@@ -175,3 +175,18 @@ function getInvoiceArchive_SIGNATURE_(filters) {
 // Fix (client): prefer productCostPerMeasure_ / costPerBaseUnit; derive portions
 //   from pack size or packCost/measureCost; guard draught products against £/serve > £20.
 // Server: keep portionsPerPack + costPerBaseUnit in sync (same REPAIR_draughtPortionData).
+
+// ---------------------------------------------------------------------------
+// 8) Sidebar nav — Draught Pricing disappears on inner pages
+// ---------------------------------------------------------------------------
+// Home (WebAppHome) nav includes draughtpricing.
+// Products / Questions / Price Review used a shorter sidebar without it.
+// DraughtPricing.html had no sidebar at all.
+// Fix: restore inbound + recostblocked + draughtpricing links on those pages;
+//      give DraughtPricing its own sidebar shell.
+// Long-term: HtmlTemplate <?!= include('Sidebar') ?> + include() helper
+//   function include(filename) {
+//     return HtmlService.createHtmlOutputFromFile(filename).getContent();
+//   }
+// doGet must keep: page=draughtpricing → DraughtPricing.html
+// Price Review file may be PriceReview.html or Pricing.html — match doGet.

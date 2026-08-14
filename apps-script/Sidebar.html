@@ -1,0 +1,19 @@
+<!--
+  Shared sidebar nav — keep Draught Pricing visible on every owner page.
+
+  Usage (HtmlTemplate pages):
+    <?!= include('Sidebar'); ?>
+
+  Code.js helper (add once if missing):
+    function include(filename) {
+      return HtmlService.createHtmlOutputFromFile(filename).getContent();
+    }
+
+  For plain HTML pages, copy the <a class="nav-item" … draughtpricing> link
+  into that page's sidebar (see Products.html / PriceReview.html / QuestionsReview.html).
+
+  Required page key: draughtpricing  →  DraughtPricing.html
+-->
+<a class="nav-item" href="#" data-page="inbound" onclick="return (window.nvClick||window.navClick||function(e,p){if(e)e.preventDefault();(window.navigateTo||window.navGo)(p||'inbound');return false;})(event,'inbound')"><span class="nav-icon">📥</span> Inbound</a>
+<a class="nav-item" href="#" data-page="recostblocked" onclick="return (window.nvClick||window.navClick||function(e,p){if(e)e.preventDefault();(window.navigateTo||window.navGo)(p||'recostblocked');return false;})(event,'recostblocked')"><span class="nav-icon">🛡️</span> Recost Blocked</a>
+<a class="nav-item" href="#" data-page="draughtpricing" onclick="return (window.nvClick||window.navClick||function(e,p){if(e)e.preventDefault();(window.navigateTo||window.navGo)(p||'draughtpricing');return false;})(event,'draughtpricing')"><span class="nav-icon">🍺</span> Draught Pricing</a>

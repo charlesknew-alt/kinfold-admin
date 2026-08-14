@@ -11,7 +11,8 @@ Cloud agent could not access private `charlesknew-alt/kinfold-invoicing` or clas
 | 3 | **Invoice Hub** restyled (Assistant/Questions light+teal) + client 55s timeout so Loading can’t hang forever | `InvoiceHub.html`, `Code.patches.js` (`getInvoiceHubData` notes) |
 | 4 | **Questions pub dropdown** → `reassignInvoiceToPub` | `QuestionsReview.html` |
 | 5 | **Draught Pricing** pack→pint repair: empty Saleable + £/pt === Cost £ made @GP/@Cash/Blended nonsense (£100+/pt). Client recomputes saleable pints + pillars from pack size | `DraughtPricing.html` (`?page=draughtpricing`) |
-| 6 | **Products detail** Cost/Serve + Hit GP Target used pack £ (£124) while Measure A correctly showed £1.41/pint → suggested sell £496. Prefer Measure A / derived portions | `Products.html` |
+| 6 | **Products detail** Cost/Serve + Hit GP Target used pack £ while Measure A showed £/pint | `Products.html` |
+| 7 | **Sidebar keeps Draught Pricing** when leaving the dashboard (Products / Price Review / Questions were dropping it; Draught page had no sidebar) | `Products.html`, `PriceReview.html`, `QuestionsReview.html`, `DraughtPricing.html`, `Sidebar.html` |
 
 ## Apply (on your PC)
 
@@ -24,6 +25,10 @@ copy <path-to-this-repo>\apps-script\InvoiceHub.html .
 copy <path-to-this-repo>\apps-script\InvoiceArchive.html .
 copy <path-to-this-repo>\apps-script\QuestionsReview.html .
 copy <path-to-this-repo>\apps-script\DraughtPricing.html .
+copy <path-to-this-repo>\apps-script\Products.html .
+copy <path-to-this-repo>\apps-script\PriceReview.html .
+copy <path-to-this-repo>\apps-script\Sidebar.html .
+# If live Price Review file is named Pricing.html, copy PriceReview.html over that name.
 
 # Merge Code.patches.js into Code.js (doGet archive route + inbound invoiceId)
 # Optional permanent draught fix: DRYRUN_repairDraughtPortionData → REPAIR_draughtPortionData
