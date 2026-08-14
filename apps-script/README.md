@@ -10,6 +10,7 @@ Cloud agent could not access private `charlesknew-alt/kinfold-invoicing` or clas
 | 2 | **`?page=archive`** serves real Archive UI + `getInvoiceArchive` (not Failed Invoices) | `InvoiceArchive.html`, `Code.patches.js` (`doGet` archive case) |
 | 3 | **Invoice Hub** restyled (Assistant/Questions light+teal) + client 55s timeout so Loading can’t hang forever | `InvoiceHub.html`, `Code.patches.js` (`getInvoiceHubData` notes) |
 | 4 | **Questions pub dropdown** → `reassignInvoiceToPub` | `QuestionsReview.html` |
+| 5 | **Draught Pricing** pack→pint repair: empty Saleable + £/pt === Cost £ made @GP/@Cash/Blended nonsense (£100+/pt). Client recomputes saleable pints + pillars from pack size | `DraughtPricing.html` (`?page=draughtpricing`) |
 
 ## Apply (on your PC)
 
@@ -21,8 +22,10 @@ copy <path-to-this-repo>\apps-script\InboundLog.html .
 copy <path-to-this-repo>\apps-script\InvoiceHub.html .
 copy <path-to-this-repo>\apps-script\InvoiceArchive.html .
 copy <path-to-this-repo>\apps-script\QuestionsReview.html .
+copy <path-to-this-repo>\apps-script\DraughtPricing.html .
 
 # Merge Code.patches.js into Code.js (doGet archive route + inbound invoiceId)
+# Optional permanent draught fix: DRYRUN_repairDraughtPortionData → REPAIR_draughtPortionData
 # See comments in Code.patches.js
 
 clasp push

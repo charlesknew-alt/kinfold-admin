@@ -142,3 +142,25 @@ function getInvoiceArchive_SIGNATURE_(filters) {
 // Questions pub dropdown calls: reassignInvoiceToPub(invoiceNumber, targetPub)
 // No server change required if Statements reassignment already works.
 // targetPub values from UI: "Windmill" | "Eight Bells"
+
+// ---------------------------------------------------------------------------
+// 6) getDraughtProductsForPricing — pack cost shown as £/pt
+// ---------------------------------------------------------------------------
+// Symptom (Draught Pricing UI):
+//   - SALEABLE empty
+//   - COST £ and £/pt identical (e.g. both £99.50 for a 9 gal cask)
+//   - SELL / GP% / CASH empty (no till sell stored — separate issue)
+//   - @GP / @Cash / Blended show absurd pint prices (£100–£300+)
+//
+// Cause: portionsPerPack / saleablePints missing; costPerPint left as packPrice.
+// Math check: sellAtGP = packPrice / (1 - gp/100) * 1.2 → £99.50 @ 67.5% = £367.40
+//
+// Client workaround: DraughtPricing.html normalizes from packDesc (gal/L) + wastage.
+// Permanent server fix (existing helpers in the project):
+//   1) DRYRUN_repairDraughtPortionData
+//   2) REPAIR_draughtPortionData  (or RUN_draughtPortionRepair)
+//   3) Confirm getDraughtProductsForPricing sets:
+//        portionsPerPack, saleablePints = portions * (1 - wastage/100),
+//        costPerPint = packPrice / saleablePints
+//        then sellAtGP / sellAtCash / sellAtBlended from costPerPint
+// Empty Sell £ means Product Master has no sell price — use Set / till import.
