@@ -1,0 +1,3499 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_self">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4f7cff">
+  <title>Products - Kinfold Inns</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM&#43;Sans:wght@300;400;500;600;700&amp;family=DM&#43;Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f5f6fa;--surface:#fff;--surface2:#f0f2f8;--border:#e2e6f0;--text:#1a1d2e;--muted:#6b7280;--accent:#4f7cff;--green:#16a34a;--amber:#d97706;--red:#dc2626;--teal:#0d9488}
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{min-height:100%;overflow-y:scroll!important;-webkit-overflow-scrolling:touch}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    .hidden{display:none!important}
+    .app{display:flex;min-height:100vh}
+
+     
+    .sidebar{width:220px;min-width:220px;background:#f8fafc;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+    .sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border)}
+    .sidebar-logo .pub-name{font-size:15px;font-weight:700;letter-spacing:-.3px}
+    .sidebar-logo .system-tag{font-size:11px;color:var(--muted);margin-top:3px;font-family:'DM Mono',monospace}
+    .sidebar-logo .pub-switcher{display:flex;gap:4px;margin-top:10px}
+    .pub-chip{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600}
+    .pub-chip.wm{background:rgba(79,124,255,.15);color:#7fa8ff;border:1px solid rgba(79,124,255,.3)}
+    .pub-chip.eb{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
+    .nav-section{padding:16px 12px 8px}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;padding:0 8px;margin-bottom:6px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--muted);border:none;background:none;width:100%;text-align:left;text-decoration:none;transition:all .15s}
+    .nav-item:hover{background:#eef0f8;color:var(--text)}.nav-item.active{background:rgba(79,124,255,.1);color:#4f7cff}
+    .nav-item .nav-icon{font-size:15px;width:20px;text-align:center}
+    .main-wrap{flex:1;display:flex;flex-direction:column;min-width:0}
+    .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .topbar-title{font-size:18px;font-weight:700;letter-spacing:-.4px}.topbar-sub{font-size:12px;color:var(--muted);margin-top:2px}
+    .page-content{padding:20px 24px;flex:1}
+    @media(max-width:900px){.sidebar{display:none}.page-content{padding:12px}}
+
+     
+    .dept-bar{display:flex;gap:0;margin-bottom:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+    .dept-btn{flex:1;padding:12px 16px;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);background:none;text-align:center;font-family:'DM Sans',sans-serif;border-right:1px solid var(--border);transition:all .15s}
+    .dept-btn:last-child{border-right:none}
+    .dept-btn:hover{background:var(--surface2);color:var(--text)}
+    .dept-btn.active{color:#fff}
+    .dept-btn.d-bar.active{background:#4f7cff}
+    .dept-btn.d-kitchen.active{background:#16a34a}
+    .dept-btn.d-rooms.active{background:#8b5cf6}
+    .dept-btn.d-joint.active{background:#d97706}
+    .dept-btn .d-count{font-size:11px;opacity:.7;margin-left:4px;display:inline-block;padding:1px 6px;border-radius:10px;background:rgba(255,255,255,.2)}
+
+     
+    .sub-tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+    .sub-tab{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:12px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;color:var(--muted)}
+    .sub-tab:hover{border-color:var(--accent);color:var(--accent)}
+    .sub-tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .sub-tab .st-count{font-size:10px;opacity:.7;margin-left:3px}
+
+     
+    .controls{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+    .controls input{flex:1;min-width:180px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface)}
+    .controls input:focus{outline:none;border-color:var(--accent)}
+    .controls select{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface)}
+    .count{font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+
+     
+    .pub-pills{display:flex;gap:4px}
+    .pub-pill{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:11px;font-weight:600;transition:all .15s}
+    .pub-pill:hover{border-color:var(--accent)}.pub-pill.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+     
+    .ptbl{width:100%;border-collapse:collapse;font-size:13px}
+    .ptbl th:first-child,.ptbl td:first-child{width:30%;max-width:360px}
+    .ptbl th:nth-child(2),.ptbl td:nth-child(2){width:16%}
+    .ptbl th{padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:600;border-bottom:2px solid var(--border);background:var(--surface2);white-space:nowrap}
+    .ptbl th.r{text-align:right}
+    .ptbl th.sortable{cursor:pointer;user-select:none;transition:color .12s,background .12s}
+    .ptbl th.sortable:hover{color:var(--text);background:var(--surface)}
+    .ptbl th.sorted{color:var(--text)}
+    .ptbl th .sort-caret{font-size:9px;color:var(--accent);margin-left:3px;vertical-align:1px}
+    .ptbl td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle}
+    .ptbl td.r{text-align:right;font-family:'DM Mono',monospace;font-size:12px}
+    .ptbl tr.row-click{cursor:pointer;transition:background .1s;position:relative}
+    .ptbl tr.row-click:hover{background:rgba(79,124,255,.03)}
+    .ptbl tr.expanded{background:rgba(79,124,255,.05)}
+    .p-name{font-weight:600;font-size:13px;color:var(--text)}.p-sub{font-size:10px;color:var(--muted);margin-top:1px}
+    a.p-name-link{color:inherit;text-decoration:none;font-weight:600;font-size:13px}
+    a.p-name-link:hover{color:var(--accent)}
+    a.p-name-link::after{content:'';position:absolute;left:0;right:0;top:0;bottom:0}
+    .ptbl tr.row-click .row-rm,.ptbl tr.row-click button,.ptbl tr.row-click a:not(.p-name-link){position:relative;z-index:2}
+    a.cl-nm-link{color:inherit;text-decoration:none;font-weight:inherit}
+    a.cl-nm-link:hover{color:var(--accent)}
+    a.cl-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-sizing:border-box}
+    .conf-badge{display:inline-block;font-size:9px;font-weight:700;border-radius:9px;padding:1px 6px;text-transform:uppercase;letter-spacing:.3px}
+    .conf-yes{background:#dcfce7;color:#166534;border:1px solid #86efac}
+    .conf-ai{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+    .conf-no{background:#fef3c7;color:#b45309;border:1px solid #fde68a}
+    .gp-pill{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace}
+    .gp-good{background:rgba(22,163,74,.1);color:var(--green)}
+    .gp-warn{background:rgba(217,119,6,.1);color:var(--amber)}
+    .gp-bad{background:rgba(220,38,38,.1);color:var(--red)}
+    .gp-none{background:var(--surface2);color:var(--muted)}
+    .chg{font-size:10px;font-weight:600;margin-left:4px}.chg-up{color:var(--red)}.chg-down{color:var(--green)}
+
+     
+    .detail-row td{padding:0!important;border-bottom:2px solid var(--accent)}
+    .dp{padding:20px;background:linear-gradient(180deg,rgba(79,124,255,.03),var(--bg))}
+    .dp-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:900px){.dp-grid{grid-template-columns:1fr}}
+    .dp-sect{margin-bottom:14px}
+    .dp-sect h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+    .dp-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+    .dp-kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 8px;text-align:center}
+    .dp-kpi-card .kv{font-size:18px;font-weight:800;font-family:'DM Mono',monospace}
+    .dp-kpi-card .kl{font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+    .dp-kpi-card.green .kv{color:var(--green)}.dp-kpi-card.amber .kv{color:var(--amber)}.dp-kpi-card.red .kv{color:var(--red)}.dp-kpi-card.blue .kv{color:var(--accent)}
+    .mb-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+    .mb-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 0}
+    .mb-k{font-size:12px;color:var(--muted);font-weight:600}
+    .mb-v{font-size:15px;font-weight:700}
+    .mb-pill{display:inline-block;padding:2px 10px;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:13px}
+    .mb-cost{font-family:'DM Mono',monospace;font-size:18px;letter-spacing:-.3px}
+    .mb-sec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:12px;color:var(--text)}
+    .mb-sec.muted{color:var(--muted);border-top:none;margin-top:6px;padding-top:0}
+    .mb-adv{margin-top:10px;font-size:12px;color:var(--muted)}
+    .mb-adv summary{cursor:pointer;font-weight:600;color:var(--muted)}
+    .mb-adv[open] summary{margin-bottom:8px}
+
+     
+    .sell-row{display:grid;grid-template-columns:80px 100px 60px 60px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+    .sell-row:last-child{border-bottom:none}
+    .sell-label{font-weight:600;font-size:12px}
+    .sell-input{padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:'DM Mono',monospace;text-align:right;width:100%}
+    .sell-input:focus{outline:none;border-color:var(--accent)}
+    .sell-gp{font-family:'DM Mono',monospace;font-weight:700;font-size:12px;text-align:right}
+    .btn-sm{padding:4px 10px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .btn-save{background:var(--green);color:#fff}.btn-save:hover{opacity:.85}
+
+     
+    .dp-field{margin-bottom:8px}
+    .dp-field label{font-size:10px;font-weight:600;color:var(--muted);display:block;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+    .dp-field select,.dp-field input{width:100%;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface)}
+    .dp-field select:focus,.dp-field input:focus{outline:none;border-color:var(--accent)}
+    .dp-field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+     
+    .chart-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:10px}
+    .chart-box canvas{width:100%;height:280px;display:block}
+
+     
+    .htbl{width:100%;border-collapse:collapse;font-size:11px}
+    .htbl th{padding:5px 6px;text-align:left;font-size:9px;color:var(--muted);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.3px}
+    .htbl th.r{text-align:right}
+    .htbl td{padding:4px 6px;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:11px}
+    .htbl td.r{text-align:right}
+    .htbl .up{color:var(--red)}.htbl .dn{color:var(--green)}
+
+    .spinner{width:18px;height:18px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;margin-right:8px;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    #summary .dp-kpi-card{min-width:100px;flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+    #summary .kv{font-size:24px;font-weight:800;color:var(--accent);font-family:"DM Mono",monospace}
+    #summary .kl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+    .empty-state{padding:40px;text-align:center;color:#9ca3af;font-size:13px}
+    .toast{position:fixed;top:24px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:13px;font-weight:600;z-index:99999;box-shadow:0 8px 30px rgba(0,0,0,.15);transition:opacity .3s}
+    .toast-ok{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0}
+    .toast-err{background:#fef2f2;color:var(--red);border:1px solid #fecaca}
+     
+    .mn-panel{background:var(--surface);border:1px solid #fcd34d;border-radius:10px;padding:14px;margin-bottom:12px}
+    .mn-panel.mn-ok{border-color:var(--border)}
+    .mn-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+    .mn-head h4{font-size:13px;font-weight:700;margin:0}
+    .mn-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 8px;border-radius:8px;background:#fffbeb;color:#92400e}
+    .mn-progress{font-size:11px;font-weight:700;font-family:'DM Mono',monospace;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:4px 10px;white-space:nowrap}
+    .mn-progress.done{color:var(--green);background:#f0fdf4;border-color:#bbf7d0}
+    .mn-split{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+    .mn-pdf-col{min-width:0}
+    .mn-form-col{min-width:0}
+    .mn-pdf{width:100%;height:min(62vh,520px);min-height:280px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;background:#f8f9fb;overflow:hidden}
+    .mn-pdf iframe{width:100%;height:100%;border:none;border-radius:8px}
+    .mn-pdf-details{margin-bottom:10px}
+    .mn-pdf-details > summary{cursor:pointer;font-size:12px;font-weight:600;color:var(--accent);padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);list-style:none}
+    .mn-pdf-details > summary::-webkit-details-marker{display:none}
+    .mn-pdf-details[open] > summary{margin-bottom:8px}
+    .mn-nopdf{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:10px 12px;margin-bottom:10px;line-height:1.45}
+    .mn-line{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.4}
+    .mn-line-focus{margin:0 0 8px;border:1px solid #86efac;background:linear-gradient(180deg,#f0fdf4,#ecfdf5);border-radius:8px;padding:8px 10px}
+    .mn-line-focus .mn-lf-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.45px;color:#15803d;margin-bottom:4px}
+    .mn-line-focus .mn-lf-line{font-size:13px;font-weight:700;color:#14532d;line-height:1.35;word-break:break-word;font-family:ui-monospace,Consolas,'DM Mono',monospace}
+    .mn-line-focus .mn-lf-meta{margin-top:4px;font-size:10px;color:#64748b;line-height:1.4}
+    .mn-dl-btn{display:inline-block;padding:5px 10px;border-radius:6px;background:#2563eb;color:#fff!important;border:1px solid #1d4ed8;font-size:11px;font-weight:700;text-decoration:none;margin-right:6px}
+    .mn-dl-btn:hover{background:#1d4ed8}
+    .mn-suggest{font-size:12px;background:#eff6ff;border:1px solid #93c5fd;color:#1e40af;border-radius:8px;padding:8px 10px;margin-bottom:10px;line-height:1.4}
+    .mn-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .mn-row label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);display:block;margin-bottom:4px}
+    .mn-row select,.mn-row input{padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit;background:var(--surface)}
+    .mn-form-col select{min-width:160px;max-width:100%}
+    .mn-calc{font-size:13px;color:var(--text)}
+    .mn-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;padding-top:8px;border-top:1px dashed var(--border)}
+    .mn-fix{margin-top:10px;display:none}
+    @media (min-width:1024px){
+      .mn-split{grid-template-columns:minmax(280px,1.05fr) minmax(260px,0.95fr);gap:16px}
+      .mn-pdf-col{position:sticky;top:12px;align-self:start}
+      .mn-pdf{height:min(70vh,640px);min-height:360px;margin-bottom:8px}
+    }
+    @media (max-width:1023px){
+      .mn-pdf{height:240px;min-height:200px}
+    }
+
+     
+    .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:9999;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+    .modal-overlay.show{display:flex}
+    .modal{background:var(--surface);border-radius:14px;width:100%;max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.25);margin:20px auto}
+    .modal-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .modal-head h2{font-size:17px;font-weight:700;letter-spacing:-.3px}
+    .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);padding:4px 8px;border-radius:6px}
+    .modal-close:hover{background:var(--surface2);color:var(--text)}
+    .modal-body{padding:20px 22px;max-height:75vh;overflow-y:auto}
+    .modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+    .fm-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .fm-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+    .fm-group{margin-bottom:12px}
+    .fm-group label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+    .fm-group input,.fm-group select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface)}
+    .fm-group input:focus,.fm-group select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,124,255,.12)}
+    .fm-divider{border-top:1px solid var(--border);margin:18px 0 14px;position:relative}
+    .fm-divider span{position:absolute;top:-9px;left:16px;background:var(--surface);padding:0 10px;font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.8px}
+    .fm-pricing-card{background:linear-gradient(135deg,rgba(79,124,255,.06),rgba(124,92,255,.06));border:1px solid rgba(79,124,255,.2);border-radius:10px;padding:16px;margin-bottom:12px}
+    .fm-pricing-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:6px;align-items:center;margin-bottom:14px}
+    .fm-pricing-item{text-align:center}
+    .fm-pricing-item .pv{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text)}
+    .fm-pricing-item .pl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+    .fm-pricing-item .pv.green{color:var(--green)}.fm-pricing-item .pv.amber{color:var(--amber)}.fm-pricing-item .pv.red{color:var(--red)}
+    .fm-pricing-op{color:var(--muted);font-size:16px;font-weight:700;text-align:center}
+    .fm-use-btn{background:none;border:1px solid var(--green);color:var(--green);border-radius:6px;padding:4px 14px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;margin-top:6px}
+    .fm-use-btn:hover{background:rgba(22,163,74,.08)}
+    .fm-sell-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .fm-sell-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px}
+    .fm-sell-box .pub-tag{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+    .fm-sell-box input{font-size:15px;font-weight:700;font-family:'DM Mono',monospace}
+    .fm-gp-live{font-size:13px;font-weight:700;font-family:'DM Mono',monospace;margin-top:4px}
+    .btn-add-product{background:var(--green);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px}
+    .btn-add-product:hover{opacity:.85}
+    .btn-modal-save{background:var(--green);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+    .btn-modal-save:hover{opacity:.85}.btn-modal-save:disabled{background:#cbd5e0;cursor:not-allowed}
+    .btn-modal-cancel{background:none;color:var(--muted);border:1px solid var(--border);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+     
+    .dept-btn.d-uncl{background:rgba(220,38,38,.08);color:var(--red);border-color:rgba(220,38,38,.25)}
+    .dept-btn.d-uncl.active{background:var(--red);color:#fff}
+    .cl-bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+    .cl-bulkbar select{padding:7px 9px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:#fff;min-width:200px}
+    .cl-bulkbar .cl-selcount{font-weight:700;color:var(--text)}
+    .cl-btn{padding:7px 12px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff}
+    .cl-btn:disabled{opacity:.4;cursor:default}
+    .cl-btn-sm{padding:5px 10px;font-size:12px;border-radius:7px;border:1px solid var(--border);background:#fff;color:var(--text);cursor:pointer}
+    .cl-btn-defer{background:#fff5f5;color:#b91c1c;border:1px solid #e5b4b4}
+    .cl-hero{background:linear-gradient(135deg,#fef3c7 0%,#fff7ed 100%);border:1px solid #fcd34d;border-radius:12px;padding:16px 18px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+    .cl-hero-text{flex:1;min-width:220px}
+    .cl-hero-text h3{font-size:15px;font-weight:700;color:#92400e;margin:0 0 4px}
+    .cl-hero-text p{font-size:13px;color:#78350f;margin:0;line-height:1.45}
+    .cl-hero-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .cl-btn-primary{background:#b45309;color:#fff;border:1px solid #92400e;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+    .cl-btn-primary:hover{background:#92400e}
+    .cl-btn-primary:disabled{opacity:.55;cursor:wait}
+    .cl-btn-ghost{background:#fff;color:#92400e;border:1px solid #fcd34d;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+    .cl-row .cl-quick{display:none}
+    .cl-bulkbar.cl-quick{display:none}
+    .cl-list-show-quick .cl-row .cl-quick{display:initial}
+    .cl-list-show-quick .cl-bulkbar.cl-quick{display:flex}
+    .cl-row{display:grid;grid-template-columns:28px 1fr 120px;gap:10px;align-items:center;padding:9px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:6px;background:#fff;transition:background .2s}
+    .cl-list-show-quick .cl-row{grid-template-columns:28px 1fr 180px 120px 100px 120px}
+    .mb-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+    .mb-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 0}
+    .mb-k{font-size:12px;color:var(--muted);font-weight:600}
+    .mb-v{font-size:15px;font-weight:700}
+    .mb-pill{display:inline-block;padding:2px 10px;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:13px}
+    .mb-cost{font-family:'DM Mono',monospace;font-size:18px;letter-spacing:-.3px}
+    .mb-sec{margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:12px;color:var(--text)}
+    .mb-sec.muted{color:var(--muted);border-top:none;margin-top:6px;padding-top:0}
+    .mb-adv{margin-top:10px;font-size:12px;color:var(--muted)}
+    .mb-adv summary{cursor:pointer;font-weight:600;color:var(--muted)}
+    .mb-adv[open] summary{margin-bottom:8px}
+    .cl-serve-warn{color:var(--amber);font-weight:600}
+    .cl-inv{font-size:11px;color:#475569;background:var(--surface2);border-radius:6px;padding:3px 8px;margin-top:4px;display:inline-block}
+    .cl-basis{font-size:10px;color:var(--muted);font-style:italic;margin-left:4px}
+    .cl-worktoggle{font-size:11px;color:#2563eb;cursor:pointer;margin-top:4px;display:inline-block;user-select:none}
+    .cl-worktoggle:hover{text-decoration:underline}
+    .cl-work{margin-top:6px;background:var(--surface2);border:1px solid var(--border,#e2e8f0);border-radius:8px;padding:8px 10px;font-size:11px;color:#334155;max-width:560px}
+    .cl-work table{border-collapse:collapse;width:100%;margin-bottom:6px}
+    .cl-work th,.cl-work td{border:1px solid var(--border,#e2e8f0);padding:2px 6px;text-align:left;font-size:11px}
+    .cl-work th{background:rgba(0,0,0,0.03);font-weight:600}
+    .cl-step{padding:1px 0}
+    .cl-step-final{font-weight:600;color:#0f172a;border-top:1px solid var(--border,#e2e8f0);margin-top:3px;padding-top:3px}
+    .cl-inv-none{color:var(--muted);background:transparent;font-style:italic}
+    .cl-row:hover{background:var(--surface2)}
+    .cl-row .cl-nm{font-weight:600;font-size:13px}
+    .cl-row .cl-meta{font-size:11px;color:var(--muted)}
+    .cl-row select{padding:6px 8px;border:1px solid var(--border);border-radius:7px;font-size:12px;background:#fff;width:100%}
+    .cl-row.cl-suggested select{border-color:var(--teal);background:rgba(13,148,136,.05)}
+    .cl-melting{animation:clMelt .55s ease forwards;overflow:hidden}
+    @keyframes clMelt{0%{background:rgba(22,163,74,.25);transform:none}35%{background:rgba(22,163,74,.25)}100%{opacity:0;height:0;margin:0;padding-top:0;padding-bottom:0;border-width:0;transform:translateX(20px)}}
+    .cl-tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px;margin-left:6px}
+    .cl-tag-wm{background:rgba(79,124,255,.12);color:var(--accent)}
+    .cl-tag-eb{background:rgba(217,119,6,.12);color:var(--amber)}
+   
+.sidebar{transition:width .18s ease,min-width .18s ease}
+.app.sb-collapsed .sidebar{width:0;min-width:0;overflow:hidden;border-right:0}
+.sidebar-logo{position:relative}
+.sb-toggle{position:absolute;top:18px;right:14px;width:26px;height:26px;border-radius:7px;border:1px solid var(--border,#e2e8f0);background:#fff;color:var(--text,#0f172a);cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center}
+.sb-toggle:hover{background:#eef0f8}
+.sb-reopen{position:fixed;top:50%;transform:translateY(-50%);left:0;z-index:60;display:none;width:22px;height:46px;border-radius:0 8px 8px 0;border:1px solid var(--border,#e2e8f0);border-left:0;background:#fff;color:var(--text,#0f172a);cursor:pointer;font-size:14px;align-items:center;justify-content:center;box-shadow:1px 1px 4px rgba(0,0,0,0.1)}
+.sb-reopen:hover{background:#eef0f8}
+.app.sb-collapsed .sb-reopen{display:flex}
+ 
+.mobile-menu-btn{display:none}
+@media(max-width:900px){
+.sb-toggle,.sb-reopen{display:none !important}
+.topbar{padding-left:54px}
+.mobile-menu-btn{display:flex;position:fixed;top:10px;left:10px;z-index:70;width:40px;height:40px;border-radius:9px;border:1px solid var(--border,#e2e8f0);background:#fff;color:var(--text,#0f172a);align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.12)}
+.sidebar{display:flex !important;position:fixed;top:0;left:0;height:100vh;z-index:69;transform:translateX(-100%);transition:transform .2s ease;box-shadow:2px 0 12px rgba(0,0,0,0.15)}
+.app.mobile-nav-open .sidebar{transform:translateX(0)}
+}
+.aud-flag > td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+.aud-chip{display:inline-flex;align-items:center;gap:3px;margin-left:6px;font-size:10px;font-weight:700;color:var(--red);background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.25);border-radius:10px;padding:0 7px;cursor:help;vertical-align:middle}
+.aud-x{margin-left:5px;color:var(--muted);cursor:pointer;font-weight:700;text-decoration:none}
+.aud-x:hover{color:#16a34a}
+#auditBar{display:none;align-items:center;gap:7px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--text)}
+#auditBar .aud-rule{border:1px solid var(--border);background:var(--surface2);border-radius:14px;padding:3px 9px;cursor:pointer;font-weight:600;color:var(--muted);user-select:none}
+#auditBar .aud-rule.off{opacity:.45;text-decoration:line-through}
+#auditBar .aud-rule .n{color:var(--red);margin-left:2px}
+.aud-btn{border:1px solid var(--border);background:var(--surface);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--text)}
+.aud-btn:hover{border-color:var(--accent);color:var(--accent)}
+.row-rm{border:1px solid #e5b4b4;background:#fff5f5;color:#b91c1c;border-radius:5px;
+  font-size:11px;line-height:1;padding:2px 6px;cursor:pointer;margin-left:6px;opacity:.55;}
+.row-rm:hover{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <button class="mobile-menu-btn" onclick="document.querySelector('.app').classList.toggle('mobile-nav-open')" title="Menu">ÃÂ¢ÃÂÃÂ°</button>
+  <button class="sb-reopen" onclick="document.querySelector('.app').classList.toggle('sb-collapsed')" title="Show menu">ÃÂÃÂ»</button>
+  <nav class="sidebar">
+    <div class="sidebar-logo"><button class="sb-toggle" onclick="document.querySelector('.app').classList.toggle('sb-collapsed')" title="Hide menu">ÃÂÃÂ«</button><div class="pub-name">ÃÂ°ÃÂÃÂÃÂ» Kinfold Inns</div><div class="system-tag" id="buildTag">Management System v4.1</div><div class="pub-switcher"><span class="pub-chip wm">Windmill</span><span class="pub-chip eb">Eight Bells</span></div></div>
+    <div class="nav-section"><div class="nav-label">Overview</div><a class="nav-item" href="#" data-page="home" onclick="return nvClick(event,'home')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ</span> Dashboard</a></div>
+    <div class="nav-section"><div class="nav-label">Invoicing</div><a class="nav-item" href="#" data-page="questions" onclick="return nvClick(event,'questions')"><span class="nav-icon">ÃÂ¢ÃÂÃÂ</span> Questions</a><a class="nav-item" href="#" data-page="failed" onclick="return nvClick(event,'failed')"><span class="nav-icon">ÃÂ¢ÃÂÃÂ ÃÂ¯ÃÂ¸ÃÂ</span> Failed</a><a class="nav-item" href="#" data-page="archive" onclick="return nvClick(event,'archive')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ</span> Archive</a><a class="nav-item" href="#" data-page="invoicehub" onclick="return nvClick(event,'invoicehub')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ</span> Invoice Hub</a></div>
+    <div class="nav-section"><div class="nav-label">Pricing & GP</div><a class="nav-item" href="#" data-page="pricing" onclick="return nvClick(event,'pricing')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ°</span> Pricing</a><a class="nav-item active" href="#" data-page="products" onclick="return false"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ¦</span> Products</a><a class="nav-item" href="#" data-page="duplicates" onclick="return nvClick(event,'duplicates')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ</span> Duplicates</a><a class="nav-item" href="#" data-page="suppliercompare" onclick="return nvClick(event,'suppliercompare')"><span class="nav-icon">ÃÂ¢ÃÂÃÂÃÂ¯ÃÂ¸ÃÂ</span> Compare</a></div>
+    <div class="nav-section"><div class="nav-label">Finance</div><a class="nav-item" href="#" data-page="statements" onclick="return nvClick(event,'statements')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ</span> Statements</a><a class="nav-item" href="#" data-page="xero" onclick="return nvClick(event,'xero')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ¤</span> Xero Export</a></div>
+    <div class="nav-section"><div class="nav-label">Operations</div><a class="nav-item" href="#" data-page="dishes" onclick="return nvClick(event,'dishes')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ½</span> Dishes</a><a class="nav-item" href="#" data-page="suppliers" onclick="return nvClick(event,'suppliers')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ¢</span> Suppliers</a><a class="nav-item" href="#" data-page="reports" onclick="return nvClick(event,'reports')"><span class="nav-icon">ÃÂ°ÃÂÃÂÃÂ</span> Reports</a></div>
+  </nav>
+  <div class="main-wrap">
+    <div class="topbar">
+      <div><div class="topbar-title">Products & Pricing</div><div class="topbar-sub" id="topSub">Select a department to view products</div></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="mnRemainBadge" class="mn-progress" style="display:none" title="Classified products still missing Measure A &#43; Cost A"></div>
+        <div id="topCount" style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace"></div>
+        <button class="btn-add-product" onclick="openAddProduct()"><span>ÃÂ¢ÃÂÃÂ</span> Add Product</button>
+        <button onclick="exportPDF()" style="background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px"><span>ÃÂ°ÃÂÃÂÃÂ</span> Export PDF</button>
+      </div>
+    </div>
+    <div class="page-content">
+      
+      <div class="dept-bar" id="deptBar"></div>
+      
+      <div class="sub-tabs" id="subTabs"></div>
+      
+      <div class="controls" id="controlsRow" style="display:none">
+        <input type="text" id="search" placeholder="Search products..." oninput="render()">
+        <div class="pub-pills">
+          <button class="pub-pill active" onclick="setPub('wm')" id="ppWM">ÃÂ°ÃÂÃÂÃÂ¬ÃÂ¯ÃÂ¸ÃÂ Windmill</button>
+          <button class="pub-pill" onclick="setPub('eb')" id="ppEB">ÃÂ°ÃÂÃÂÃÂ Eight Bells</button>
+        </div>
+        <span class="count" id="fCount"></span>
+        <button class="aud-btn" id="incompleteBtn" onclick="toggleIncomplete()" title="Show products that weren't captured properly â missing measure/ÃÂÃÂ£-per-measure/pack cost/per-pack, OR a pack cost that doesn't reconcile with ÃÂÃÂ£/measure ÃÂÃÂ pack size (order total stored instead of unit price)" style="margin-left:auto">ÃÂ¢ÃÂÃÂ  Needs attention</button>
+        <button class="aud-btn" id="unconfirmedBtn" onclick="toggleUnconfirmed()" title="Show only products you haven't manually confirmed in Questions">ÃÂ°ÃÂÃÂÃÂ Unconfirmed only</button>
+        <button class="aud-btn" id="sendShownQBtn" onclick="sendShownToQuestions()" title="Create Pending Questions now for Unconfirmed / missing Measure A â with invoice PDF &#43; measure controls" style="display:none;border-color:#fcd34d;background:#fffbeb;color:#92400e;font-weight:700">ÃÂ¢ÃÂÃÂ Send missing measure ÃÂ¢ÃÂÃÂ Questions</button>
+        <button class="aud-btn" id="removeShownBtn" onclick="removeAllShown()" title="Quarantine every product currently shown â each re-learns as a question when next bought" style="display:none;border-color:#e5b4b4;background:#fff5f5;color:#b91c1c">ÃÂ°ÃÂÃÂÃÂ Remove all shown</button>
+        <button class="aud-btn" id="auditRunBtn" onclick="runAudit()">ÃÂ°ÃÂÃÂÃÂ Audit</button>
+      </div>
+      <div id="auditBar"></div>
+      
+      <div id="summary" style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap"></div>
+      
+      <div id="content"><div class="empty-state">Select a department above to get started</div></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="addProductModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>ÃÂ¢ÃÂÃÂ Add Product Manually</h2>
+      <button class="modal-close" onclick="closeAddProduct()">ÃÂ¢ÃÂÃÂ</button>
+    </div>
+    <div class="modal-body">
+      <div class="fm-row">
+        <div class="fm-group"><label>Product Name *</label>
+          <input type="text" id="ap_name" placeholder="e.g. Modelo 11g keg, Gordons Gin 70cl" oninput="validateAP()" onblur="apAutoServing()">
+        </div>
+        <div class="fm-group"><label>Supplier</label>
+          <select id="ap_supplier"><option value="">â Select â</option></select>
+        </div>
+      </div>
+      <div class="fm-row">
+        <div class="fm-group"><label>Department</label>
+          <select id="ap_dept" onchange="apCatOpts()">
+            <option value="Bar">ÃÂ°ÃÂÃÂÃÂº Bar</option><option value="Kitchen">ÃÂ°ÃÂÃÂÃÂ³ Kitchen</option>
+            <option value="Rooms">ÃÂ°ÃÂÃÂÃÂÃÂ¯ÃÂ¸ÃÂ Rooms</option><option value="Joint">ÃÂ°ÃÂÃÂÃÂ§ Joint</option>
+          </select>
+        </div>
+        <div class="fm-group"><label>Category</label>
+          <select id="ap_cat" onchange="apUpdateSuggested()"></select>
+        </div>
+      </div>
+      <div class="fm-divider"><span>Pack &amp; Portions</span></div>
+      
+      <div id="ap_packTypeRow" class="fm-row" style="display:none;margin-bottom:12px">
+        <div class="fm-group"><label>Pack Type</label>
+          <select id="ap_packType" onchange="apApplyPackType()" style="font-weight:600"></select>
+        </div>
+        <div class="fm-group"><label style="visibility:hidden">x</label>
+          <div id="ap_packTypeInfo" style="font-size:12px;color:var(--muted);padding:10px 0"></div>
+        </div>
+      </div>
+      <div class="fm-row3">
+        <div class="fm-group"><label>Pack Cost (ÃÂÃÂ£)</label>
+          <input type="number" step="0.01" min="0" id="ap_packCost" placeholder="0.00" oninput="apCalc()">
+        </div>
+        <div class="fm-group"><label>Pack Description</label>
+          <input type="text" id="ap_packDesc" placeholder="e.g. Case of 24 x 200ml">
+        </div>
+        <div class="fm-group"><label>Portions per Pack</label>
+          <input type="number" step="0.1" min="0" id="ap_portions" value="1" oninput="apCalc()">
+        </div>
+      </div>
+      <div class="fm-row3">
+        <div class="fm-group"><label>Portion Description</label>
+          <input type="text" id="ap_portionDesc" placeholder="e.g. 1 x 200ml bottle">
+        </div>
+        <div class="fm-group"><label>Wastage %</label>
+          <input type="number" step="1" min="0" max="50" id="ap_wastage" value="0" oninput="apCalc()">
+        </div>
+        <div class="fm-group"><label>Main Dish Ingredient?</label>
+          <select id="ap_isDishMain"><option value="">No</option><option value="Yes">Yes</option></select>
+        </div>
+      </div>
+      <div class="fm-divider"><span>Pricing</span></div>
+      <div class="fm-pricing-card">
+        <div class="fm-pricing-grid">
+          <div class="fm-pricing-item"><div class="pv" id="ap_cpp">â</div><div class="pl">Cost / Portion</div></div>
+          <div class="fm-pricing-op">ÃÂÃÂ</div>
+          <div class="fm-pricing-item"><div class="pv" id="ap_method">â</div><div class="pl" id="ap_methodLbl">GP% or Multiplier</div></div>
+          <div class="fm-pricing-op">=</div>
+          <div class="fm-pricing-item"><div class="pv green" id="ap_sugg">â</div><div class="pl">Suggested Sell (inc VAT)</div>
+            <div style="display:flex;gap:4px;justify-content:center;margin-top:6px">
+              <button class="fm-use-btn" onclick="apUseSugg('wm')">WM</button>
+              <button class="fm-use-btn" onclick="apUseSugg('eb')">EB</button>
+              <button class="fm-use-btn" onclick="apUseSugg('both')">Both</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fm-sell-grid">
+        <div class="fm-sell-box">
+          <div class="pub-tag">ÃÂ°ÃÂÃÂÃÂ¬ÃÂ¯ÃÂ¸ÃÂ Windmill Inn</div>
+          <div class="fm-group" style="margin-bottom:0"><label>Sell Price (inc VAT)</label>
+            <input type="number" step="0.05" min="0" id="ap_sellWM" placeholder="0.00" oninput="apGP('wm')"></div>
+          <div class="fm-gp-live" id="ap_gpWM">â</div>
+        </div>
+        <div class="fm-sell-box">
+          <div class="pub-tag">ÃÂ°ÃÂÃÂÃÂ Eight Bells</div>
+          <div class="fm-group" style="margin-bottom:0"><label>Sell Price (inc VAT)</label>
+            <input type="number" step="0.05" min="0" id="ap_sellEB" placeholder="0.00" oninput="apGP('eb')"></div>
+          <div class="fm-gp-live" id="ap_gpEB">â</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal-cancel" onclick="closeAddProduct()">Cancel</button>
+      <button class="btn-modal-save" id="ap_saveBtn" onclick="apSave()" disabled>Add Product</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var wUrl='';
+function pageHref(page, extraQs){
+  if(!wUrl) return '#';
+  if(!page || page==='home') return wUrl + (extraQs ? ('?' + String(extraQs).replace(/^[?&]/,'')) : '');
+  var u = wUrl + '?page=' + encodeURIComponent(page);
+  if(extraQs) u += '&' + String(extraQs).replace(/^[?&]/,'');
+  return u;
+}
+function productHref(pid, dept){
+  var qs = 'product=' + encodeURIComponent(pid || '');
+  if(dept) qs += '&dept=' + encodeURIComponent(dept);
+  return pageHref('products', qs);
+}
+function wireNavHrefs(){
+  document.querySelectorAll('a.nav-item[data-page]').forEach(function(a){
+    a.href = pageHref(a.getAttribute('data-page'));
+  });
+  document.querySelectorAll('a[data-product-id]').forEach(function(a){
+    a.href = productHref(a.getAttribute('data-product-id'), a.getAttribute('data-dept') || '');
+  });
+  document.querySelectorAll('a[data-nav-page]').forEach(function(a){
+    a.href = pageHref(a.getAttribute('data-nav-page'));
+  });
+}
+ 
+function nvClick(e, p){
+  if(e && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) return true;
+  if(e) e.preventDefault();
+  nv(p);
+  return false;
+}
+function productRowClick(e, pid){
+  if(e && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) return true;
+  if(e){ e.preventDefault(); e.stopPropagation(); }
+  toggleDetail(pid);
+  return false;
+}
+function productNameLink_(p, suffixHtml){
+  var pid = String(p.productId || '');
+  var dept = p.department || activeDept || '';
+  return '<a class="p-name-link" data-product-id="'+esc(pid)+'" data-dept="'+esc(dept)+'" href="'+esc(productHref(pid, dept))+'" title="Open product â right-click for new tab" onclick="return productRowClick(event,''+esc(pid)+'')">'+esc(p.name)+'</a>'+(suffixHtml || '');
+}
+ 
+function classifyNameLink_(p, suffixHtml){
+  var pid = String(p.productId || '');
+  var dept = 'Unclassified';
+  return '<a class="cl-nm-link" data-product-id="'+esc(pid)+'" data-dept="'+esc(dept)+'" href="'+esc(productHref(pid, dept))+'" title="Open product â right-click for new tab" onclick="return linkStay(event)">'+esc(p.name)+'</a>'+(suffixHtml || '');
+}
+function linkStay(e){
+  if(e && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) return true;
+  if(e) e.preventDefault();
+  return false;
+}
+google.script.run.withSuccessHandler(function(u){ wUrl=u; wireNavHrefs(); }).getWebAppUrl();
+function nv(p){if(!wUrl)return;var u=pageHref(p);try{window.top.postMessage({type:'navigate',url:u},'*')}catch(e){}setTimeout(function(){window.location.href=u},300)}
+
+var allProducts=[],deptCounts={},activeDept='Bar',activeSub='',pubFilter='wm',expandedIds={},sortState={key:'name',dir:1};
+var _dlProduct='';   
+var clSugg={},clSuggLoaded=false;
+var supplierList=[],categoryConfig={};
+var apSuggPrice=0;
+
+
+function openAddProduct(){
+  document.getElementById('addProductModal').classList.add('show');
+  ['ap_name','ap_packCost','ap_packDesc','ap_portionDesc','ap_sellWM','ap_sellEB'].forEach(function(id){document.getElementById(id).value=''});
+  document.getElementById('ap_portions').value='1';document.getElementById('ap_wastage').value='0';
+  document.getElementById('ap_isDishMain').value='';document.getElementById('ap_dept').value=activeDept||'Bar';
+  var sel=document.getElementById('ap_supplier');sel.innerHTML='<option value="">â Select â</option>';
+  supplierList.forEach(function(s){sel.innerHTML+='<option value="'+esc(s)+'">'+esc(s)+'</option>'});
+  apCatOpts();apResetPricing();validateAP();
+}
+function closeAddProduct(){document.getElementById('addProductModal').classList.remove('show')}
+function apCatOpts(){
+  var d=document.getElementById('ap_dept').value,s=document.getElementById('ap_cat');s.innerHTML='';
+  (categoryConfig[d]||[]).forEach(function(c){s.innerHTML+='<option value="'+esc(c.name)+'">'+esc(c.subcategory)+'</option>'});
+  apShowPackTypes();
+  apUpdateSuggested();
+}
+
+
+var PACK_TYPES={
+  'Draught Alcoholic':[
+    {label:'11 gallon keg',litres:50,serves:83,wastage:5,serveUnit:'pint (568ml)',packDesc:'11g keg'},
+    {label:'50L keg',litres:50,serves:83,wastage:5,serveUnit:'pint (568ml)',packDesc:'50L keg'},
+    {label:'30L keg',litres:30,serves:50,wastage:5,serveUnit:'pint (568ml)',packDesc:'30L keg'},
+    {label:'20L keg',litres:20,serves:33,wastage:5,serveUnit:'pint (568ml)',packDesc:'20L keg'},
+    {label:'9 gallon cask',litres:41,serves:68,wastage:5,serveUnit:'pint (568ml)',packDesc:'9g cask'},
+    {label:'Custom / other',litres:0,serves:0,wastage:5,serveUnit:'pint (568ml)',packDesc:''}
+  ],
+  'Draught Soft':[
+    {label:'10L BIB (postmix 5:1)',litres:10,serves:94,wastage:2,serveUnit:'pint (568ml)',packDesc:'10L BIB postmix'},
+    {label:'7L BIB (postmix 5:1)',litres:7,serves:66,wastage:2,serveUnit:'pint (568ml)',packDesc:'7L BIB postmix'},
+    {label:'20L keg',litres:20,serves:33,wastage:3,serveUnit:'pint (568ml)',packDesc:'20L keg'},
+    {label:'Custom / other',litres:0,serves:0,wastage:2,serveUnit:'pint (568ml)',packDesc:''}
+  ],
+  'Spirits':[
+    {label:'70cl bottle',litres:0.7,serves:28,wastage:0,serveUnit:'25ml measure',packDesc:'70cl bottle'},
+    {label:'1L bottle',litres:1,serves:40,wastage:0,serveUnit:'25ml measure',packDesc:'1L bottle'},
+    {label:'1.5L bottle',litres:1.5,serves:60,wastage:0,serveUnit:'25ml measure',packDesc:'1.5L bottle'},
+    {label:'Custom / other',litres:0,serves:0,wastage:0,serveUnit:'25ml measure',packDesc:''}
+  ],
+  'Wines':[
+    {label:'75cl bottle (175ml glass)',litres:0.75,serves:4.3,wastage:0,serveUnit:'175ml glass',packDesc:'75cl bottle'},
+    {label:'75cl bottle (250ml glass)',litres:0.75,serves:3,wastage:0,serveUnit:'250ml glass',packDesc:'75cl bottle'},
+    {label:'1.5L magnum',litres:1.5,serves:8.6,wastage:0,serveUnit:'175ml glass',packDesc:'1.5L magnum'},
+    {label:'Custom / other',litres:0,serves:0,wastage:0,serveUnit:'175ml glass',packDesc:''}
+  ],
+  'Bottled Beer & Cider':[
+    {label:'Case of 24',litres:0,serves:24,wastage:0,serveUnit:'bottle',packDesc:'Case of 24'},
+    {label:'Case of 12',litres:0,serves:12,wastage:0,serveUnit:'bottle',packDesc:'Case of 12'},
+    {label:'Case of 6',litres:0,serves:6,wastage:0,serveUnit:'bottle',packDesc:'Case of 6'},
+    {label:'Single bottle',litres:0,serves:1,wastage:0,serveUnit:'bottle',packDesc:'Single bottle'},
+    {label:'Custom / other',litres:0,serves:0,wastage:0,serveUnit:'bottle',packDesc:''}
+  ],
+  'Soft Drinks':[
+    {label:'Case of 24',litres:0,serves:24,wastage:0,serveUnit:'bottle/can',packDesc:'Case of 24'},
+    {label:'Case of 12',litres:0,serves:12,wastage:0,serveUnit:'bottle/can',packDesc:'Case of 12'},
+    {label:'Pack of 6',litres:0,serves:6,wastage:0,serveUnit:'bottle/can',packDesc:'Pack of 6'},
+    {label:'Single',litres:0,serves:1,wastage:0,serveUnit:'bottle/can',packDesc:'Single'},
+    {label:'Custom / other',litres:0,serves:0,wastage:0,serveUnit:'bottle/can',packDesc:''}
+  ],
+  'Snacks & Sundries':[
+    {label:'Box of 24',litres:0,serves:24,wastage:0,serveUnit:'packet',packDesc:'Box of 24'},
+    {label:'Box of 20',litres:0,serves:20,wastage:0,serveUnit:'packet',packDesc:'Box of 20'},
+    {label:'Box of 12',litres:0,serves:12,wastage:0,serveUnit:'packet',packDesc:'Box of 12'},
+    {label:'Single',litres:0,serves:1,wastage:0,serveUnit:'each',packDesc:'Single item'},
+    {label:'Custom / other',litres:0,serves:0,wastage:0,serveUnit:'each',packDesc:''}
+  ]
+};
+
+function apShowPackTypes(){
+  var cat=document.getElementById('ap_cat').value;
+  var subcat=(cat||'').replace(/^(Bar|Kitchen|Rooms|Joint)\s*-\s*/,'');
+  var types=PACK_TYPES[subcat];
+  var row=document.getElementById('ap_packTypeRow');
+  var sel=document.getElementById('ap_packType');
+  if(!types){row.style.display='none';return}
+  row.style.display='';
+  sel.innerHTML='<option value="">â Select pack type â</option>';
+  types.forEach(function(t,i){sel.innerHTML+='<option value="'+i+'">'+esc(t.label)+'</option>'});
+  document.getElementById('ap_packTypeInfo').textContent='Select a pack type to auto-fill portions';
+}
+
+function apApplyPackType(){
+  var cat=document.getElementById('ap_cat').value;
+  var subcat=(cat||'').replace(/^(Bar|Kitchen|Rooms|Joint)\s*-\s*/,'');
+  var types=PACK_TYPES[subcat];
+  var idx=parseInt(document.getElementById('ap_packType').value);
+  if(!types||isNaN(idx))return;
+  var t=types[idx];
+  if(!t||!t.serves){
+    document.getElementById('ap_packTypeInfo').textContent='Enter portions manually below';
+    return;
+  }
+  document.getElementById('ap_portions').value=t.serves;
+  document.getElementById('ap_wastage').value=t.wastage;
+  document.getElementById('ap_portionDesc').value='1 x '+t.serveUnit;
+  if(t.packDesc)document.getElementById('ap_packDesc').value=t.packDesc;
+  document.getElementById('ap_packTypeInfo').textContent=t.serves+' serves ÃÂÃÂ '+t.serveUnit+' ÃÂÃÂ· '+t.wastage+'% wastage';
+  apCalc();
+}
+function apGetCpp(){
+  var pc=parseFloat(document.getElementById('ap_packCost').value)||0,po=parseFloat(document.getElementById('ap_portions').value)||1;
+  var w=parseFloat(document.getElementById('ap_wastage').value)||0,eff=po*(1-w/100);return eff>0?pc/eff:pc;
+}
+function apGetVat(){
+  var cat=document.getElementById('ap_cat').value,d=document.getElementById('ap_dept').value;
+  var f=(categoryConfig[d]||[]).find(function(c){return c.name===cat});
+  if(!f)return 0.2;var v=parseFloat(f.vatRate)/100;return isNaN(v)?0.2:v;
+}
+function apCalc(){
+  var cpp=apGetCpp();document.getElementById('ap_cpp').textContent=cpp>0?('ÃÂÃÂ£'+cpp.toFixed(2)):'â';
+  apUpdateSuggested();apGP('wm');apGP('eb');
+}
+function apUpdateSuggested(){
+  var cpp=apGetCpp(),cat=document.getElementById('ap_cat').value,d=document.getElementById('ap_dept').value;
+  var f=(categoryConfig[d]||[]).find(function(c){return c.name===cat});
+  if(!f||cpp<=0){apResetPricing();return}
+  var m=f.pricingMethod||'gp',tgp=parseFloat(f.targetGP)||0,mult=parseFloat(f.multiplier)||5,vat=apGetVat(),exVat=0;
+  if(m==='x5'||m==='multiplier'){exVat=cpp*mult;document.getElementById('ap_method').textContent='ÃÂÃÂ'+mult;document.getElementById('ap_methodLbl').textContent='Multiplier'}
+  else if(m==='gp'&&tgp>0){exVat=cpp/(1-tgp/100);document.getElementById('ap_method').textContent=tgp+'%';document.getElementById('ap_methodLbl').textContent='Target GP%'}
+  else{document.getElementById('ap_method').textContent='â';document.getElementById('ap_methodLbl').textContent='No method';document.getElementById('ap_sugg').textContent='â';apSuggPrice=0;return}
+  var inc=exVat*(1+vat),r;
+  if(inc<1)r=Math.ceil(inc*20)/20;else if(inc<5)r=Math.ceil(inc*4)/4;else if(inc<10)r=Math.ceil(inc*2)/2;else r=Math.ceil(inc);
+  apSuggPrice=r;document.getElementById('ap_sugg').textContent='ÃÂÃÂ£'+r.toFixed(2);
+}
+function apResetPricing(){
+  ['ap_cpp','ap_method','ap_sugg'].forEach(function(id){document.getElementById(id).textContent='â'});
+  document.getElementById('ap_methodLbl').textContent='GP% or Multiplier';
+  document.getElementById('ap_gpWM').textContent='â';document.getElementById('ap_gpEB').textContent='â';apSuggPrice=0;
+}
+function apUseSugg(p){
+  if(!apSuggPrice)return;var v=apSuggPrice.toFixed(2);
+  if(p==='wm'||p==='both'){document.getElementById('ap_sellWM').value=v;apGP('wm')}
+  if(p==='eb'||p==='both'){document.getElementById('ap_sellEB').value=v;apGP('eb')}
+}
+function apGP(p){
+  var cpp=apGetCpp(),vat=apGetVat(),inp=p==='eb'?'ap_sellEB':'ap_sellWM',gid=p==='eb'?'ap_gpEB':'ap_gpWM';
+  var sell=parseFloat(document.getElementById(inp).value)||0,el=document.getElementById(gid);
+  if(sell<=0||cpp<=0){el.textContent='â';el.style.color='var(--muted)';return}
+  var ex=sell/(1+vat),gp=((ex-cpp)/ex*100);
+  el.textContent=gp.toFixed(1)+'% GP ÃÂÃÂ· ÃÂÃÂ£'+(ex-cpp).toFixed(2)+' margin';
+  el.style.color=gp>=60?'var(--green)':gp>=50?'var(--amber)':'var(--red)';
+}
+function validateAP(){document.getElementById('ap_saveBtn').disabled=(document.getElementById('ap_name').value||'').trim().length<2}
+
+var apAutoTimer=null;
+function apAutoServing(){
+  var name=(document.getElementById('ap_name').value||'').trim();
+  var cat=document.getElementById('ap_cat').value;
+  var cost=parseFloat(document.getElementById('ap_packCost').value)||0;
+  if(name.length<3||!cat)return;
+  
+  if(apAutoTimer)clearTimeout(apAutoTimer);
+  apAutoTimer=setTimeout(function(){
+    google.script.run.withSuccessHandler(function(r){
+      if(!r||!r.found)return;
+      
+      var curPortions=document.getElementById('ap_portions').value;
+      if(curPortions==='1'||curPortions===''){
+        document.getElementById('ap_portions').value=r.servesPerPack||1;
+        document.getElementById('ap_wastage').value=r.wastage||0;
+        if(r.serveSizeUnit)document.getElementById('ap_portionDesc').value='1 x '+r.serveSizeUnit;
+        if(r.packSizeVal&&r.packSizeUnit)document.getElementById('ap_packDesc').value=r.packSizeVal+' '+r.packSizeUnit;
+        apCalc(); 
+      }
+    }).getServingSuggestionForNewProduct(name,cat,cost);
+  },300);
+}
+function apSave(){
+  var btn=document.getElementById('ap_saveBtn');btn.disabled=true;btn.textContent='ÃÂ¢ÃÂÃÂ³ Adding...';
+  var data={name:document.getElementById('ap_name').value.trim(),supplier:document.getElementById('ap_supplier').value,
+    category:document.getElementById('ap_cat').value,department:document.getElementById('ap_dept').value,vatRate:null,
+    packCost:parseFloat(document.getElementById('ap_packCost').value)||0,
+    portionsPerPack:parseFloat(document.getElementById('ap_portions').value)||1,
+    portionDescription:document.getElementById('ap_portionDesc').value,packDescription:document.getElementById('ap_packDesc').value,
+    sellPriceWM:parseFloat(document.getElementById('ap_sellWM').value)||0,
+    sellPriceEB:parseFloat(document.getElementById('ap_sellEB').value)||0,
+    isDishMain:document.getElementById('ap_isDishMain').value==='Yes',
+    wastage:parseFloat(document.getElementById('ap_wastage').value)||0};
+  google.script.run.withSuccessHandler(function(r){
+    btn.disabled=false;btn.textContent='Add Product';
+    if(r.success){closeAddProduct();toast(r.message);load()}else toast(r.error||'Failed',1);
+  }).withFailureHandler(function(e){btn.disabled=false;btn.textContent='Add Product';toast('Error: '+e.message,1)}).addProductManually(data);
+}
+
+function load(){
+  document.getElementById('content').innerHTML='<div class="empty-state"><span class="spinner"></span> Loading products...</div>';
+  var _startLoad=function(){
+    google.script.run.withSuccessHandler(function(d){
+      allProducts=(d.products||[]);
+      deptCounts=d.departments||{};
+      
+      if(!_dlProduct) maybeDefaultNeedsAttention_();
+      paintMeasureProgress_();
+      buildDeptBar();
+      setDept(activeDept);
+      if(d.orphansRetired>0)toast('Cleared '+d.orphansRetired+' orphan Unclassified twin'+(d.orphansRetired===1?'':'s')+' (already classified)');
+      if(_dlProduct){ _openProduct(_dlProduct); _dlProduct=''; }
+      
+      google.script.run.withSuccessHandler(function(s){supplierList=s||[]}).getSupplierList();
+      google.script.run.withSuccessHandler(function(c){categoryConfig=c||{}}).getCategoriesWithConfig();
+    }).withFailureHandler(function(e){
+      document.getElementById('content').innerHTML='<div class="empty-state">Error: '+esc(e.message)+'</div>';
+    }).getProductsPageData('',pubFilter);
+  };
+  
+  try {
+    if (window.google && google.script && google.script.url && google.script.url.getLocation) {
+      google.script.url.getLocation(function(loc){
+        try { var pm=(loc&&loc.parameter)||{}; if(pm.product) _dlProduct=pm.product; if(pm.dept) activeDept=pm.dept; } catch(e){}
+        _startLoad();
+      });
+      return;
+    }
+  } catch(e){}
+  _startLoad();
+}
+ 
+function resetFiltersForDeepLink_(){
+  var searchEl=document.getElementById('search');
+  if(searchEl) searchEl.value='';
+  activeSub='';
+  if(incompleteOnly) applyNeedsAttentionFilter_(false);
+  if(unconfirmedOnly){
+    unconfirmedOnly=false;
+    var ub=document.getElementById('unconfirmedBtn');
+    if(ub){ ub.style.background=''; ub.style.borderColor=''; ub.style.color=''; }
+  }
+  if(auditOnlyFlagged){
+    auditOnlyFlagged=false;
+    if(lastAudit) buildAuditBar();
+  }
+  updateShownActionBtns_();
+}
+function syncPubPills_(){
+  document.querySelectorAll('.pub-pill').forEach(function(b){b.classList.remove('active')});
+  var el=document.getElementById(pubFilter==='eb'?'ppEB':'ppWM');
+  if(el) el.classList.add('active');
+}
+
+function _openProduct(pid){
+  var p=null; for(var i=0;i<allProducts.length;i++){ if(String(allProducts[i].productId)===String(pid)){ p=allProducts[i]; break; } }
+  if(!p){ toast('Product not found in list',1); return; }
+  resetFiltersForDeepLink_();
+  
+  var dept=(p.department||'').toString().trim();
+  activeDept=dept?dept:'Unclassified';
+  
+  var tag=(p.pubTag||'').toString().trim().toLowerCase();
+  var wantPub=(tag==='eb'||tag==='eight bells')?'eb':((tag==='wm'||tag==='windmill inn'||tag==='windmill')?'wm':null);
+  if(wantPub){
+    pubFilter=wantPub;
+    syncPubPills_();
+  }
+  expandedIds={};expandedIds[String(pid)]=true;
+  buildDeptBar();
+  if(activeDept==='Unclassified'){
+    document.getElementById('subTabs').innerHTML='';
+    document.getElementById('controlsRow').style.display='flex';
+    document.getElementById('topSub').textContent='Unclassified â send to Questions to see the invoice PDF and set ÃÂÃÂ£/kg ÃÂÃÂ· ÃÂÃÂ£/l ÃÂÃÂ· ÃÂÃÂ£/each';
+  } else {
+    buildSubTabs();
+    document.getElementById('controlsRow').style.display='flex';
+    var titles={Bar:'Bar â Revenue & Selling Prices',Kitchen:'Kitchen â Ingredient Costs & Dish Usage',Rooms:'Rooms â Supplies & Consumables',Joint:'Joint â Shared Costs'};
+    document.getElementById('topSub').textContent=titles[activeDept]||activeDept;
+  }
+  render();
+  setTimeout(function(){
+    var row=document.querySelector('.row-click.expanded');
+    if(row&&row.scrollIntoView){ try{ row.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){ row.scrollIntoView(); } }
+    else toast('Opened '+((p&&p.name)||'product')+' â check filters if not visible',1);
+  }, 350);
+}
+
+function buildDeptBar(){
+  var depts=[{k:'Bar',icon:'ÃÂ°ÃÂÃÂÃÂº',cls:'d-bar'},{k:'Kitchen',icon:'ÃÂ°ÃÂÃÂÃÂ³',cls:'d-kitchen'},{k:'Rooms',icon:'ÃÂ°ÃÂÃÂÃÂÃÂ¯ÃÂ¸ÃÂ',cls:'d-rooms'},{k:'Joint',icon:'ÃÂ°ÃÂÃÂÃÂ§',cls:'d-joint'}];
+  var h='';
+  depts.forEach(function(d){
+    var cnt=deptCounts[d.k]||0;
+    h+='<button class="dept-btn '+d.cls+(activeDept===d.k?' active':'')+'" onclick="setDept(''+d.k+'')">'+d.icon+' '+d.k+' <span class="d-count">'+cnt+'</span></button>';
+  });
+  var uncl=deptCounts['Unclassified']||0;
+  if(uncl>0){
+    h+='<button class="dept-btn d-uncl'+(activeDept==='Unclassified'?' active':'')+'" onclick="setDept('Unclassified')">ÃÂ¢ÃÂÃÂ Unclassified <span class="d-count">'+uncl+'</span></button>';
+  }
+  document.getElementById('deptBar').innerHTML=h;
+}
+
+function setDept(d){
+  activeDept=d;activeSub='';expandedIds={};
+  buildDeptBar();
+  if(d==='Unclassified'){
+    document.getElementById('subTabs').innerHTML='';
+    document.getElementById('controlsRow').style.display='flex';
+    document.getElementById('topSub').textContent='Unclassified â send to Questions to see the invoice PDF and set ÃÂÃÂ£/kg ÃÂÃÂ· ÃÂÃÂ£/l ÃÂÃÂ· ÃÂÃÂ£/each';
+    if(!clSuggLoaded){
+      document.getElementById('content').innerHTML='<div class="empty-state"><span class="spinner"></span> Detecting categories &amp; unitsâ¦</div>';
+      google.script.run.withSuccessHandler(function(r){
+        clSuggLoaded=true;
+        (((r&&r.suggestions))||[]).forEach(function(s){clSugg[s.productId]=s});
+        render();
+      }).withFailureHandler(function(e){clSuggLoaded=true;render()}).getUnclassifiedSuggestions();
+    } else { render(); }
+    return;
+  }
+  buildSubTabs();
+  document.getElementById('controlsRow').style.display='flex';
+  var titles={Bar:'Bar â Revenue & Selling Prices',Kitchen:'Kitchen â Ingredient Costs & Dish Usage',Rooms:'Rooms â Supplies & Consumables',Joint:'Joint â Shared Costs'};
+  document.getElementById('topSub').textContent=titles[d]||d;
+  render();
+}
+
+function buildSubTabs(){
+  var items=allProducts.filter(function(p){return p.department===activeDept});
+  var cats={};
+  items.forEach(function(p){
+    var sub=(p.category||'').replace(activeDept+' - ','');
+    if(!sub)sub='Uncategorised';
+    cats[sub]=(cats[sub]||0)+1;
+  });
+  var h='<button class="sub-tab'+(activeSub===''?' active':'')+'" onclick="setSub('')">All <span class="st-count">'+items.length+'</span></button>';
+  Object.keys(cats).sort().forEach(function(c){
+    h+='<button class="sub-tab'+(activeSub===c?' active':'')+'" onclick="setSub(''+esc(c)+'')">'+esc(c)+' <span class="st-count">'+cats[c]+'</span></button>';
+  });
+  document.getElementById('subTabs').innerHTML=h;
+}
+
+function setSub(s){activeSub=s;expandedIds={};buildSubTabs();render()}
+function setPub(p){
+  pubFilter=p;
+  document.querySelectorAll('.pub-pill').forEach(function(b){b.classList.remove('active')});
+  document.getElementById(p==='wm'?'ppWM':'ppEB').classList.add('active');
+  expandedIds={};
+  render();
+}
+
+
+var auditFlags={};
+var auditRules=[];
+var auditEnabled=null;
+var auditOnlyFlagged=false;
+var incompleteOnly=false;
+var unconfirmedOnly=false;
+var _autoNeedsApplied=false;
+function isUnconfirmed(p){
+  return String((p&&p.classSource)||'').toLowerCase()!=='manual';
+}
+
+function confBadge(p){
+  var s=(p.classSource||'').toString().toLowerCase();
+  if(s==='manual') return '<span class="conf-badge conf-yes" title="You confirmed this in Questions'+(p.classDate?(' on '+esc(p.classDate)):'')+'">ÃÂ¢ÃÂÃÂ confirmed'+(p.classDate?(' '+esc(p.classDate)):'')+'</span>';
+  if(s==='ai') return '<span class="conf-badge conf-ai" title="AI-classified'+(p.classDate?(' '+esc(p.classDate)):'')+' â not manually confirmed">AI'+(p.classDate?(' '+esc(p.classDate)):'')+'</span>';
+  return '<span class="conf-badge conf-no" title="Never went through Questions â auto/unconfirmed">unconfirmed</span>';
+}
+function countNeedsMeasure_(){
+  var n=0;
+  for(var i=0;i<allProducts.length;i++){
+    var p=allProducts[i];
+    if(!(p.department||'').toString().trim()) continue; 
+    if(isIncomplete(p)) n++;
+  }
+  return n;
+}
+function paintMeasureProgress_(){
+  var el=document.getElementById('mnRemainBadge');
+  if(!el) return;
+  var n=countNeedsMeasure_();
+  if(n<=0){
+    el.style.display='inline-block';
+    el.className='mn-progress done';
+    el.textContent='Measure A: all clear';
+    return;
+  }
+  el.style.display='inline-block';
+  el.className='mn-progress';
+  el.textContent=n+' need Measure A';
+}
+function applyNeedsAttentionFilter_(on){
+  incompleteOnly=!!on;
+  var b=document.getElementById('incompleteBtn');
+  if(b){ b.style.background=incompleteOnly?'#fffbeb':''; b.style.borderColor=incompleteOnly?'#fcd34d':''; b.style.color=incompleteOnly?'#b45309':''; }
+  updateShownActionBtns_();
+}
+function maybeDefaultNeedsAttention_(){
+  if(_autoNeedsApplied) return;
+  _autoNeedsApplied=true;
+  var n=countNeedsMeasure_();
+  if(n>=20){
+    applyNeedsAttentionFilter_(true);
+    document.getElementById('topSub').textContent=
+      (document.getElementById('topSub').textContent||'')+' ÃÂÃÂ· Needs attention ('+n+' remaining)';
+  }
+}
+
+
+function isIncomplete(p){
+  var hasMeas=!!(p.measure);
+  var hasPerMeas=parseFloat(p.costPerBaseUnit)>0;
+  var hasPack=parseFloat(p.packCost!=null?p.packCost:p.cost)>0;
+  var hasPerPack=parseFloat(p.portionsPerPack)>0||parseFloat(p.packSizeValue)>0;
+  if(!(hasMeas&&hasPerMeas&&hasPack&&hasPerPack)) return true;
+  
+  
+  var cpbu=parseFloat(p.costPerBaseUnit)||0, pv=parseFloat(p.packSizeValue)||0, pc=parseFloat(p.packCost!=null?p.packCost:p.cost)||0;
+  if(cpbu>0&&pv>0&&pc>0){ var derived=cpbu*pv; if(Math.abs(pc-derived)>Math.max(0.10,derived*0.15)) return true; }
+  return false;
+}
+function updateShownActionBtns_(){
+  var show = !!(incompleteOnly || unconfirmedOnly || auditOnlyFlagged);
+  var qb=document.getElementById('sendShownQBtn'); if(qb) qb.style.display=show?'inline-flex':'none';
+  var rb=document.getElementById('removeShownBtn'); if(rb) rb.style.display=incompleteOnly?'inline-flex':'none';
+}
+function toggleIncomplete(){
+  incompleteOnly=!incompleteOnly;
+  applyNeedsAttentionFilter_(incompleteOnly);
+  render();
+}
+function toggleUnconfirmed(){
+  unconfirmedOnly=!unconfirmedOnly;
+  var b=document.getElementById('unconfirmedBtn');
+  if(b){ b.style.background=unconfirmedOnly?'#eff6ff':''; b.style.borderColor=unconfirmedOnly?'#93c5fd':''; b.style.color=unconfirmedOnly?'#1d4ed8':''; }
+  updateShownActionBtns_();
+  render();
+}
+var __enqueueResumeIds=null;
+function sendShownToQuestions(){
+  var btn=document.getElementById('sendShownQBtn');
+  
+  if(__enqueueResumeIds && __enqueueResumeIds.length){
+    if(!confirm('Resume sending '+__enqueueResumeIds.length+' remaining products to Questions?')) return;
+    var resumeIds=__enqueueResumeIds; __enqueueResumeIds=null;
+    startEnqueueBatches_(resumeIds, btn);
+    return;
+  }
+  var items=getFiltered();
+  if(!items.length){ toast('Nothing shown to send',1); return; }
+  var toSend=items;
+  if(unconfirmedOnly && !incompleteOnly){
+    var incomplete=items.filter(isIncomplete);
+    if(incomplete.length && incomplete.length < items.length){
+      if(confirm(items.length+' unconfirmed shown.
+
+'+incomplete.length+' are missing measure/cost data (the shells).
+
+OK = send only the '+incomplete.length+' incomplete
+Cancel = send all '+items.length+' unconfirmed')){
+        toSend=incomplete;
+      }
+    }
+  }
+  if(!confirm('Send '+toSend.length+' product'+(toSend.length>1?'s':'')+' to Questions NOW?
+
+Creates Pending Questions with latest invoice line + PDF where available. Safe to re-run â already-pending skipped.
+
+Stay on this page until Sending finishes (batches of 20).')) return;
+  startEnqueueBatches_(toSend.map(function(p){return p.productId;}), btn);
+}
+function startEnqueueBatches_(ids, btn){
+  var BATCH=20;
+  var total=ids.length, done=0, queued=0, skipped=0, noInv=0, failedN=0;
+  if(btn){btn.disabled=true;btn.textContent='Sending 0/'+total+'â¦';}
+  function resetBtn_(label){
+    if(!btn) return;
+    btn.disabled=false;
+    btn.textContent=label||'ÃÂ¢ÃÂÃÂ Send missing measure ÃÂ¢ÃÂÃÂ Questions';
+  }
+  function finishOk_(){
+    resetBtn_();
+    var detail=(skipped?(' ÃÂÃÂ· '+skipped+' already pending'):'')+(noInv?(' ÃÂÃÂ· '+noInv+' no invoice line'):'')+(failedN?(' ÃÂÃÂ· '+failedN+' failed'):'');
+    if(!queued){
+      toast('Created 0 questions'+detail+' â nothing new (already in queue, or no match). Count stays put until new ones enqueue.',1);
+      return;
+    }
+    toast('Created '+queued+' question'+(queued===1?'':'s')+detail+' â Refresh Questions; count should rise above the previous stall.');
+    if(confirm('Created '+queued+'. Open Questions now?')) nv('questions');
+  }
+  function fail_(msg, remaining){
+    if(remaining && remaining.length){
+      __enqueueResumeIds=remaining;
+      resetBtn_('ÃÂ¢ÃÂÃÂ¶ Resume send ('+remaining.length+' left)');
+      toast((msg||'Enqueue failed')+(queued?(' â '+queued+' queued'):'')+' ÃÂÃÂ· '+remaining.length+' left â click Resume',1);
+      return;
+    }
+    resetBtn_();
+    toast((msg||'Enqueue failed')+(queued?(' â '+queued+' queued before error'):''),1);
+  }
+  function nextBatch_(){
+    if(done>=total){ finishOk_(); return; }
+    var chunk=ids.slice(done, done+BATCH);
+    if(btn) btn.textContent='Sending '+(done+chunk.length)+'/'+total+'â¦';
+    google.script.run.withSuccessHandler(function(r){
+      if(!r||!r.success){
+        fail_((r&&r.error)||'Enqueue failed', ids.slice(done));
+        return;
+      }
+      queued+=(r.queued||0);
+      skipped+=(r.skippedPending||0);
+      noInv+=(r.noInvoiceLine||0);
+      failedN+=((r.failedIds&&r.failedIds.length)||0);
+      done+=chunk.length;
+      setTimeout(nextBatch_, 150);
+    }).withFailureHandler(function(e){
+      var msg=(e&&e.message)||'Enqueue failed';
+      if(/timed out|Exceeded|took too long|invoked too many/i.test(msg))
+        msg='Timed out / quota during enqueue. Click Resume.';
+      fail_(msg, ids.slice(done));
+    }).enqueueProductsToQuestions(chunk);
+  }
+  nextBatch_();
+}
+function removeAllShown(){
+  var items=getFiltered();
+  if(!items.length){ toast('Nothing to remove',1); return; }
+  if(!confirm('Remove all '+items.length+' shown product'+(items.length>1?'s':'')+'?
+
+Each is quarantined and re-learns as a question when next bought. This is reversible.')) return;
+  var ids=items.map(function(p){return p.productId;});
+  
+  var idSet={}; ids.forEach(function(id){ idSet[id]=true; });
+  allProducts=allProducts.filter(function(p){ return !idSet[p.productId]; });
+  render();
+  toast('Removing '+ids.length+'â¦ re-learn if bought again',0);
+  google.script.run.withSuccessHandler(function(res){
+    if(res&&res.success){ toast('Removed '+ (res.removed||ids.length) +(res.failed?(' ('+res.failed+' failed)'):'')+' â re-learn if bought again',0); }
+    else { toast('Bulk remove failed â reloading: '+((res&&res.error)||'unknown'),1); loadProducts(); }
+  }).withFailureHandler(function(e){ toast('Error â reloading: '+e.message,1); loadProducts(); })
+    .bulkQuarantineProducts(ids,'bulk remove â incomplete columns');
+}
+var lastAudit=null;
+function runAudit(){
+  var b=document.getElementById('auditRunBtn'); if(b){b.disabled=true;b.textContent='Scanningâ¦';}
+  google.script.run.withSuccessHandler(function(r){
+    if(b){b.disabled=false;b.textContent='ÃÂ°ÃÂÃÂÃÂ Audit';}
+    if(!r||!r.ok){alert('Audit failed: '+((r&&r.error)||'unknown'));return;}
+    lastAudit=r; auditFlags={};
+    (r.flagged||[]).forEach(function(p){auditFlags[p.productId]=p.flags;});
+    auditRules=r.rules||[];
+    if(auditEnabled===null){auditEnabled={};auditRules.forEach(function(rd){auditEnabled[rd.id]=true;});}
+    buildAuditBar(); render();
+  }).withFailureHandler(function(e){if(b){b.disabled=false;b.textContent='ÃÂ°ÃÂÃÂÃÂ Audit';}alert('Audit failed: '+e);}).auditProducts();
+}
+function audFlagsFor(pid){
+  var ff=auditFlags[pid]; if(!ff)return [];
+  if(!auditEnabled)return ff;
+  return ff.filter(function(x){return auditEnabled[x.rule]!==false;});
+}
+function buildAuditBar(){
+  var bar=document.getElementById('auditBar'); if(!bar||!lastAudit)return;
+  var visIds=Object.keys(auditFlags).filter(function(pid){return audFlagsFor(pid).length>0;});
+  var h='<strong style="color:var(--red)">ÃÂ¢ÃÂÃÂ  '+visIds.length+'</strong> to review <span style="color:var(--muted)">ÃÂÃÂ· scanned '+lastAudit.scanned+'</span> <span style="color:var(--border)">|</span> ';
+  auditRules.forEach(function(rd){
+    if(!rd.count)return;
+    var on=auditEnabled[rd.id]!==false;
+    h+='<span class="aud-rule'+(on?'':' off')+'" onclick="toggleAuditRule(''+rd.id+'')" title="Click to mute / show">'+esc(rd.label)+' <span class="n">'+rd.count+'</span></span> ';
+  });
+  h+='<span style="color:var(--border)">|</span> <span class="aud-rule'+(auditOnlyFlagged?'':' off')+'" onclick="toggleAuditOnly()">show only flagged</span> ';
+  h+='<button class="aud-btn" onclick="runAudit()">ÃÂ¢ÃÂÃÂ» re-run</button>';
+  bar.innerHTML=h; bar.style.display='flex';
+}
+function toggleAuditRule(id){ if(!auditEnabled)return; auditEnabled[id]=(auditEnabled[id]===false); buildAuditBar(); render(); }
+function toggleAuditOnly(){ auditOnlyFlagged=!auditOnlyFlagged; updateShownActionBtns_(); buildAuditBar(); render(); }
+function audMark(p){
+  if(activeDept==='Unclassified')return {cls:'',chip:''};
+  var ff=audFlagsFor(p.productId);
+  if(!ff.length)return {cls:'',chip:''};
+  var reasons=ff.map(function(x){return x.msg;}).join(' ÃÂÃÂ· ');
+  var chip='<span class="aud-chip" title="'+esc(reasons)+'">ÃÂ¢ÃÂÃÂ  '+ff.length+'</span>'+
+           '<a class="aud-x" title="Mark reviewed" onclick="event.stopPropagation();dismissAudit(''+esc(p.productId)+'')">ÃÂ¢ÃÂÃÂ</a>';
+  return {cls:' aud-flag',chip:chip};
+}
+function dismissAudit(pid){
+  var ff=audFlagsFor(pid); if(!ff.length)return;
+  ff.forEach(function(x){ google.script.run.dismissAuditFlag(pid,x.rule); });
+  if(auditFlags[pid]){ auditFlags[pid]=auditFlags[pid].filter(function(x){return auditEnabled&&auditEnabled[x.rule]===false;}); if(!auditFlags[pid].length)delete auditFlags[pid]; }
+  buildAuditBar(); render();
+}
+
+function getFiltered(){
+  var q=(document.getElementById('search').value||'').toLowerCase();
+  return allProducts.filter(function(p){
+    if(activeDept==='Unclassified'){ if((p.department||'').toString().trim())return false; }
+    else if(p.department!==activeDept)return false;
+    if(activeSub){var sub=(p.category||'').replace(activeDept+' - ','');if(sub!==activeSub)return false}
+    if(q&&(p.name||'').toLowerCase().indexOf(q)<0&&(p.supplier||'').toLowerCase().indexOf(q)<0)return false;
+    
+    if(pubFilter){
+      var tag=(p.pubTag||'').toString().trim();
+      if(tag&&tag!=='Both'){
+        var tagLower=tag.toLowerCase();
+        if(pubFilter==='wm'&&tagLower!=='wm'&&tagLower!=='windmill inn'&&tagLower!=='windmill')return false;
+        if(pubFilter==='eb'&&tagLower!=='eb'&&tagLower!=='eight bells')return false;
+      }
+    }
+    if(auditOnlyFlagged&&activeDept!=='Unclassified'&&!audFlagsFor(p.productId).length)return false;
+    if(incompleteOnly&&!isIncomplete(p))return false;
+    if(unconfirmedOnly&&!isUnconfirmed(p))return false;
+    return true;
+  });
+}
+
+
+
+
+
+
+var SORT_KEYS={
+  name:     {type:'text',get:function(p){return (p.name||'')}},
+  supplier: {type:'text',get:function(p){return (p.supplier||'')}},
+  measure:  {type:'text',get:function(p){return (p.measure||'')}},
+  perMeas:  {type:'num', get:function(p){return parseFloat(p.costPerBaseUnit)||0}},
+  costServe:{type:'num', get:function(p){return parseFloat(p.costPerPortion)||0}},
+  sellUnit: {type:'num', get:function(p){return parseFloat(pubFilter==='eb'?(p.sellPriceEB||p.sellPrice):(p.sellPriceWM||p.sellPrice))||0}},
+  packCost: {type:'num', get:function(p){var v=(p.packCost!=null?p.packCost:p.cost);return parseFloat(v)||0}},
+  perPack:  {type:'num', get:function(p){return parseFloat(p.portionsPerPack)||parseFloat(p.packSizeValue)||0}},
+  updated:  {type:'date',get:function(p){return (p.lastUpdated||'')}}
+};
+function setSort(key){
+  if(!SORT_KEYS[key])return;
+  if(sortState.key===key){sortState.dir=-sortState.dir;}
+  else{sortState.key=key;sortState.dir=(SORT_KEYS[key].type==='text')?1:-1;}
+  render();
+}
+function productComparator(a,b){
+  var spec=SORT_KEYS[sortState.key]||SORT_KEYS.name;
+  var va=spec.get(a),vb=spec.get(b),r;
+  if(spec.type==='num'){r=va-vb;}
+  else{r=(''+va).localeCompare(''+vb);}   
+  if(r===0&&sortState.key!=='name'){r=(''+(a.name||'')).localeCompare(''+(b.name||''));} 
+  return r*sortState.dir;
+}
+function sortableTh(key,label,align){
+  var active=sortState.key===key;
+  var caret=active?('<span class="sort-caret">'+(sortState.dir>0?'▲':'▼')+'</span>'):'';
+  var cls='sortable'+(align==='r'?' r':'')+(active?' sorted':'');
+  return '<th class="'+cls+'" onclick="setSort(''+key+'')" title="Sort by '+label+'">'+label+caret+'</th>';
+}
+
+function render(){
+  paintMeasureProgress_();
+  var items=getFiltered();
+  document.getElementById('fCount').textContent=items.length+' products';
+  if(activeDept==='Unclassified'){
+    var totalUncl=allProducts.filter(function(p){return !(p.department||'').toString().trim()}).length;
+    document.getElementById('topCount').textContent=items.length+'/'+totalUncl;
+    renderClassify(items);
+    wireNavHrefs();
+    return;
+  }
+  document.getElementById('topCount').textContent=items.length+'/'+allProducts.filter(function(p){return p.department===activeDept}).length;
+  if(!items.length){document.getElementById('content').innerHTML='<div class="empty-state">No products match.</div>';document.getElementById('summary').innerHTML='';wireNavHrefs();return}
+
+  
+  var allDeptItems = allProducts.filter(function(p){return p.department===activeDept});
+  var withPortions = items.filter(function(p){return p.portionsPerPack}).length;
+  var withSell = items.filter(function(p){return p.sellPrice && p.sellPrice > 0}).length;
+  var withChanges = items.filter(function(p){return p.change}).length;
+  var dishMains = items.filter(function(p){return p.isDishMain}).length;
+  var sumEl = document.getElementById('summary');
+  if(activeDept==='Bar'){
+    sumEl.innerHTML='<div class="dp-kpi-card"><div class="kv">'+items.length+'</div><div class="kl">Products</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+withSell+'</div><div class="kl">With Sell Price</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+withPortions+'</div><div class="kl">With Portions</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+withChanges+'</div><div class="kl">Price Changes</div></div>';
+  } else if(activeDept==='Kitchen'){
+    sumEl.innerHTML='<div class="dp-kpi-card"><div class="kv">'+items.length+'</div><div class="kl">Ingredients</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+dishMains+'</div><div class="kl">Dish Mains</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+withPortions+'</div><div class="kl">With Portions</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+withChanges+'</div><div class="kl">Price Changes</div></div>';
+  } else {
+    sumEl.innerHTML='<div class="dp-kpi-card"><div class="kv">'+items.length+'</div><div class="kl">Products</div></div>'+
+      '<div class="dp-kpi-card"><div class="kv">'+withChanges+'</div><div class="kl">Price Changes</div></div>';
+  }
+
+
+  
+  items.sort(productComparator);
+
+  if(activeDept==='Bar') renderBar(items);
+  else if(activeDept==='Kitchen') renderKitchen(items);
+  else renderProductTable(items);
+  wireNavHrefs();
+}
+
+
+
+
+function chgBadge(p,dash){
+  if(!p.change||!p.change.pctChange)return dash?'â':'';
+  var pc=p.change.pctChange,a=Math.abs(pc);
+  
+  if(a<0.5||a>50)return dash?'â':'';
+  var up=pc>0;
+  return '<span class="chg '+(up?'chg-up':'chg-down')+'">'+(up?'ÃÂ¢ÃÂÃÂ²':'ÃÂ¢ÃÂÃÂ¼')+Math.abs(Math.round(pc))+'%</span>';
+}
+function renderBar(items){
+  var h='<table class="ptbl"><thead><tr>';
+  h+='<th>Product</th><th>Supplier</th><th>Measure A</th><th class="r" title="Cost per Measure A â ex VAT">ÃÂÃÂ£ / A <span style="font-weight:500;opacity:.55;font-size:10px">ex</span></th>';
+  h+='<th>Measure B</th><th class="r" title="Cost per Measure B â ex VAT">ÃÂÃÂ£ / B</th>';
+  h+='<th class="r">Cost/Serve</th><th class="r">Sell</th><th class="r">GP%</th><th class="r">Target</th><th class="r">Updated</th>';
+  h+='</tr></thead><tbody>';
+
+  items.forEach(function(p){
+    var isExp=!!expandedIds[String(p.productId)];
+    var portions=parseFloat(p.portionsPerPack)||0;
+    var wastage=parseFloat(p.wastage)||0;
+    var effectivePortions=portions>0?portions*(1-wastage/100):0;
+    var measure=productMeasure_(p);
+    var isPour=/^(pint|25ml|50ml|125ml|175ml|250ml)$/.test(measure);
+    var cpp=(p.costPerPortion!=null&&parseFloat(p.costPerPortion)>0)?parseFloat(p.costPerPortion):(effectivePortions>0?(p.cost||0)/effectivePortions:(portions>0?(p.cost||0)/portions:0));
+    
+    if(isPour&&productCostPerMeasure_(p)>0) cpp=productCostPerMeasure_(p);
+    var sell=parseFloat(pubFilter==='eb'?(p.sellPriceEB||p.sellPrice):p.sellPrice)||0;
+    var vatR=parseFloat(p.vatRate)||0.2;var sellEx=sell/(1+vatR);var gp=sellEx>0&&cpp>0?((sellEx-cpp)/sellEx*100):0;
+    var tgp=parseFloat(p.targetGP)||0;
+    var gpCls=gp>=tgp?'gp-good':gp>=tgp-10?'gp-warn':gp>0?'gp-bad':'gp-none';
+    var exactTargetSell=cpp>0&&tgp>0?(cpp/(1-tgp/100))*(1+(parseFloat(p.vatRate)||0.2)):0;
+    var nearestFivep=Math.ceil(exactTargetSell*20)/20;
+    var isRoundingDiff=tgp>0&&gp>0&&Math.abs(gp-tgp)<=1&&Math.abs(sell-nearestFivep)<=0.05;
+    var gpLabel=gp>0?gp.toFixed(1)+'%':'â';
+    var gpTitle=isRoundingDiff?'title="'+gp.toFixed(1)+'% â on target (ÃÂÃÂ±5p rounding of '+tgp+'% target)"':'';
+    var chgHtml=chgBadge(p);
+    var cells=measureListCells_(p);
+
+    var am=audMark(p);
+    h+='<tr class="row-click'+(isExp?' expanded':'')+am.cls+'">';
+    h+='<td><div class="p-name">'+productNameLink_(p, am.chip)+'</div>';
+    if(p.packDescription)h+='<div class="p-sub">'+esc(p.packDescription)+'</div>';
+    h+='</td>';
+    h+='<td class="p-sub">'+esc(p.supplier)+'</td>';
+    h+='<td>'+cells.aBadge+'</td>';
+    h+='<td class="r" style="font-weight:700">'+cells.aCost+chgHtml+'</td>';
+    h+='<td>'+cells.bBadge+'</td>';
+    h+='<td class="r">'+cells.bCost+'</td>';
+    h+='<td class="r">'+(isPour&&cpp>0?fmtP(cpp):(cpp>0&&portions>1?fmtP(cpp):'<span style="color:var(--muted)">â</span>'))+'</td>';
+    h+='<td class="r" style="font-weight:700">'+fmtP(sell)+'</td>';
+    h+='<td class="r"><span class="gp-pill '+gpCls+'" '+gpTitle+'>'+(isRoundingDiff?'ÃÂ¢ÃÂÃÂ':'')+gpLabel+'</span></td>';
+    h+='<td class="r" style="font-size:11px;color:var(--muted)">'+(tgp?tgp+'%':'â')+'</td>';
+    h+='<td class="r" style="font-size:11px;color:var(--muted)">'+(p.lastUpdated?esc(p.lastUpdated):'â')+' <button class="row-rm" data-rm="'+p.productId+'" title="Remove â re-learn on next invoice">×</button></td>';
+    h+='</tr>';
+
+    if(isExp)h+='<tr class="detail-row"><td colspan="11"><div class="dp" id="dp_'+p.productId+'"><div class="empty-state"><span class="spinner"></span> Loading...</div></div></td></tr>';
+  });
+
+  h+='</tbody></table>';
+  document.getElementById('content').innerHTML=h;
+  Object.keys(expandedIds).forEach(function(id){loadDetail(id);});
+}
+
+
+
+
+function renderKitchen(items){
+  var h='<table class="ptbl"><thead><tr>';
+  h+='<th>Ingredient</th><th>Supplier</th><th>Measure A</th><th class="r" title="Cost per Measure A â ex VAT">ÃÂÃÂ£ / A <span style="font-weight:500;opacity:.55;font-size:10px">ex</span></th>';
+  h+='<th>Measure B</th><th class="r">ÃÂÃÂ£ / B</th><th class="r">Updated</th>';
+  h+='</tr></thead><tbody>';
+
+  items.forEach(function(p){
+    var isExp=!!expandedIds[String(p.productId)];
+    var chgHtml=chgBadge(p);
+    var cells=measureListCells_(p);
+
+    var am=audMark(p);
+    h+='<tr class="row-click'+(isExp?' expanded':'')+am.cls+'">';
+    h+='<td><div class="p-name">'+productNameLink_(p, am.chip)+'</div>';
+    if(p.portionDescription)h+='<div class="p-sub">'+esc(p.portionDescription)+'</div>';
+    h+='</td>';
+    h+='<td class="p-sub">'+esc(p.supplier)+'</td>';
+    h+='<td>'+cells.aBadge+'</td>';
+    h+='<td class="r" style="font-weight:700">'+cells.aCost+chgHtml+'</td>';
+    h+='<td>'+cells.bBadge+'</td>';
+    h+='<td class="r">'+cells.bCost+'</td>';
+    h+='<td class="r" style="font-size:11px;color:var(--muted)">'+(p.lastUpdated?esc(p.lastUpdated):'â')+' <button class="row-rm" data-rm="'+p.productId+'" title="Remove â re-learn on next invoice">×</button></td>';
+    h+='</tr>';
+
+    if(isExp)h+='<tr class="detail-row"><td colspan="7"><div class="dp" id="dp_'+p.productId+'"><div class="empty-state"><span class="spinner"></span> Loading...</div></div></td></tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById('content').innerHTML=h;
+  Object.keys(expandedIds).forEach(function(id){loadDetail(id);});
+}
+
+
+
+
+function renderProductTable(items){
+  var h='<table class="ptbl"><thead><tr>';
+  h+=sortableTh('name','Product','')+sortableTh('supplier','Supplier','');
+  h+='<th>Measure A</th><th class="r" title="Cost per Measure A â ex VAT">ÃÂÃÂ£ / A <span style="font-weight:500;opacity:.55;font-size:10px">ex</span></th><th>Measure B</th><th class="r">ÃÂÃÂ£ / B</th>';
+  h+=sortableTh('updated','Last Updated','r');
+  h+='</tr></thead><tbody>';
+
+  items.forEach(function(p){
+    var isExp=!!expandedIds[String(p.productId)];
+    var am=audMark(p);
+    var cells=measureListCells_(p);
+
+    h+='<tr class="row-click'+(isExp?' expanded':'')+am.cls+'">';
+    h+='<td><div class="p-name">'+productNameLink_(p, am.chip)+'</div><div style="margin-top:3px">'+confBadge(p)+'</div></td>';
+    h+='<td class="p-sub">'+esc(p.supplier)+'</td>';
+    h+='<td>'+cells.aBadge+'</td>';
+    h+='<td class="r" style="font-weight:700">'+cells.aCost+'</td>';
+    h+='<td>'+cells.bBadge+'</td>';
+    h+='<td class="r">'+cells.bCost+'</td>';
+    h+='<td class="r" style="font-size:11px;color:var(--muted)">'+(p.lastUpdated?esc(p.lastUpdated):'â')+' <button class="row-rm" data-rm="'+p.productId+'" title="Remove â re-learn on next invoice">×</button></td>';
+    h+='</tr>';
+
+    if(isExp)h+='<tr class="detail-row"><td colspan="7"><div class="dp" id="dp_'+p.productId+'"><div class="empty-state"><span class="spinner"></span> Loading...</div></div></td></tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById('content').innerHTML=h;
+  Object.keys(expandedIds).forEach(function(id){loadDetail(id);});
+}
+
+
+
+
+function toggleDetail(pid){pid=String(pid);if(expandedIds[pid])delete expandedIds[pid];else expandedIds[pid]=true;render()}
+
+function loadDetail(pid){
+  var el=document.getElementById('dp_'+pid);
+  if(!el)return;
+  google.script.run.withSuccessHandler(function(data){renderDetail(pid,data)})
+    .withFailureHandler(function(e){var el2=document.getElementById('dp_'+pid);if(el2)el2.innerHTML='<div style="color:var(--red)">'+esc(e.message)+'</div>'})
+    .getProductDetail(pid, pubFilter||'wm');
+}
+
+document.addEventListener('click',function(ev){
+  var b=ev.target.closest?ev.target.closest('.row-rm'):null;
+  if(!b)return;
+  ev.stopPropagation();
+  removeProduct(b.getAttribute('data-rm'), b);
+});
+
+function removeProduct(pid, btn){
+  
+  for(var i=0;i<allProducts.length;i++){ if(allProducts[i].productId===pid){ allProducts.splice(i,1); break; } }
+  var row = btn && btn.closest ? btn.closest('tr') : null;
+  if(row){
+    
+    
+    
+    var parent=row.parentNode, next=row.nextSibling;
+    if(parent) parent.removeChild(row);
+    try{ var items=getFiltered(); var fc=document.getElementById('fCount'); if(fc) fc.textContent=items.length+' products'; }catch(e){}
+    toast('Removed — re-learns if bought again',0);
+    google.script.run.withSuccessHandler(function(res){
+      if(!(res&&res.success)){ toast('Remove failed — reloading: '+((res&&res.error)||'unknown'),1); loadProducts(); }
+    }).withFailureHandler(function(e){ toast('Error removing — reloading: '+e.message,1); loadProducts(); })
+      .quarantineProduct(pid,'removed from Products page');
+  } else {
+    
+    google.script.run.withSuccessHandler(function(res){
+      if(res&&res.success){toast('Removed — re-learns if bought again',0);loadProducts();}
+      else toast('Remove failed: '+((res&&res.error)||'unknown'),1);
+    }).withFailureHandler(function(e){toast('Error: '+e.message,1)})
+      .quarantineProduct(pid,'removed from Products page');
+  }
+}
+
+var _measureCtxByPid={}; 
+
+function renderDetail(pid,data){
+  var el=document.getElementById('dp_'+pid);if(!el)return;
+  var p=data.product,timeline=data.priceTimeline||[],changes=data.priceChanges||[],pubCosts=data.pubCosts||{};
+  var menuPricing=data.menuPricing||[];
+  var aiServing=data.aiServing||null;
+  var mc=data.measureContext||null;
+  if(mc){
+    if(!mc.productName&&data.product&&data.product.name) mc.productName=data.product.name;
+    _measureCtxByPid[pid]=mc;
+  }
+  var historyUnit=(data.historyUnit||p.baseUnit||'').toString().toLowerCase().trim();
+  if(historyUnit==='litre'||historyUnit==='liter') historyUnit='l';
+  var historyCostLabel=data.historyCostLabel||(historyUnit?('ÃÂÃÂ£/'+historyUnit):'Cost');
+  var cost=p.currentCost||0,sell=p.sellingPrice||0;
+  var portions=parseFloat(p.portionsPerPack)||0;
+  var packCostForEcon=parseFloat(p.packCost)||0;
+  if(!(packCostForEcon>0)) packCostForEcon=cost;
+  var wastage=parseFloat(p.wastage)||0;
+  // Prefer Measure A (£/pint etc). Falling back to currentCost/portions wrongly uses pack £ as cost/serve when portionsPerPack is missing.
+  var measureCost=0;
+  try{ measureCost=productCostPerMeasure_(p)||0; }catch(_e){ measureCost=parseFloat(p.costPerBaseUnit)||0; }
+  if(!(portions>0) && measureCost>0 && packCostForEcon>measureCost*2){
+    portions=Math.round((packCostForEcon/measureCost)*100)/100;
+  }
+  if(!(portions>0)){
+    // Derive from pack size text when possible (50L keg, 9 gal, …)
+    var packTxt=((p.packDescription||p.packDesc||p.name||'')+'').toLowerCase();
+    var gm=packTxt.match(/(\d+(?:\.\d+)?)\s*gal(?:lon)?s?\b/);
+    var lm=packTxt.match(/(\d+(?:\.\d+)?)\s*l(?:tr|itre)?s?\b/);
+    if(gm){ var g=parseFloat(gm[1]); if(g>=4&&g<=22) portions=g*8; }
+    else if(lm){ var L=parseFloat(lm[1]); if(L>=5&&L<=100) portions=L/0.56826125; }
+  }
+  var cpp=portions>0?(packCostForEcon/portions):cost;
+  var effectivePortions=portions>0?portions*(1-wastage/100):0;
+  var cppFromPack=effectivePortions>0?(packCostForEcon/effectivePortions):(portions>0?cpp:0);
+  var cppEffective=0;
+  if(measureCost>0){
+    cppEffective=measureCost;
+    // If measure cost looks like pack £ stuck in Measure A, prefer divided pack
+    if(cppEffective>20 && cppFromPack>0 && cppFromPack<20) cppEffective=cppFromPack;
+  } else if(cppFromPack>0){
+    cppEffective=cppFromPack;
+  } else {
+    cppEffective=cpp;
+  }
+  // Final guard for draught/pint products: never treat a keg/cask £ as cost/serve
+  if(cppEffective>20){
+    var isPintLike=false;
+    try{ isPintLike=isDraughtProduct_(p)||productMeasure_(p)==='pint'; }catch(_e2){ isPintLike=/pint/i.test(String(p.baseUnit||'')); }
+    if(isPintLike && cppFromPack>0 && cppFromPack<=20) cppEffective=cppFromPack;
+    else if(isPintLike && measureCost>0 && measureCost<=20) cppEffective=measureCost;
+  }
+  var vatR=parseFloat(p.vatRate)||0.2;var sellExVAT=sell/(1+vatR);
+  var gp=sellExVAT>0&&cppEffective>0?((sellExVAT-cppEffective)/sellExVAT*100):0;
+  var tgp=p.targetGP||0;
+  var gpCls=gp>=tgp?'green':gp>=tgp-10?'amber':'red';
+
+  var h='<div class="dp-grid"><div>';
+
+  
+  
+  
+  h+='<div style="text-align:right;margin-bottom:6px;">'+
+     '<button onclick="removeProduct(''+pid+'')" '+
+     'style="padding:4px 10px;border:1px solid #e5b4b4;border-radius:6px;background:#fff5f5;'+
+     'color:#b91c1c;font-size:11px;font-family:inherit;cursor:pointer;">'+
+     '������ Remove — re-learn on next invoice</button></div>';
+
+  
+  h+=measureNailDownHtml_(pid,p,mc);
+
+  
+
+  
+  if(activeDept==='Bar'){
+    h+=measureBasisCard_(p,{dept:'bar'});
+    
+    if(/wine/i.test(String(p.category||''))){
+      h+=wineGlassPricingCard_(p);
+    }
+    h+='<div class="dp-sect"><h4>GP</h4><div class="dp-kpi" style="grid-template-columns:1fr 1fr">';
+    h+='<div class="dp-kpi-card '+gpCls+'"><div class="kv">'+(gp>0?gp.toFixed(1)+'%':'â')+'</div><div class="kl">GP (tgt '+tgp+'%)</div></div>';
+    h+='<div class="dp-kpi-card blue"><div class="kv">'+fmtP(cppEffective)+'</div><div class="kl">Cost / Serve</div></div>';
+    h+='</div></div>';
+    if(p.packDescription||p.portionDescription){
+      h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px">';
+      if(p.packDescription)h+='<div style="margin-bottom:4px"><strong>ÃÂ°ÃÂÃÂÃÂ¦ Pack:</strong> '+esc(p.packDescription)+'</div>';
+      if(p.portionDescription)h+='<div style="margin-bottom:4px"><strong>ÃÂ°ÃÂÃÂÃÂº One serve:</strong> '+esc(p.portionDescription)+'</div>';
+      if(wastage>0)h+='<div style="color:var(--amber)"><strong>ÃÂ°ÃÂÃÂÃÂÃÂ¯ÃÂ¸ÃÂ Wastage:</strong> '+wastage+'% (effective servings: '+Math.round(effectivePortions)+')</div>';
+      h+='</div>';
+    }
+
+    
+    var spPubKey=pubFilter||'wm';
+    var spPubName=spPubKey==='wm'?'Windmill Inn':'Eight Bells';
+    var spPubLabel=spPubKey==='wm'?'ÃÂ°ÃÂÃÂÃÂ¬ÃÂ¯ÃÂ¸ÃÂ Windmill':'ÃÂ°ÃÂÃÂÃÂ Eight Bells';
+
+    
+    var curPrice=0;
+    if(data.sellPrices){curPrice=spPubKey==='eb'?(data.sellPrices.eb||0):(data.sellPrices.wm||0);}
+    if(!curPrice&&sell)curPrice=sell;
+    var curSellEx=curPrice/(1+vatR);
+    var curGP=curSellEx>0&&cppEffective>0?((curSellEx-cppEffective)/curSellEx*100):0;
+
+    
+    var tgpSellEx=cppEffective>0&&tgp>0?(cppEffective/(1-tgp/100)):0;
+    var tgpSell=tgpSellEx*(1+vatR);
+    var tgpSellRounded=Math.ceil(tgpSell*20)/20;
+    var tgpDiff=curPrice>0?(tgpSellRounded-curPrice):0;
+
+    
+    
+    var maintainSellRounded=0,maintainDiff=0,priorGPval=0;
+    var lastPCEntry=null;
+    for(var ci=changes.length-1;ci>=0;ci--){
+      if(changes[ci].oldCost>0&&changes[ci].oldSell>0){lastPCEntry=changes[ci];break;}
+    }
+    if(lastPCEntry){
+      var prevSellEx=lastPCEntry.oldSell/(1+vatR);
+      priorGPval=prevSellEx>0&&lastPCEntry.oldCost>0?((prevSellEx-lastPCEntry.oldCost)/prevSellEx*100):0;
+      if(priorGPval>0&&cppEffective>0){
+        var mSellEx=cppEffective/(1-priorGPval/100);
+        maintainSellRounded=Math.ceil(mSellEx*(1+vatR)*20)/20;
+        maintainDiff=curPrice>0?(maintainSellRounded-curPrice):0;
+      }
+    }
+
+    var dFmt=function(d){return (d>0?'+':'')+fmtP(d);};
+    var dCls=function(d){return d>0?'color:var(--red)':d<0?'color:var(--green)':'color:var(--muted)';};
+
+    h+='<div class="dp-sect"><h4>ÃÂ°ÃÂÃÂÃÂ·ÃÂ¯ÃÂ¸ÃÂ Sell Price â '+spPubLabel+'</h4>';
+
+    
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">';
+
+    
+    h+='<div style="background:rgba(79,124,255,.08);border:1px solid rgba(79,124,255,.25);border-radius:10px;padding:12px">';
+    h+='<div style="font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Hit GP Target</div>';
+    h+='<div style="font-size:10px;color:var(--muted);margin-bottom:8px">'+tgp+'% â '+esc(p.category)+'</div>';
+    if(tgpSellRounded>0){
+      h+='<div style="font-size:26px;font-weight:800;font-family:DM Mono;line-height:1;margin-bottom:6px">'+fmtP(tgpSellRounded)+'</div>';
+      if(curPrice>0){
+        h+='<div style="font-size:12px;font-weight:600;'+dCls(tgpDiff)+'">';
+        h+=(tgpDiff===0?'ÃÂ¢ÃÂÃÂ At target already':(tgpDiff>0?'ÃÂ¢ÃÂÃÂ² ':'ÃÂ¢ÃÂÃÂ¼ ')+dFmt(tgpDiff)+' vs current');
+        h+='</div>';
+      }
+    } else {
+      h+='<div style="font-size:13px;color:var(--muted);margin-top:8px">No target set</div>';
+    }
+    h+='</div>';
+
+    
+    h+='<div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:10px;padding:12px">';
+    h+='<div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Maintain GP</div>';
+    if(maintainSellRounded>0){
+      h+='<div style="font-size:10px;color:var(--muted);margin-bottom:8px">Was '+priorGPval.toFixed(1)+'% before cost rose</div>';
+      h+='<div style="font-size:26px;font-weight:800;font-family:DM Mono;line-height:1;margin-bottom:6px">'+fmtP(maintainSellRounded)+'</div>';
+      if(curPrice>0){
+        h+='<div style="font-size:12px;font-weight:600;'+dCls(maintainDiff)+'">';
+        h+=(maintainDiff===0?'ÃÂ¢ÃÂÃÂ GP maintained':(maintainDiff>0?'ÃÂ¢ÃÂÃÂ² ':'ÃÂ¢ÃÂÃÂ¼ ')+dFmt(maintainDiff)+' vs current');
+        h+='</div>';
+      }
+    } else {
+      h+='<div style="font-size:10px;color:var(--muted);margin-bottom:8px">Prior GP before cost rise</div>';
+      h+='<div style="font-size:13px;color:var(--muted);margin-top:8px">No cost change on record</div>';
+    }
+    h+='</div>';
+
+    h+='</div>'; 
+
+    
+    if(curPrice>0){
+      
+      var exactTargetSellDet=cppEffective>0&&tgp>0?(cppEffective/(1-tgp/100))*(1+vatR):0;
+      var nearestFivepDet=Math.ceil(exactTargetSellDet*20)/20;
+      var isRoundingDiffDet=tgp>0&&Math.abs(curGP-tgp)<=1&&Math.abs(curPrice-nearestFivepDet)<=0.05;
+      var gpBarCls=curGP>=tgp?'var(--green)':curGP>=tgp-10?'var(--amber)':'var(--red)';
+      h+='<div style="display:flex;align-items:center;gap:10px;font-size:12px;padding:7px 10px;background:var(--surface);border-radius:7px;margin-bottom:8px">';
+      h+='<span style="color:var(--muted)">Current:</span> <strong>'+fmtP(curPrice)+'</strong>';
+      h+='<span style="font-weight:700;color:'+gpBarCls+'" title="'+(isRoundingDiffDet?curGP.toFixed(1)+'% â on target (ÃÂÃÂ±5p rounding)':'Exact GP at this price')+'">'+(isRoundingDiffDet?'ÃÂ¢ÃÂÃÂ':'')+curGP.toFixed(1)+'% GP</span>';
+      if(isRoundingDiffDet) h+='<span style="color:var(--green);margin-left:auto">ÃÂ¢ÃÂÃÂ On target <span style="font-size:10px;opacity:.7">(ÃÂÃÂ±5p rounding)</span></span>';
+      else if(curGP<tgp) h+='<span style="color:var(--red);margin-left:auto">'+fmtP(Math.abs(tgpDiff))+' below target</span>';
+      else if(curGP>tgp) h+='<span style="color:var(--green);margin-left:auto">'+curGP.toFixed(1)+'% â above target</span>';
+      else h+='<span style="color:var(--green);margin-left:auto">ÃÂ¢ÃÂÃÂ On target</span>';
+      h+='</div>';
+    }
+
+    
+    var inpGpCls=curGP>=tgp?'var(--green)':curGP>=tgp-10?'var(--amber)':'var(--red)';
+    h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px">';
+    
+    
+    h+='<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">ÃÂ¢ÃÂÃÂÃÂ¯ÃÂ¸ÃÂ Edit Prices â '+spPubLabel+'</div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">';
+    
+    
+    h+='<div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px">PACK COST (ÃÂÃÂ£)</div>';
+    h+='<div style="display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden">';
+    h+='<span style="padding:6px 8px;background:var(--surface2);font-size:12px;font-weight:700;color:var(--muted)">ÃÂÃÂ£</span>';
+    h+='<input type="number" step="0.01" min="0" style="border:none;outline:none;padding:6px 8px;font-size:14px;font-weight:700;font-family:DM Mono;width:100%;background:var(--bg)" id="pc_'+pid+'" value="'+(cost?(cost.toFixed?cost.toFixed(2):cost):'')+'" oninput="pvCost(''+pid+'','+portions+','+wastage+','+vatR+')">';
+    h+='</div></div>';
+    
+    
+    h+='<div><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px">SELL PRICE (inc VAT)</div>';
+    h+='<div style="display:flex;align-items:center;border:2px solid var(--accent);border-radius:6px;overflow:hidden">';
+    h+='<span style="padding:6px 8px;background:rgba(79,124,255,.1);font-size:12px;font-weight:700;color:var(--accent)">ÃÂÃÂ£</span>';
+    h+='<input type="number" step="0.05" min="0" style="border:none;outline:none;padding:6px 8px;font-size:14px;font-weight:700;font-family:DM Mono;width:100%;background:var(--bg)" id="sp_'+pid+'" value="'+(curPrice?(curPrice.toFixed?curPrice.toFixed(2):curPrice):'')+'" oninput="pvGP(''+pid+'','+cppEffective+','+vatR+')">';
+    h+='</div></div>';
+    
+    h+='</div>'; 
+    
+    
+    h+='<div style="display:flex;align-items:center;gap:8px">';
+    h+='<div style="font-size:14px;font-weight:700;font-family:DM Mono;color:'+inpGpCls+'" id="spGP_'+pid+'">'+(curGP>0?curGP.toFixed(1)+'%':'â')+'</div>';
+    h+='<div style="font-size:11px;color:var(--muted)" id="pcInfo_'+pid+'"></div>';
+    h+='<button class="btn-sm btn-save" style="margin-left:auto" onclick="saveFullPrice(''+pid+'')">Save All</button>';
+    h+='</div>';
+    h+='</div>';
+
+  } else if(activeDept==='Kitchen'){
+    h+=measureBasisCard_(p,{dept:'kitchen'});
+    h+=kitchenPortionContextHtml_(p, aiServing, data.portionData||null);
+    h+=invoicePackAdvancedHtml_(pid,p,cost,portions,wastage,vatR);
+
+  } else {
+    h+='<div class="dp-sect"><h4>ÃÂ°ÃÂÃÂÃÂ· Cost</h4><div class="dp-kpi" style="grid-template-columns:1fr 1fr">';
+    h+='<div class="dp-kpi-card blue"><div class="kv">'+fmtP(cost)+'</div><div class="kl">Last Cost</div></div>';
+    h+='<div class="dp-kpi-card"><div class="kv">'+esc(p.unit||'â')+'</div><div class="kl">Unit</div></div>';
+    h+='</div></div>';
+  }
+
+  
+  if(menuPricing.length>0&&(activeDept==='Bar'||activeDept==='Kitchen')){
+    h+='<div class="dp-sect"><h4>ÃÂ°ÃÂÃÂÃÂ½ÃÂ¯ÃÂ¸ÃÂ Menu Dish Costings ('+menuPricing.length+')</h4>';
+    menuPricing.forEach(function(dish){
+      var dSell=dish.sellPrice||0;
+      var ings=dish.ingredients||[];
+      var ingCost=0;ings.forEach(function(i){ingCost+=i.cost||0});
+      var dSellEx=dSell/(1+vatR);
+      var dGP=dSellEx>0?((dSellEx-ingCost)/dSellEx*100):0;
+      var dGPcls=dGP>=65?'var(--green)':dGP>=50?'var(--amber)':'var(--red)';
+
+      h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:6px">';
+      h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">';
+      h+='<strong style="font-size:13px">'+esc(dish.dish||'')+'</strong>';
+      h+='<span style="font-family:DM Mono;font-weight:700;font-size:14px">'+fmtP(dSell)+'</span>';
+      h+='</div>';
+
+      if(ings.length>0){
+        h+='<div style="font-size:11px;color:var(--muted)">';
+        ings.forEach(function(ing){
+          h+='<div style="display:flex;justify-content:space-between;padding:1px 0">';
+          h+='<span>â¢ '+esc(ing.name||'')+'</span>';
+          h+='<span style="font-family:DM Mono">'+fmtP(ing.cost)+'</span>';
+          h+='</div>';
+        });
+        h+='<div style="display:flex;justify-content:space-between;padding:4px 0 0;border-top:1px solid var(--border);margin-top:4px;font-weight:700;color:var(--text)">';
+        h+='<span>Ingredient cost</span><span style="font-family:DM Mono">'+fmtP(ingCost)+'</span></div>';
+        h+='<div style="display:flex;justify-content:space-between;padding:2px 0">';
+        h+='<span style="font-weight:700">GP%</span><span style="font-family:DM Mono;font-weight:700;color:'+dGPcls+'">'+dGP.toFixed(1)+'%</span></div>';
+        h+='</div>';
+      }
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+
+  
+  if(activeDept!=='Kitchen'&&activeDept!=='Bar'){
+    h+='<div class="dp-sect"><h4>ÃÂ¢ÃÂÃÂÃÂ¯ÃÂ¸ÃÂ Edit Cost & Portions</h4>';
+    h+='<div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px">';
+    var _editPack=parseFloat(p.packCost)||0;
+    if(!(_editPack>0)){
+      var _ebu=(p.baseUnit||p.measure||'').toString().toLowerCase();
+      var _ecp=parseFloat(p.costPerBaseUnit)||0;
+      if(_ecp>0&&(_ebu==='pack'||_ebu==='each')) _editPack=_ecp;
+    }
+    h+='<div class="dp-field-row">';
+    h+='<div class="dp-field"><label>Pack Cost (ÃÂÃÂ£)</label>';
+    h+='<input type="number" step="0.01" min="0" id="ec_cost_'+pid+'" value="'+(_editPack>0?_editPack:(cost||''))+'" style="font-weight:700;font-family:DM Mono,monospace" oninput="ecRecalc(''+pid+'','+portions+','+wastage+','+vatR+')">';
+    h+='</div>';
+    h+='<div class="dp-field"><label>Portions / Pack</label>';
+    h+='<input type="number" step="0.1" min="0" id="ec_portions_'+pid+'" value="'+(portions||'')+'" oninput="ecRecalc(''+pid+'',0,'+wastage+','+vatR+')">';
+    h+='</div>';
+    h+='</div>';
+    h+='<div id="ec_preview_'+pid+'" style="font-size:12px;color:var(--muted);margin:8px 0 10px"></div>';
+    h+='<div style="display:flex;gap:8px">';
+    h+='<button class="btn-sm btn-save" onclick="ecSaveCost(''+pid+'')">ÃÂ°ÃÂÃÂÃÂ¾ Save Cost</button>';
+    h+='<button class="btn-sm" style="background:var(--accent);color:#fff" onclick="ecSavePortions(''+pid+'')">ÃÂ°ÃÂÃÂÃÂ¾ Save Portions</button>';
+    h+='</div>';
+    h+='</div></div>';
+  }
+
+  
+  h+='<div class="dp-sect"><h4>ÃÂ°ÃÂÃÂÃÂ·ÃÂ¯ÃÂ¸ÃÂ Classification</h4>';
+  h+='<div class="dp-field-row">';
+  h+='<div class="dp-field"><label>Department</label><select id="ed_d_'+pid+'" onchange="edDept(''+pid+'')">';
+  ['Bar','Kitchen','Rooms','Joint'].forEach(function(d){h+='<option value="'+d+'"'+(p.department===d?' selected':'')+'>'+d+'</option>'});
+  h+='</select></div>';
+  h+='<div class="dp-field"><label>Category</label><select id="ed_c_'+pid+'">'+buildCatOpts(p.department,p.category)+'</select></div>';
+  h+='</div>';
+  h+='<div class="dp-field"><label>Supplier</label><select id="ed_s_'+pid+'"><option value="">'+esc(p.supplier)+'</option>';
+  supplierList.forEach(function(s){if(s!==p.supplier)h+='<option value="'+esc(s)+'">'+esc(s)+'</option>'});
+  h+='</select></div>';
+  h+='<button class="btn-sm btn-save" onclick="saveClass(''+pid+'')">Save Changes</button>';
+  h+='</div>';
+
+  h+='</div><div>';
+
+  
+
+  
+  h+='<div class="dp-sect"><h4>ÃÂ°ÃÂÃÂÃÂ Price History'+(historyUnit?' <span style="font-size:11px;font-weight:500;color:var(--muted)">('+esc(historyCostLabel)+')</span>':'')+'</h4>';
+  if(historyUnit&&parseFloat(p.costPerBaseUnit)>0){
+    h+='<div style="font-size:11px;color:var(--muted);margin:-4px 0 8px">Plots Measure A ('+esc(historyCostLabel)+'). Older pack-ÃÂÃÂ£ points are converted when pack size is known.</div>';
+  }
+  h+='<div class="chart-box"><canvas id="ch_'+pid+'" width="480" height="280"></canvas></div></div>';
+
+  
+  
+  
+  var logRows=[];
+  var runCost=cost,runSell=sell;
+  
+  if(data.invoiceHistory&&data.invoiceHistory.length>0&&changes.length===0){
+    var firstInv=data.invoiceHistory[0];
+    if(firstInv.unitPrice>0) runCost=firstInv.unitPrice;
+  }
+  
+  changes.forEach(function(c){
+    if(!c.date) return;
+    var newCost=c.newCost>0?c.newCost:runCost;
+    var newSell=c.newSell>0?c.newSell:runSell;
+    var oldCostVal=c.oldCost>0?c.oldCost:runCost;
+    var oldSellVal=c.oldSell>0?c.oldSell:runSell;
+    var newSellEx=newSell/(1+vatR);
+    var oldSellEx=oldSellVal/(1+vatR);
+    var newGP=newSellEx>0&&newCost>0?((newSellEx-newCost)/newSellEx*100):0;
+    var oldGP=oldSellEx>0&&oldCostVal>0?((oldSellEx-oldCostVal)/oldSellEx*100):0;
+    var newMargin=newSellEx-newCost;
+    var oldMargin=oldSellEx-oldCostVal;
+    var costChg=newCost-oldCostVal;
+    var sellChg=newSell-oldSellVal;
+    logRows.push({
+      date:c.date,
+      newCost:newCost,oldCost:oldCostVal,costChg:costChg,costChgPct:oldCostVal>0?(costChg/oldCostVal*100):0,
+      newSell:newSell,oldSell:oldSellVal,sellChg:sellChg,
+      newSellEx:newSellEx,
+      newGP:newGP,oldGP:oldGP,gpChg:newGP-oldGP,
+      newMargin:newMargin,oldMargin:oldMargin,marginChg:newMargin-oldMargin,
+      hasCostChg:Math.abs(costChg)>0.001,
+      hasSellChg:Math.abs(sellChg)>0.001
+    });
+    runCost=newCost; runSell=newSell;
+  });
+  var logDesc=logRows.slice().reverse();
+
+  
+  if(logDesc.length>0){
+    
+    var hasCost=logDesc.some(function(r){return r.hasCostChg;});
+    var hasSell=logDesc.some(function(r){return r.hasSellChg;});
+    
+    var _measuredLog=(parseFloat(p.packSizeValue)||0)>0 && !!(p.baseUnit||p.packSizeUnit) && (!portions||portions<=1);
+    var _costColLbl=historyUnit?historyCostLabel:(_measuredLog?'Unit Price':'Cost/Serve');
+    var showToggle=logDesc.length>3;
+    var tblId='cht_'+pid;
+    h+='<div class="dp-sect">';
+    h+='<h4 style="display:flex;align-items:center;gap:8px">ÃÂ°ÃÂÃÂÃÂ Price Change Log';
+    if(showToggle) h+='<button onclick="toggleHist(''+tblId+'')" style="font-size:10px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:var(--surface);cursor:pointer;color:var(--muted)">Show all</button>';
+    h+='</h4>';
+    h+='<div style="overflow-x:auto"><table class="htbl" id="'+tblId+'">';
+    h+='<thead><tr><th>Date</th>';
+    if(hasCost) h+='<th class="r">'+_costColLbl+'</th><th class="r">ÃÂÃÂ Cost</th>';
+    if(hasSell) h+='<th class="r">Sell (inc VAT)</th><th class="r">ÃÂÃÂ Sell</th>';
+    if(!_measuredLog) h+='<th class="r">GP%</th><th class="r">Margin ÃÂÃÂ£</th>';
+    h+='</tr></thead><tbody>';
+    logDesc.forEach(function(r,ri){
+      var hidden=showToggle&&ri>=3?' style="display:none" class="hist-extra-'+pid+'"':' class="hist-extra-'+pid+'"';
+      var gpCls=r.newGP>=tgp?'dn':r.newGP>=tgp-10?'':'up';
+      var mCls=r.newMargin>=2?'dn':r.newMargin>=1?'':'up';
+      h+='<tr'+hidden+'>';
+      h+='<td style="white-space:nowrap">'+esc(r.date)+'</td>';
+      if(hasCost){
+        var cCls=r.costChg>0.001?'up':r.costChg<-0.001?'dn':'';
+        h+='<td class="r" style="font-weight:600">'+fmtP(r.newCost)+'</td>';
+        if(r.costChgPct<-90 && r.oldCost>50 && r.newCost>0 && r.newCost<10){
+          h+='<td class="r" style="color:var(--muted)" title="Pack £ rewritten as £/measure — not a real price crash">pack→pint basis</td>';
+        } else {
+          h+='<td class="r '+cCls+'">'+(Math.abs(r.costChg)>0.001?((r.costChg>0?'+':'')+fmtP(r.costChg)+' ('+(r.costChg>0?'+':'')+Math.round(r.costChgPct)+'%)'):'—')+'</td>';
+        }
+      }
+      if(hasSell){
+        var sCls=r.sellChg>0.001?'dn':r.sellChg<-0.001?'up':'';
+        h+='<td class="r" style="font-weight:600">'+fmtP(r.newSell)+'</td>';
+        h+='<td class="r '+sCls+'">'+(Math.abs(r.sellChg)>0.001?((r.sellChg>0?'+':'')+fmtP(r.sellChg)):'â')+'</td>';
+      }
+      if(!_measuredLog){
+        h+='<td class="r '+gpCls+'" style="font-weight:700">'+r.newGP.toFixed(1)+'%';
+        if(Math.abs(r.gpChg)>0.05) h+=' <span style="font-size:10px;font-weight:400">'+(r.gpChg>0?'+':'')+r.gpChg.toFixed(1)+'pp</span>';
+        h+='</td>';
+        h+='<td class="r '+mCls+'" style="font-weight:700">'+fmtP(r.newMargin);
+        if(Math.abs(r.marginChg)>0.01) h+=' <span style="font-size:10px;font-weight:400">'+(r.marginChg>0?'+':'')+fmtP(r.marginChg)+'</span>';
+        h+='</td>';
+      }
+      h+='</tr>';
+    });
+    h+='</tbody></table></div></div>';
+  }
+
+  
+  if(menuPricing.length===0&&p.menuDishes){
+    h+='<div class="dp-sect"><h4>ÃÂ°ÃÂÃÂÃÂ½ÃÂ¯ÃÂ¸ÃÂ Menu Usage</h4><div style="font-size:12px;color:var(--muted)">'+esc(p.menuDishes)+'</div></div>';
+  }
+
+  h+='</div></div>';
+  el.innerHTML=h;
+  setTimeout(function(){
+    drawChart(pid,timeline,changes,{unitLabel:historyUnit,costLabel:historyCostLabel});
+    mnInit_(pid);
+  },100);
+}
+
+
+
+
+
+function buildAllCatOpts(sel){
+  var h='<option value="">-- Select category --</option>';
+  ['Bar','Kitchen','Rooms','Joint'].forEach(function(dept){
+    var cats=categoryConfig[dept]||[];
+    if(!cats.length)return;
+    h+='<optgroup label="'+dept+'">';
+    cats.forEach(function(c){h+='<option value="'+esc(c.name)+'"'+(c.name===sel?' selected':'')+'>'+esc(c.subcategory||c.name)+'</option>'});
+    h+='</optgroup>';
+  });
+  return h;
+}
+function clServeOpts(sel,detected){
+  var units=['each','kg','litre','ml','25ml','50ml','125ml','175ml','250ml','pint','bottle'];
+  var h='<option value="">auto-detect'+(detected?' ('+detected+')':'')+'</option>';
+  units.forEach(function(u){h+='<option value="'+u+'"'+(u===sel?' selected':'')+'>per '+u+'</option>'});
+  return h;
+}
+function clServeHintHtml(s){
+  if(s&&s.serveLabel){
+    var cp=(s.costPerServe!=null&&s.costPerServe>0)?fmtP(s.costPerServe):'â';
+    var basis='';
+    if(s.costBasis==='invoice')basis=' <span class="cl-basis">cost from invoice</span>';
+    else if(s.costBasis==='none'||cp==='â')basis=' <span class="cl-basis">no cost on file</span>';
+    var dil=(s.dilutionRatio&&s.ratioAssumed)?' <span class="cl-basis" style="color:#b45309">ÃÂ¢ÃÂÃÂ  assumes '+esc(String(s.dilutionRatio))+':1 dilution</span>':'';
+    return '<span class="cl-serve-ok">ÃÂ¢ÃÂÃÂ stores '+cp+' / '+esc(s.serveLabel)+'</span>'+basis+dil;
+  }
+  return '<span class="cl-serve-warn">ÃÂ¢ÃÂÃÂ  unit not detected â set "sold by"</span>';
+}
+function clUpdatePreview(pid){
+  var catEl=document.getElementById('clc_'+pid);if(!catEl)return;
+  var cat=catEl.value;
+  var su=document.getElementById('clu_'+pid);
+  var serveUnit=su?su.value:'';
+  var hint=document.getElementById('clhint_'+pid);
+  if(!cat){if(hint)hint.innerHTML=clServeHintHtml(clSugg[pid]||null);return}
+  if(hint)hint.innerHTML='<span style="color:var(--muted)">re-checking unitâ¦</span>';
+  google.script.run.withSuccessHandler(function(s){
+    if(hint)hint.innerHTML=clServeHintHtml(s);
+    if(s){var keep=clSugg[pid]||{};s.suggestedCategory=keep.suggestedCategory;clSugg[pid]=s;}
+    var su2=document.getElementById('clu_'+pid);
+    if(su2&&su2.value===''&&su2.options.length&&s)su2.options[0].text='auto-detect'+(s.serveLabel?' ('+s.serveLabel+')':'');
+    var panel=document.getElementById('clwork_'+pid);
+    if(panel&&panel.style.display!=='none')panel.innerHTML=clWorkingsHtml(pid);
+  }).withFailureHandler(function(){if(hint)hint.innerHTML=clServeHintHtml(null)}).suggestServeForCategory(pid,cat,serveUnit);
+}
+function clCatChanged(pid){var su=document.getElementById('clu_'+pid);if(su)su.value='';clUpdatePreview(pid)} 
+function clSoldByChanged(pid){clUpdatePreview(pid)}
+function clFindProduct(pid){for(var i=0;i<allProducts.length;i++){if(allProducts[i].productId===pid)return allProducts[i]}return null}
+function clToggleWork(pid){
+  var panel=document.getElementById('clwork_'+pid),tog=document.getElementById('clwt_'+pid);
+  if(!panel)return;
+  if(panel.style.display==='none'){panel.innerHTML=clWorkingsHtml(pid);panel.style.display='block';if(tog)tog.textContent='ÃÂ°ÃÂÃÂÃÂ hide workings';}
+  else{panel.style.display='none';if(tog)tog.textContent='ÃÂ°ÃÂÃÂÃÂ show workings';}
+}
+function clPct(r){return (Math.round((Number(r)||0)*1000)/10)+'%'}
+function clWorkingsHtml(pid){
+  var s=clSugg[pid]||{},p=clFindProduct(pid)||{},inv=s.line;
+  var h='';
+  
+  if(inv){
+    h+='<div style="font-weight:600;margin-bottom:3px">Invoice line</div>'+
+       '<table><tr><th>Item</th><th>Units</th><th>Unit cost</th><th>Net</th><th>VAT</th><th>Gross</th></tr>'+
+       '<tr><td>'+esc(inv.desc||'')+'</td>'+
+       '<td>'+esc(String(inv.qty||0))+(inv.uom?' '+esc(inv.uom):'')+'</td>'+
+       '<td>'+fmtP(inv.unitPrice||0)+'</td>'+
+       '<td>'+fmtP(inv.lineNet!=null?inv.lineNet:(inv.lineTotal||0))+'</td>'+
+       '<td>'+clPct(inv.vatRate||0)+(inv.vatAmt?' ('+fmtP(inv.vatAmt)+')':'')+'</td>'+
+       '<td>'+fmtP(inv.gross||0)+'</td></tr></table>'+
+       (inv.date?'<div style="color:var(--muted);margin-bottom:6px">invoice dated '+esc(inv.date)+'</div>':'');
+  }else{
+    h+='<div style="color:var(--muted);margin-bottom:6px">No matching invoice line on file for this product name.</div>';
+  }
+  
+  h+='<div style="font-weight:600;margin-bottom:3px">How the per-unit cost is worked out</div>';
+  if(!s.serveLabel){
+    h+='<div class="cl-step">No unit could be derived yet â pick a category, or set "Sold by".</div>';
+    return h;
+  }
+  var packTxt = s.packLabel || (s.packSizeVal?(s.packSizeVal+(s.packSizeUnit||'')):'(not parsed from name)');
+  h+='<div class="cl-step">â¢ Pack size: <b>'+esc(packTxt)+'</b></div>';
+  if(s.dilutionRatio){
+    h+='<div class="cl-step">â¢ Assumed dilution <b>'+esc(String(s.dilutionRatio))+':1</b> ÃÂ¢ÃÂÃÂ <b>'+esc(String(s.yieldLitres||''))+' L</b> finished drink'+
+       (s.ratioAssumed?' <span style="color:#b45309">(default â no ratio in the name; rename e.g. "7:1" to set the real one)</span>':'')+'</div>';
+  }
+  if(s.wastage)h+='<div class="cl-step">â¢ Less <b>'+esc(String(s.wastage))+'%</b> wastage</div>';
+  if(s.serveSizeVal&&s.servesPerPack)h+='<div class="cl-step">â¢ Serve size <b>'+esc(String(s.serveSizeVal))+' '+esc(s.serveUnit||s.serveLabel)+'</b> ÃÂ¢ÃÂÃÂ <b>'+esc(String(s.servesPerPack))+'</b> per pack</div>';
+  var basisTxt=s.costBasis==='last cost'?'Last Cost':(s.costBasis==='invoice'?'invoice unit price':'no cost on file');
+  h+='<div class="cl-step">â¢ Cost basis: <b>'+fmtP(s.effectiveCost||0)+'</b> ('+esc(basisTxt)+')</div>';
+  if(s.servesPerPack){
+    h+='<div class="cl-step cl-step-final">'+fmtP(s.effectiveCost||0)+' ÃÂÃÂ· '+esc(String(s.servesPerPack))+' = <b>'+fmtP(s.costPerServe||0)+' per '+esc(s.serveLabel)+'</b></div>';
+  }else if(s.packSizeVal){
+    h+='<div class="cl-step cl-step-final">'+fmtP(s.effectiveCost||0)+' ÃÂÃÂ· '+esc(String(s.packSizeVal))+' '+esc(s.packSizeUnit||'')+' = <b>'+fmtP(s.costPerServe||0)+' per '+esc(s.serveLabel)+'</b></div>';
+  }else{
+    h+='<div class="cl-step cl-step-final"><b>'+fmtP(s.costPerServe||0)+' per '+esc(s.serveLabel)+'</b></div>';
+  }
+  return h;
+}
+function clSelected(){return Array.prototype.slice.call(document.querySelectorAll('.cl-cb:checked')).map(function(c){return c.value})}
+function clSelCount(){
+  var n=clSelected().length;
+  var el=document.getElementById('clSelCount');if(el)el.textContent=n;
+  var el2=document.getElementById('clSelCountMain');if(el2)el2.textContent=n;
+  var b=document.getElementById('clBulkBtn');if(b)b.disabled=(n===0||!(document.getElementById('clBulkCat')&&document.getElementById('clBulkCat').value));
+  var d=document.getElementById('clDeferBtn');if(d)d.disabled=(n===0);
+}
+function clToggleAll(cb){document.querySelectorAll('.cl-cb').forEach(function(c){c.checked=cb.checked});clSelCount()}
+function clHeaderCounts(){
+  var n=document.querySelectorAll('.cl-row').length;
+  document.getElementById('topCount').textContent=n+'/'+(deptCounts['Unclassified']||0);
+  document.getElementById('fCount').textContent=n+' products';
+  if(!n)render();
+}
+function renderClassify(items){
+  document.getElementById('summary').innerHTML='';
+  if(!items.length){
+    document.getElementById('content').innerHTML='<div class="empty-state">ÃÂ°ÃÂÃÂÃÂ Nothing left to classify here. Classified products are matched automatically on future invoices, so they stop raising questions.</div>';
+    return;
+  }
+  var n=items.length;
+  var hero='<div class="cl-hero">'+
+    '<div class="cl-hero-text"><h3>These need Questions â not a quick category click</h3>'+
+    '<p>This screen can’t show the invoice PDF or let you set <b>Record cost as</b> (ÃÂÃÂ£/kg, ÃÂÃÂ£/l, ÃÂÃÂ£/each). Send them into Questions: you get the document, VAT basis, and full measure controls. Answering updates the same product row.</p></div>'+
+    '<div class="cl-hero-actions">'+
+      '<button class="cl-btn-primary" id="clDeferAllBtn" onclick="clDeferAll()">Send all '+n+' to Questions ÃÂ¢ÃÂÃÂ</button>'+
+      '<button class="cl-btn-ghost" id="clDeferBtn" disabled onclick="clDefer()">Send selected</button>'+
+      '<button class="cl-btn-ghost" type="button" onclick="clToggleQuickClassify()">Show quick category (no measure)</button>'+
+    '</div></div>';
+  var twin='<label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;margin-left:auto" class="cl-quick"><input type="checkbox" id="clTwin"> also apply to the same product in the other pub</label>';
+  var bulk='<div class="cl-bulkbar cl-quick">'+
+    '<label class="cl-btn-sm"><input type="checkbox" onchange="clToggleAll(this)" style="margin-right:5px">Select all</label>'+
+    '<span class="cl-selcount" id="clSelCount">0</span><span style="color:var(--muted);font-size:12px">selected ÃÂ¢ÃÂÃÂ</span>'+
+    '<select id="clBulkCat" onchange="clSelCount()">'+buildAllCatOpts('')+'</select>'+
+    '<button class="cl-btn" id="clBulkBtn" disabled onclick="clBulk()">Classify selected</button>'+
+    twin+'</div>';
+  
+  var selBar='<div class="cl-bulkbar" id="clSelBar">'+
+    '<label class="cl-btn-sm"><input type="checkbox" id="clSelAllMain" onchange="clToggleAll(this)" style="margin-right:5px">Select all</label>'+
+    '<span class="cl-selcount" id="clSelCountMain">0</span><span style="color:var(--muted);font-size:12px">selected</span>'+
+    '</div>';
+  var rows='';
+  items.forEach(function(p){
+    var tag='';var t=(p.pubTag||'').toString().toLowerCase();
+    if(t==='wm'||t==='windmill'||t==='windmill inn')tag='<span class="cl-tag cl-tag-wm">WM</span>';
+    else if(t==='eb'||t==='eight bells')tag='<span class="cl-tag cl-tag-eb">EB</span>';
+    var sg=clSugg[p.productId]||{};
+    var sgCat=sg.suggestedCategory||'';
+    var serveHint=clServeHintHtml(sg);
+    var inv=sg.line;
+    var invHtml=inv?('<div class="cl-inv">ÃÂ°ÃÂÃÂÃÂ '+esc(inv.desc)+' &nbsp;ÃÂÃÂ·&nbsp; bought <b>'+esc(String(inv.qty))+(inv.uom?' '+esc(inv.uom):'')+'</b> @ '+fmtP(inv.unitPrice)+((inv.lineTotal!=null&&inv.qty&&Number(inv.qty)!==1)?' = <b>'+fmtP(inv.lineTotal)+'</b>':'')+(inv.date?' &nbsp;ÃÂÃÂ·&nbsp; '+esc(inv.date):'')+'</div>'):'<div class="cl-inv cl-inv-none">ÃÂ°ÃÂÃÂÃÂ no matching invoice line found â Questions will still open with whatever is on file</div>';
+    rows+='<div class="cl-row'+(sgCat?' cl-suggested':'')+'" id="clrow_'+esc(p.productId)+'">'+
+      '<input type="checkbox" class="cl-cb" value="'+esc(p.productId)+'" onchange="clSelCount()">'+
+      '<div><div class="cl-nm">'+classifyNameLink_(p, tag)+'</div><div class="cl-meta">'+esc(p.supplier||'â')+' ÃÂÃÂ· '+fmtP(p.cost)+' &nbsp; <span id="clhint_'+esc(p.productId)+'">'+serveHint+'</span></div>'+invHtml+
+        '<div class="cl-worktoggle" id="clwt_'+esc(p.productId)+'" onclick="clToggleWork(''+esc(p.productId)+'')">ÃÂ°ÃÂÃÂÃÂ show workings</div>'+
+        '<div class="cl-work" id="clwork_'+esc(p.productId)+'" style="display:none"></div>'+
+      '</div>'+
+      '<select class="cl-quick" id="clc_'+esc(p.productId)+'" onchange="clCatChanged(''+esc(p.productId)+'')">'+buildAllCatOpts(sgCat)+'</select>'+
+      '<select class="cl-quick" id="clu_'+esc(p.productId)+'" class="cl-soldby" title="Sold by â leave on auto-detect unless wrong" onchange="clSoldByChanged(''+esc(p.productId)+'')">'+clServeOpts('',esc(sg.serveLabel||''))+'</select>'+
+      '<button class="cl-btn cl-quick" onclick="clClassify(''+esc(p.productId)+'')">ÃÂ¢ÃÂÃÂ Classify</button>'+
+      '<a class="cl-btn" data-nav-page="questions" href="'+esc(pageHref('questions'))+'" style="background:#b45309;border-color:#92400e;color:#fff" onclick="return clSendOneClick(event,''+esc(p.productId)+'')">ÃÂ¢ÃÂÃÂ Questions</a>'+
+      '</div>';
+  });
+  document.getElementById('content').innerHTML=hero+selBar+bulk+'<div id="clList">'+rows+'</div>';
+  clSelCount();
+}
+function clToggleQuickClassify(){
+  var list=document.getElementById('clList');
+  var bar=document.querySelector('.cl-bulkbar.cl-quick');
+  if(!list)return;
+  var on=list.classList.toggle('cl-list-show-quick');
+  if(bar)bar.style.display=on?'flex':'none';
+  var btn=document.querySelector('.cl-hero-actions .cl-btn-ghost:last-child');
+  
+}
+function clSendOneClick(e, pid){
+  if(e && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1)) return true;
+  if(e) e.preventDefault();
+  clSendOne(pid);
+  return false;
+}
+function clSendOne(pid){
+  if(!pid)return;
+  google.script.run.withSuccessHandler(function(r){
+    if(!r||!r.success){toast((r&&r.error)||'Enqueue failed',1);return}
+    if(r.queued>0){toast('Opened in Questions');nv('questions');}
+    else if(r.skippedPending){toast('Already in Questions');nv('questions');}
+    else toast(r.message||'Nothing queued',1);
+  }).withFailureHandler(function(e){toast((e&&e.message)||'Enqueue failed',1)}).enqueueUnclassifiedToQuestions([pid]);
+}
+function clMeltAndRemove(pid){
+  var row=document.getElementById('clrow_'+pid);
+  if(row){row.classList.add('cl-melting');setTimeout(function(){if(row&&row.parentNode)row.remove()},560);}
+  for(var i=0;i<allProducts.length;i++){if(allProducts[i].productId===pid){allProducts.splice(i,1);break}}
+  deptCounts['Unclassified']=Math.max(0,(deptCounts['Unclassified']||0)-1);
+}
+function clClassify(pid){
+  var sel=document.getElementById('clc_'+pid);if(!sel)return;
+  var cat=sel.value;if(!cat){toast('Pick a category first',1);return}
+  var su=document.getElementById('clu_'+pid);var serveUnit=su?su.value:'';
+  var twin=!!(document.getElementById('clTwin')&&document.getElementById('clTwin').checked);
+  sel.disabled=true;
+  google.script.run.withSuccessHandler(function(r){
+    if(!r||!r.success){toast((r&&r.error)||'Failed',1);sel.disabled=false;return}
+    if(r.department)deptCounts[r.department]=(deptCounts[r.department]||0)+1;
+    var msg='Classified ÃÂ¢ÃÂÃÂ '+r.department;
+    if(r.costPerServe!=null)msg+=' ÃÂÃÂ· '+fmtP(r.costPerServe)+'/'+(r.serveUnit||'unit');
+    if(r.questionsResolved)msg+=' ÃÂÃÂ· '+r.questionsResolved+' question'+(r.questionsResolved>1?'s':'')+' cleared';
+    if(r.twin&&r.twin.productId){if(r.department)deptCounts[r.department]=(deptCounts[r.department]||0)+1;clMeltAndRemove(r.twin.productId);msg+=' ÃÂÃÂ· other pub too'}
+    toast(msg);
+    clMeltAndRemove(pid);
+    setTimeout(function(){buildDeptBar();clHeaderCounts()},580);
+  }).withFailureHandler(function(e){toast((e&&e.message)||'Failed',1);sel.disabled=false}).classifyProduct(pid,cat,twin,serveUnit);
+}
+function clBulk(){
+  var cat=document.getElementById('clBulkCat').value;if(!cat){toast('Pick a category',1);return}
+  var pids=clSelected();if(!pids.length){toast('Select some products',1);return}
+  var twin=!!(document.getElementById('clTwin')&&document.getElementById('clTwin').checked);
+  var btn=document.getElementById('clBulkBtn');btn.disabled=true;btn.textContent='Classifying '+pids.length+'â¦';
+  google.script.run.withSuccessHandler(function(r){
+    btn.textContent='Classify selected';
+    if(!r||!r.success){toast((r&&r.error)||'Bulk failed',1);btn.disabled=false;return}
+    var ids=(r.ids&&r.ids.length)?r.ids:pids;
+    if(r.department)deptCounts[r.department]=(deptCounts[r.department]||0)+ids.length;
+    ids.forEach(function(pid){clMeltAndRemove(pid)});
+    var msg='Classified '+(r.classified||0)+' product'+((r.classified||0)!==1?'s':'');
+    if(r.twinCount)msg+=' (+'+r.twinCount+' in other pub)';
+    if(r.questionsResolved)msg+=' ÃÂÃÂ· '+r.questionsResolved+' questions cleared';
+    toast(msg);
+    setTimeout(function(){buildDeptBar();clHeaderCounts()},580);
+  }).withFailureHandler(function(e){btn.textContent='Classify selected';btn.disabled=false;toast((e&&e.message)||'Bulk failed',1)}).classifyProductsBulk(pids,cat,twin);
+}
+function clDefer(){
+  var pids=clSelected();if(!pids.length){toast('Select some products first',1);return}
+  if(!confirm('Send '+pids.length+' product'+(pids.length>1?'s':'')+' to Questions NOW?
+
+Creates Pending Questions from each product’s latest invoice line (with PDF where available). They stay on Product Master â answering updates the same row, no duplicates.')) return;
+  var btn=document.getElementById('clDeferBtn');btn.disabled=true;var was=btn.textContent;btn.textContent='Sending '+pids.length+'â¦';
+  google.script.run.withSuccessHandler(function(r){
+    btn.textContent=was;btn.disabled=false;
+    if(!r||!r.success){toast((r&&r.error)||'Enqueue failed',1);return}
+    toast('Queued '+(r.queued||0)+' into Questions'+(r.skippedPending?(' ÃÂÃÂ· '+r.skippedPending+' already pending'):'')+(r.noInvoiceLine?(' ÃÂÃÂ· '+r.noInvoiceLine+' with no invoice line'):''));
+    if(r.queued>0&&confirm('Open Questions now?')){nv('questions');}
+  }).withFailureHandler(function(e){btn.textContent=was;btn.disabled=false;toast((e&&e.message)||'Enqueue failed',1)}).enqueueUnclassifiedToQuestions(pids);
+}
+function clDeferAll(){
+  var n=deptCounts['Unclassified']||0;
+  if(!n){toast('Nothing unclassified',1);return}
+  if(!confirm('Send ALL '+n+' unclassified products to Questions NOW?
+
+This creates Pending Questions from latest invoice lines. Safe to re-run â already-pending items are skipped.')) return;
+  var btn=document.getElementById('clDeferAllBtn');if(btn){btn.disabled=true;btn.textContent='Sending allâ¦';}
+  google.script.run.withSuccessHandler(function(r){
+    if(btn){btn.disabled=false;btn.textContent='Send ALL to Questions';}
+    if(!r||!r.success){toast((r&&r.error)||'Enqueue failed',1);return}
+    toast('Queued '+(r.queued||0)+' into Questions'+(r.skippedPending?(' ÃÂÃÂ· '+r.skippedPending+' already pending'):'')+(r.noInvoiceLine?(' ÃÂÃÂ· '+r.noInvoiceLine+' with no invoice line'):''));
+    if(r.queued>0&&confirm('Open Questions now?')){nv('questions');}
+  }).withFailureHandler(function(e){if(btn){btn.disabled=false;btn.textContent='Send ALL to Questions';}toast((e&&e.message)||'Enqueue failed',1)}).enqueueUnclassifiedToQuestions(null);
+}
+
+function buildCatOpts(dept,sel){
+  var h='<option value="">-- Select --</option>';
+  (categoryConfig[dept]||[]).forEach(function(c){h+='<option value="'+esc(c.name)+'"'+(c.name===sel?' selected':'')+'>'+esc(c.subcategory||c.name)+'</option>'});
+  return h;
+}
+function edDept(pid){var d=document.getElementById('ed_d_'+pid).value;document.getElementById('ed_c_'+pid).innerHTML=buildCatOpts(d,'')}
+function toggleHist(tblId){
+  
+  var pid=tblId.replace('cht_','');
+  var extras=document.querySelectorAll('.hist-extra-'+pid);
+  var btn=document.querySelector('#'+tblId).previousElementSibling&&document.querySelector('#'+tblId).closest('.dp-sect').querySelector('button');
+  if(!extras.length)return;
+  var hidden=extras[0].style.display==='none';
+  extras.forEach(function(el){el.style.display=hidden?'':'none';});
+  if(btn)btn.textContent=hidden?'Show less':'Show all';
+}
+function pvGP(pid,cpp,vr){
+  var s=parseFloat(document.getElementById('sp_'+pid).value)||0;
+  var el=document.getElementById('spGP_'+pid);
+  if(!el)return;
+  var sEx=s/(1+(vr||0.2));
+  if(sEx>0&&cpp>0){var g=((sEx-cpp)/sEx*100).toFixed(1);el.textContent=g+'%';el.style.color=g>=60?'var(--green)':g>=40?'var(--amber)':'var(--red)'}
+  else{el.textContent='â';el.style.color='var(--muted)'}
+}
+function saveSP(pid){
+  var pr=parseFloat(document.getElementById('sp_'+pid).value);
+  if(!pr||pr<=0){toast('Enter a valid price',1);return}
+  var pub=(pubFilter||'wm')==='wm'?'Windmill Inn':'Eight Bells';
+  google.script.run.withSuccessHandler(function(r){
+    if(r&&r.success){
+      toast('Saved '+(pubFilter==='eb'?'Eight Bells':'Windmill')+': ÃÂÃÂ£'+pr.toFixed(2)+(r.gp?' (GP: '+r.gp.toFixed(1)+'%)':''));
+      
+      for(var i=0;i<allProducts.length;i++){
+        if(allProducts[i].productId===pid){
+          allProducts[i].sellPrice=pr;
+          if(r.gp)allProducts[i].currentGP=r.gp;
+          break;
+        }
+      }
+      var gpEl=document.getElementById('spGP_'+pid);
+      if(gpEl&&r.gp){
+        gpEl.textContent=r.gp.toFixed(1)+'%';
+        gpEl.style.color=r.gp>=60?'var(--green)':r.gp>=40?'var(--amber)':'var(--red)';
+      }
+    } else toast(r&&r.error||'Error',1);
+  }).setProductSellPrice(pid,pr,pub);
+}
+
+
+function pvCost(pid,portions,wastage,vr){
+  var pc=parseFloat(document.getElementById('pc_'+pid).value)||0;
+  var eff=portions>0?portions*(1-(wastage||0)/100):1;
+  var cpp=eff>0?pc/eff:pc;
+  var sp=parseFloat(document.getElementById('sp_'+pid).value)||0;
+  var el=document.getElementById('spGP_'+pid);
+  var info=document.getElementById('pcInfo_'+pid);
+  if(info)info.textContent=cpp>0?'Cost/serve: ÃÂÃÂ£'+cpp.toFixed(2):'';
+  if(!el)return;
+  if(sp>0&&cpp>0){var sEx=sp/(1+(vr||0.2));var g=((sEx-cpp)/sEx*100).toFixed(1);el.textContent=g+'%';el.style.color=g>=60?'var(--green)':g>=40?'var(--amber)':'var(--red)'}
+  else{el.textContent='â';el.style.color='var(--muted)'}
+}
+
+
+function saveFullPrice(pid){
+  var pcEl=document.getElementById('pc_'+pid);
+  var spEl=document.getElementById('sp_'+pid);
+  var pc=pcEl?parseFloat(pcEl.value):null;
+  var sp=spEl?parseFloat(spEl.value):null;
+  if((!pc||pc<=0)&&(!sp||sp<=0)){toast('Enter a cost or sell price',1);return}
+  var pub=(pubFilter||'wm')==='wm'?'Windmill Inn':'Eight Bells';
+  var changes={
+    packCost:pc||null,
+    reason:'Manual edit from Products page'
+  };
+  if(pub==='Windmill Inn'){changes.sellPriceWM=sp||null}
+  else{changes.sellPriceEB=sp||null}
+  
+  var btn=document.querySelector('#dp_'+pid+' .btn-save');
+  if(btn){btn.disabled=true;btn.textContent='ÃÂ¢ÃÂÃÂ³ Saving...';}
+  
+  google.script.run.withSuccessHandler(function(r){
+    if(btn){btn.disabled=false;btn.textContent='Save All';}
+    if(r&&r.success){
+      toast(r.message);
+      
+      for(var i=0;i<allProducts.length;i++){
+        if(allProducts[i].productId===pid){
+          if(pc)allProducts[i].cost=pc;
+          if(sp)allProducts[i].sellPrice=sp;
+          if(r.gpWM)allProducts[i].currentGP=r.gpWM;
+          break;
+        }
+      }
+      render();
+    } else toast(r&&r.error||'Error saving',1);
+  }).withFailureHandler(function(e){
+    if(btn){btn.disabled=false;btn.textContent='Save All';}
+    toast('Error: '+e.message,1);
+  }).manualPriceUpdate(pid,changes);
+}
+
+
+function ecRecalc(pid,origPortions,wastage,vatR){
+  var newCost=parseFloat(document.getElementById('ec_cost_'+pid).value)||0;
+  var newPortions=parseFloat(document.getElementById('ec_portions_'+pid).value)||origPortions||1;
+  var effective=newPortions*(1-(wastage||0)/100);
+  var cpp=effective>0?newCost/effective:newCost;
+  var el=document.getElementById('ec_preview_'+pid);
+  if(!el)return;
+  if(newCost>0&&newPortions>0){
+    el.innerHTML='Cost per serve: <strong style="color:var(--accent);font-family:DM Mono,monospace">ÃÂÃÂ£'+cpp.toFixed(2)+'</strong>';
+    if(wastage>0)el.innerHTML+=' <span style="color:var(--amber)">('+wastage+'% wastage, '+Math.round(effective)+' effective serves)</span>';
+  } else {
+    el.textContent='';
+  }
+}
+
+function ecSaveCost(pid){
+  var newCost=parseFloat(document.getElementById('ec_cost_'+pid).value);
+  if(!newCost||newCost<0){toast('Enter a valid cost',1);return}
+  google.script.run.withSuccessHandler(function(r){
+    if(r&&r.success){
+      toast('Cost updated to ÃÂÃÂ£'+newCost.toFixed(2));
+      
+      for(var i=0;i<allProducts.length;i++){
+        if(allProducts[i].productId===pid){allProducts[i].cost=newCost;break}
+      }
+      render();
+    } else toast(r&&r.error||'Error saving cost',1);
+  }).withFailureHandler(function(e){toast('Error: '+e.message,1)}).updateProductField(pid,'cost',newCost);
+}
+
+function ecSavePortions(pid){
+  var newPortions=parseFloat(document.getElementById('ec_portions_'+pid).value);
+  if(!newPortions||newPortions<0){toast('Enter valid portions',1);return}
+  google.script.run.withSuccessHandler(function(r){
+    if(r&&r.success){
+      toast('Portions updated to '+newPortions+(r.costPerPortion?' ÃÂÃÂ· Cost/serve: ÃÂÃÂ£'+r.costPerPortion.toFixed(2):''));
+      for(var i=0;i<allProducts.length;i++){
+        if(allProducts[i].productId===pid){allProducts[i].portionsPerPack=newPortions;if(r.costPerPortion)allProducts[i].costPerPortion=r.costPerPortion;break}
+      }
+      render();
+    } else toast(r&&r.error||'Error saving portions',1);
+  }).withFailureHandler(function(e){toast('Error: '+e.message,1)}).updateProductField(pid,'portionsPerPack',newPortions);
+}
+function saveClass(pid){
+  var cat=document.getElementById('ed_c_'+pid).value;
+  var dept=document.getElementById('ed_d_'+pid).value;
+  var sup=document.getElementById('ed_s_'+pid).value;
+  var saves=[];if(cat)saves.push({f:'category',v:cat});if(sup)saves.push({f:'supplier',v:sup});
+  if(!saves.length){toast('Nothing changed',1);return}
+  var done=0;
+  saves.forEach(function(s){google.script.run.withSuccessHandler(function(r){
+    done++;
+    if(done===saves.length){
+      
+      for(var i=0;i<allProducts.length;i++){
+        if(allProducts[i].productId===pid){
+          if(cat){allProducts[i].category=cat;allProducts[i].department=dept}
+          if(sup)allProducts[i].supplier=sup;
+          break;
+        }
+      }
+      toast('Updated '+(cat?'category':'')+(cat&&sup?' & ':'')+(sup?'supplier':''));
+    }
+  }).updateProductField(pid,s.f,s.v)});
+}
+
+function drawChart(pid,timeline,changes,opts) {
+  opts=opts||{};
+  var unitLabel=(opts.unitLabel||'').toString().toLowerCase().trim();
+  var costLabel=opts.costLabel||(unitLabel?('ÃÂÃÂ£/'+unitLabel):'Cost');
+  var canvas = document.getElementById('ch_' + pid);
+  if (!canvas || !canvas.getContext) return;
+  
+  var rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * 2;
+  canvas.height = 560;
+  var ctx = canvas.getContext('2d');
+  ctx.scale(2, 2);
+  var w = rect.width;
+  var h = 280;
+  
+  var costPts=[],sellPts=[],gpPts=[],marginPts=[];
+  
+  timeline.forEach(function(t){
+    if(t.date&&t.cost>0) costPts.push({date:t.date,value:t.cost});
+  });
+  
+  changes.forEach(function(c){
+    if(!c.date) return;
+    if(c.newCost>0) costPts.push({date:c.date,value:c.newCost});
+    if(c.newSell>0) sellPts.push({date:c.date,value:c.newSell});
+    if(c.newGP) gpPts.push({date:c.date,value:parseFloat(c.newGP)||0});
+    
+    if(!(unitLabel==='kg'||unitLabel==='l'||unitLabel==='ml')&&c.newSell>0&&c.newCost>0) marginPts.push({date:c.date,value:c.newSell-c.newCost});
+  });
+  
+  
+  if(!(unitLabel==='kg'||unitLabel==='l'||unitLabel==='ml')&&gpPts.length===0&&sellPts.length>0&&costPts.length>0){
+    sellPts.forEach(function(sp){
+      var closestCost=costPts[0].value;
+      costPts.forEach(function(cp){if(cp.date<=sp.date)closestCost=cp.value});
+      if(sp.value>0&&closestCost>0){
+        gpPts.push({date:sp.date,value:((sp.value-closestCost)/sp.value)*100});
+        marginPts.push({date:sp.date,value:sp.value-closestCost});
+      }
+    });
+  }
+  
+  if(unitLabel==='kg'||unitLabel==='l'||unitLabel==='ml'){ sellPts=[]; gpPts=[]; marginPts=[]; }
+  
+  function dedup(arr){
+    var seen={};
+    return arr.filter(function(p){var k=p.date+'|'+Math.round(p.value*100);if(seen[k])return false;seen[k]=true;return true;
+    }).sort(function(a,b){return a.date.localeCompare(b.date)});
+  }
+  costPts=dedup(costPts);sellPts=dedup(sellPts);gpPts=dedup(gpPts);marginPts=dedup(marginPts);
+  
+  if(costPts.length<2&&sellPts.length<2){
+    ctx.font='13px Arial';ctx.fillStyle='#9ca3af';ctx.textAlign='center';
+    ctx.fillText('Not enough data for chart yet',w/2,h/2);return;
+  }
+  
+  
+  var allDates=[];
+  [costPts,sellPts,gpPts,marginPts].forEach(function(arr){arr.forEach(function(p){if(allDates.indexOf(p.date)<0)allDates.push(p.date)})});
+  allDates.sort();
+  
+  
+  var priceVals=costPts.map(function(p){return p.value}).concat(sellPts.map(function(p){return p.value})).concat(marginPts.map(function(p){return p.value}));
+  var pMin=priceVals.length>0?Math.min.apply(null,priceVals)*0.85:0;
+  var pMax=priceVals.length>0?Math.max.apply(null,priceVals)*1.15:10;
+  if(pMax===pMin)pMax=pMin+1;
+  
+  
+  var gpMin=0,gpMax=100;
+  if(gpPts.length>0){
+    var gpVals=gpPts.map(function(p){return p.value});
+    gpMin=Math.max(0,Math.min.apply(null,gpVals)-10);
+    gpMax=Math.min(100,Math.max.apply(null,gpVals)+10);
+    if(gpMax<=gpMin)gpMax=gpMin+20;
+  }
+  
+  var pad={top:25,right:unitLabel?20:55,bottom:35,left:54};
+  var cw=w-pad.left-pad.right,ch=h-pad.top-pad.bottom;
+  
+  function getX(date){var idx=allDates.indexOf(date);if(allDates.length<=1)return pad.left+cw/2;return pad.left+(idx/(allDates.length-1))*cw}
+  function getYp(val){return h-pad.bottom-((val-pMin)/(pMax-pMin))*ch}
+  function getYg(val){return h-pad.bottom-((val-gpMin)/(gpMax-gpMin))*ch}
+  
+  
+  ctx.strokeStyle='#f0f0f0';ctx.lineWidth=1;
+  for(var g=0;g<=4;g++){var gy=pad.top+(g/4)*ch;ctx.beginPath();ctx.moveTo(pad.left,gy);ctx.lineTo(w-pad.right,gy);ctx.stroke()}
+  
+  
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(pad.left,pad.top);ctx.lineTo(pad.left,h-pad.bottom);ctx.lineTo(w-pad.right,h-pad.bottom);ctx.lineTo(w-pad.right,pad.top);ctx.stroke();
+  
+  function drawLine(pts,color,yFn,dashed){
+    if(pts.length<2)return;
+    ctx.strokeStyle=color;ctx.lineWidth=dashed?1.5:2;
+    if(dashed)ctx.setLineDash([4,3]);else ctx.setLineDash([]);
+    ctx.beginPath();
+    pts.forEach(function(p,i){var x=getX(p.date),y=yFn(p.value);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y)});
+    ctx.stroke();ctx.setLineDash([]);
+    pts.forEach(function(p){ctx.beginPath();ctx.arc(getX(p.date),yFn(p.value),3,0,Math.PI*2);ctx.fillStyle=color;ctx.fill()});
+  }
+  
+  drawLine(costPts,'#4f7cff',getYp,false);      
+  drawLine(sellPts,'#16a34a',getYp,false);        
+  drawLine(marginPts,'#d97706',getYp,true);       
+  drawLine(gpPts,'#8b5cf6',getYg,true);           
+  
+  
+  ctx.fillStyle='#6b7280';ctx.font='9px Arial';ctx.textAlign='right';
+  for(var i=0;i<=4;i++){
+    var v=pMin+(i/4)*(pMax-pMin);
+    var yLab=(unitLabel?'ÃÂÃÂ£':'ÃÂÃÂ£')+v.toFixed(v<1?3:2);
+    ctx.fillText(yLab,pad.left-4,h-pad.bottom-(i/4)*ch+3);
+  }
+  
+  if(unitLabel){
+    ctx.save();
+    ctx.fillStyle='#6b7280';ctx.font='10px Arial';ctx.textAlign='center';
+    ctx.translate(12,pad.top+ch/2);ctx.rotate(-Math.PI/2);
+    ctx.fillText(costLabel,0,0);
+    ctx.restore();
+  }
+  
+  
+  if(gpPts.length>0){ctx.textAlign='left';for(var j=0;j<=4;j++){var gv=gpMin+(j/4)*(gpMax-gpMin);ctx.fillText(gv.toFixed(0)+'%',w-pad.right+4,h-pad.bottom-(j/4)*ch+3)}}
+  
+  
+  ctx.textAlign='center';ctx.fillStyle='#9ca3af';ctx.font='9px Arial';
+  if(allDates.length<=10){allDates.forEach(function(d){ctx.fillText(d.substring(5),getX(d),h-pad.bottom+14)})}
+  else{ctx.fillText(allDates[0].substring(5),getX(allDates[0]),h-pad.bottom+14);var mid=allDates[Math.floor(allDates.length/2)];ctx.fillText(mid.substring(5),getX(mid),h-pad.bottom+14);ctx.fillText(allDates[allDates.length-1].substring(5),getX(allDates[allDates.length-1]),h-pad.bottom+14)}
+  
+  
+  var lx=pad.left+5,ly=10;
+  var legendItems=(unitLabel==='kg'||unitLabel==='l'||unitLabel==='ml')
+    ?[{c:'#4f7cff',l:costLabel}]
+    :[{c:'#4f7cff',l:unitLabel?costLabel:'Cost'},{c:'#16a34a',l:'Sell'},{c:'#d97706',l:'Margin ÃÂÃÂ£'},{c:'#8b5cf6',l:'GP%'}];
+  legendItems.forEach(function(lg){
+    ctx.fillStyle=lg.c;ctx.fillRect(lx,ly,8,8);ctx.fillStyle='#4a5568';ctx.textAlign='left';ctx.fillText(lg.l,lx+11,ly+8);lx+=ctx.measureText(lg.l).width+22;
+  });
+}
+
+</script>
+<script>
+function fmtP(v){try{var n=parseFloat(v);return isNaN(n)||n===0?'â':'ÃÂÃÂ£'+n.toFixed(2)}catch(e){return'â'}}
+ 
+function fmtPfine(v){try{var n=parseFloat(v);if(isNaN(n)||n===0)return'â';return'ÃÂÃÂ£'+(n<0.1?n.toFixed(4):n.toFixed(2))}catch(e){return'â'}}
+ 
+function packSizeInBaseJS_(val, unit, baseUnit){
+  val=parseFloat(val)||0; if(!(val>0)) return 0;
+  unit=(unit||'').toString().toLowerCase().trim();
+  baseUnit=(baseUnit||'').toString().toLowerCase().trim();
+  if(baseUnit==='kg'){
+    if(unit==='kg'||unit==='kilo'||unit==='kilos') return val;
+    if(unit==='g'||unit==='gram'||unit==='grams') return val/1000;
+    if(unit==='oz') return val*0.0283495;
+    if(unit==='lb') return val*0.453592;
+    if(!unit) return val>=20 ? val/1000 : val;
+  }
+  if(baseUnit==='l'||baseUnit==='litre'||baseUnit==='liter'){
+    if(unit==='l'||unit==='ltr'||unit==='litre'||unit==='liter') return val;
+    if(unit==='ml') return val/1000;
+    if(unit==='cl') return val/100;
+    if(!unit) return val>=100 ? val/1000 : val;
+  }
+  return 0;
+}
+function productMeasure_(p){
+  var bu=(p.baseUnit||p.measure||'').toString().trim().toLowerCase();
+  if(bu==='litre'||bu==='liter') bu='l';
+  return bu;
+}
+function productCostPerMeasure_(p){
+  var c=parseFloat(p.costPerBaseUnit)||0;
+  if(c>0) return c;
+  if(p.primaryCostKind==='base'&&parseFloat(p.primaryCost)>0) return parseFloat(p.primaryCost);
+  return 0;
+}
+function isDraughtProduct_(p){
+  if(productMeasure_(p)==='pint') return true;
+  return /draught/.test(((p.category||'')+'').toLowerCase());
+}
+function measBadgeHtml_(measure){
+  if(!measure) return '<span style="color:var(--muted)">â</span>';
+  return '<span style="display:inline-block;padding:1px 7px;border-radius:10px;background:#eef2ff;color:#3730a3;font-size:11px;font-weight:600">'+esc(measure)+'</span>';
+}
+function secondaryMeasure_(p){
+  var u=(p.secondaryUnit||'').toString().trim().toLowerCase();
+  if(u==='litre'||u==='liter') u='l';
+  return u;
+}
+function formatMeasureLabelJS_(u){
+  u=(u||'').toString().trim().toLowerCase();
+  var m=u.match(/^(\d+(?:\.\d+)?)gal$/);
+  if(m) return m[1]+' gallon';
+  m=u.match(/^(\d+(?:\.\d+)?)l$/);
+  if(m) return m[1]+'L';
+  return u;
+}
+function secondaryCost_(p){ return parseFloat(p.costPerSecondary)||0; }
+ 
+function measureListCells_(p){
+  var a=productMeasure_(p)||(p.measure||'').toString().toLowerCase();
+  var ca=productCostPerMeasure_(p);
+  var b=secondaryMeasure_(p);
+  var cb=secondaryCost_(p);
+  var aLab=formatMeasureLabelJS_(a);
+  var bLab=formatMeasureLabelJS_(b);
+  return {
+    aBadge: measBadgeHtml_(aLab||a),
+    aCost: (ca>0?(fmtP(ca)+(a?(' / '+esc(aLab||a)):'')):'â'),
+    bBadge: b?measBadgeHtml_(bLab||b):'<span style="color:var(--muted)">â</span>',
+    bCost: (b&&cb>0?(fmtP(cb)+' / '+esc(bLab||b)):'â')
+  };
+}
+
+
+
+
+function mnOpt_(val,label,sel){
+  return '<option value="'+esc(val)+'"'+(String(sel)===String(val)?' selected':'')+'>'+esc(label)+'</option>';
+}
+function measureNailDownHtml_(pid,p,mc){
+  mc=mc||{};
+  var hasA=!!(productMeasure_(p)&&productCostPerMeasure_(p)>0);
+  var needs=!!(mc.needsMeasure)||!hasA;
+  var unconf=!!(mc.isUnconfirmed)||String(p.classSource||'').toLowerCase()!=='manual';
+  
+  
+  if(hasA&&!needs){
+    return '<details class="mb-adv" style="margin-bottom:12px"><summary>Edit Measure A / B</summary>'+
+      measureNailDownBody_(pid,p,mc,true)+'</details>';
+  }
+  var title=needs?'Set Measure A / B â nail down here':'Confirm Measure A / B';
+  var badge=needs?'<span class="mn-badge">Needs measure</span>':(unconf?'<span class="mn-badge">Unconfirmed</span>':'');
+  return '<div class="mn-panel'+(needs?'':' mn-ok')+'" id="mn_'+esc(pid)+'">'+
+    '<div class="mn-head"><h4>'+title+'</h4>'+badge+'</div>'+
+    measureNailDownBody_(pid,p,mc,false)+
+    '</div>';
+}
+function measureNailDownBody_(pid,p,mc,compact){
+  mc=mc||{};
+  var dil=mc.dilutionHint||null;
+  
+  var defA=productMeasure_(p)||mc.suggestedMeasureA||'kg';
+  if(dil&&mc.suggestedMeasureA==='pint'&&(!(productCostPerMeasure_(p)>0)||productMeasure_(p)==='l')){
+    defA='pint';
+  }
+  if(defA==='n/a') defA='na';
+  var defB=secondaryMeasure_(p)||mc.suggestedMeasureB||'';
+  if(dil&&defA==='pint'&&!defB) defB='l';
+  
+  if(!defB&&/^(kg|l)$/i.test(defA)) defB='pack';
+  var costA=0;
+  if(defA==='pint'&&dil&&parseFloat(mc.suggestedCostA)>0){
+    costA=parseFloat(mc.suggestedCostA);
+  } else {
+    costA=productCostPerMeasure_(p)||parseFloat(mc.suggestedCostA)||0;
+  }
+  var costB=secondaryCost_(p)||0;
+  var packLabel=mc.packLabel||'pack';
+  var defVat=mc.defaultVatBasis||'ex';
+  var hasStoredA=!!(productMeasure_(p)&&productCostPerMeasure_(p)>0)&&!(dil&&productMeasure_(p)==='l');
+  var prodName=mc.productName||p.name||'';
+  var h='<div class="mn-split">';
+
+  
+  h+='<div class="mn-pdf-col">';
+  if(mc.pdfFileId){
+    h+='<details class="mn-pdf-details" ontoggle="mnPdfToggle(this,''+esc(mc.pdfFileId)+'')">';
+    h+='<summary>Show invoice PDF</summary>';
+    h+='<div class="mn-pdf" data-pdf-host="1"></div>';
+    h+='<div class="mn-line-focus">';
+    h+='<div class="mn-lf-label">Found on invoice</div>';
+    h+='<div class="mn-lf-line">'+esc(prodName||'Product');
+    var lfBits=[];
+    if(mc.qty) lfBits.push('Qty '+esc(String(mc.qty))+(mc.unit?(' '+esc(mc.unit)):''));
+    if(mc.unitPrice>0) lfBits.push('@ '+fmtP(mc.unitPrice));
+    if(mc.lineNet>0) lfBits.push('= '+fmtP(mc.lineNet));
+    if(lfBits.length) h+='  ÃÂÃÂ·  '+lfBits.join('  ÃÂÃÂ·  ');
+    h+='</div>';
+    h+='<div class="mn-lf-meta">';
+    if(mc.invoiceNo) h+='Inv '+esc(mc.invoiceNo)+' ÃÂÃÂ· ';
+    if(mc.date) h+=esc(mc.date)+' ÃÂÃÂ· ';
+    if(mc.pub) h+=esc(mc.pub)+' ÃÂÃÂ· ';
+    h+='</div><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">';
+    h+='<a class="mn-dl-btn" href="https://drive.google.com/uc?export=download&id='+esc(mc.pdfFileId)+'" target="_blank" rel="noopener" download>Download PDF</a>';
+    h+='<a href="https://drive.google.com/file/d/'+esc(mc.pdfFileId)+'/view" target="_blank" rel="noopener" style="font-size:12px;font-weight:600;color:var(--accent)">Open PDF ↗</a>';
+    h+='</div></div>';
+    h+='</details>';
+  } else {
+    h+='<div class="mn-nopdf"><strong>No invoice PDF linked</strong> for this product yet. '+
+      'You can still set Measure A on the right from the pack cost on file, or '+
+      '<a href="#" onclick="mnSendToQuestions(''+esc(pid)+'');return false">Send to Questions</a> / '+
+      '<a href="#" onclick="nv('archive');return false">search Archive</a>.</div>';
+    if(mc.packCost>0||p.packCost||p.cost){
+      h+='<div class="mn-line">Pack cost on file: <b>'+fmtP(mc.packCost||p.packCost||p.cost||0)+'</b>'+
+        (mc.packLabel?(' ÃÂÃÂ· '+esc(mc.packLabel)):'')+'</div>';
+    }
+  }
+  h+='</div>';
+
+  
+  h+='<div class="mn-form-col">';
+  if(dil&&dil.ratio>0){
+    h+='<div class="mn-suggest" style="background:#ecfdf5;border-color:#6ee7b7;color:#065f46">';
+    h+='<b>Syrup dilution '+(dil.assumed?'~':'')+esc(String(dil.ratio))+':1</b>';
+    if(dil.syrupLitres>0) h+=' ÃÂÃÂ· '+esc(String(dil.syrupLitres))+'L concentrate';
+    if(dil.yieldLitres>0) h+=' → '+esc(String(dil.yieldLitres))+'L finished';
+    if(dil.pints>0) h+=' ≈ '+esc(String(dil.pints))+' pints';
+    if(parseFloat(mc.suggestedCostA)>0) h+=' ÃÂÃÂ· <b>'+fmtP(mc.suggestedCostA)+' / pint</b>';
+    h+=' <span style="opacity:.75">(same maths as Questions)</span></div>';
+  }
+  if(mc.learnedRuleLabel){
+    h+='<div class="mn-suggest" style="background:#ecfdf5;border-color:#6ee7b7;color:#065f46">'+esc(mc.learnedRuleLabel)+'</div>';
+  }
+  if(!dil&&!hasStoredA&&parseFloat(mc.suggestedCostA)>0){
+    h+='<div class="mn-suggest">Suggested from invoice: <b>'+fmtP(mc.suggestedCostA)+' / '+esc(mc.suggestedMeasureA||defA)+'</b>'+
+      (mc.packLabel?(' ÃÂÃÂ· pack '+esc(mc.packLabel)):'')+' â review &amp; Save to confirm</div>';
+  }
+
+  h+='<div style="margin-bottom:2px"><label>Measure A â <b>Primary</b></label></div>';
+  h+='<div style="font-size:10px;color:var(--muted);margin-bottom:6px">GP / till / dishes / price history</div>';
+  h+='<div class="mn-row">';
+  h+='<select id="mn_a_'+esc(pid)+'" onchange="mnRecalc(''+esc(pid)+'')">';
+  h+=mnOpt_('kg','per kg (weighted)',defA);
+  h+=mnOpt_('l','per litre (volume)',defA);
+  h+=mnOpt_('each','per each (countable item)',defA);
+  h+=mnOpt_('pack','per '+packLabel+' (whole)',defA);
+  h+=mnOpt_('pint','per pint',defA);
+  h+=mnOpt_('25ml','per 25ml measure',defA);
+  h+=mnOpt_('175ml','per 175ml glass',defA);
+  h+=mnOpt_('250ml','per 250ml glass',defA);
+  h+=mnOpt_('na','N/A â not tracked',defA);
+  h+='</select>';
+  h+='<div class="mn-calc" id="mn_acalc_'+esc(pid)+'"></div>';
+  h+='</div>';
+
+  h+='<div style="margin:10px 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">';
+  h+='<button type="button" class="btn-sm" onclick="mnSwapAB(''+esc(pid)+'')" '+
+    'title="Swap Primary (A) and Secondary (B) units and costs. Category defaults still apply on first paint â this is a manual override." '+
+    'style="border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600">Swap A ↔ B</button>';
+  h+='<span style="font-size:10px;color:var(--muted)">Manual override â does not change category defaults</span>';
+  h+='</div>';
+
+  h+='<div style="margin-bottom:2px"><label>Measure B â <b>Secondary</b></label></div>';
+  h+='<div style="font-size:10px;color:var(--muted);margin-bottom:6px">Compare / optional</div>';
+  h+='<div class="mn-row">';
+  h+='<select id="mn_b_'+esc(pid)+'" onchange="mnRecalcB_(''+esc(pid)+'')">';
+  h+=mnOpt_('','â none â',defB);
+  h+=mnOpt_('l','per litre',defB);
+  h+=mnOpt_('kg','per kg',defB);
+  h+=mnOpt_('each','per each',defB);
+  h+=mnOpt_('pack','per '+packLabel,defB);
+  h+=mnOpt_('pint','per pint',defB);
+  h+=mnOpt_('25ml','per 25ml',defB);
+  h+='</select>';
+  h+='<div class="mn-calc" id="mn_bcalc_'+esc(pid)+'" style="color:var(--muted)"></div>';
+  h+='</div>';
+
+  h+='<div class="mn-row" style="margin-top:6px">';
+  h+='<span style="font-size:11px;color:var(--muted)">Invoice prices are</span>';
+  h+='<select id="mn_vat_'+esc(pid)+'" onchange="mnRecalc(''+esc(pid)+'')">';
+  h+='<option value="inc"'+(defVat==='inc'?' selected':'')+'>inc-VAT</option>';
+  h+='<option value="ex"'+(defVat==='ex'?' selected':'')+'>ex-VAT</option>';
+  h+='</select>';
+  h+='</div>';
+
+  
+  h+='<div id="mn_store_'+esc(pid)+'" style="display:none" '+
+    'data-cost-a="'+(costA||'')+'" data-cost-b="'+(costB||'')+'" '+
+    'data-pack-cost="'+(mc.packCost||p.packCost||p.cost||0)+'" '+
+    'data-pack-count="'+(mc.packCount||1)+'" '+
+    'data-pack-size="'+(mc.packSize||p.packSizeValue||'')+'" '+
+    'data-pack-measure="'+esc(mc.packMeasure||p.packSizeUnit||'')+'" '+
+    'data-unit="'+esc(mc.unit||'')+'" '+
+    'data-qty="'+(mc.qty||1)+'" '+
+    'data-pdf="'+esc(mc.pdfFileId||'')+'" '+
+    'data-manual=""></div>';
+
+  h+='<div class="mn-actions">';
+  h+='<button type="button" class="btn-sm" onclick="mnDiagnose(''+esc(pid)+'')" '+
+    'style="border:1px solid var(--border);background:var(--surface);color:var(--muted)">⚠ Incorrect calcs</button>';
+  h+='<button type="button" class="btn-sm btn-save" id="mn_save_'+esc(pid)+'" onclick="mnSave(''+esc(pid)+'')">Save measures &amp; confirm</button>';
+  h+='<button type="button" class="btn-sm" onclick="mnSendToQuestions(''+esc(pid)+'')" '+
+    'style="background:#fffbeb;border:1px solid #fcd34d;color:#92400e">→ Questions</button>';
+  h+='</div>';
+  h+='<div class="mn-fix" id="mn_fix_'+esc(pid)+'"></div>';
+  h+='<div style="font-size:10px;color:var(--muted);margin-top:8px">Tip: after Save, next product needing measure opens automatically. Press <b>N</b> for next.</div>';
+  h+='</div>'; 
+  h+='</div>'; 
+  return h;
+}
+ 
+function mnPdfToggle(el, fileId){
+  if(!el||!el.open||!fileId) return;
+  var box=el.querySelector('.mn-pdf[data-pdf-host]');
+  if(!box||box.querySelector('iframe')) return;
+  box.innerHTML='<iframe src="https://drive.google.com/file/d/'+esc(fileId)+'/preview" title="Invoice PDF"></iframe>';
+}
+function mnInit_(pid){
+  var store=document.getElementById('mn_store_'+pid);
+  if(!store) return;
+  
+  var costA=parseFloat(store.getAttribute('data-cost-a'))||0;
+  var aEl=document.getElementById('mn_a_'+pid);
+  if(aEl&&aEl.value==='na'){
+    var calc=document.getElementById('mn_acalc_'+pid);
+    if(calc) calc.innerHTML='<span style="color:#718096">Not tracked for this product</span>';
+    return;
+  }
+  if(costA>0){
+    mnPaintCostA_(pid,costA,aEl?aEl.value:'');
+    store.setAttribute('data-manual','1');
+  }
+  mnRecalc(pid);
+}
+function mnPaintCostA_(pid,cpbu,baseUnit){
+  var calc=document.getElementById('mn_acalc_'+pid);
+  var store=document.getElementById('mn_store_'+pid);
+  if(!calc||!(cpbu>0)) return;
+  var display=cpbu<0.01?cpbu.toFixed(5):(cpbu<1?cpbu.toFixed(4):cpbu.toFixed(2));
+  var unit=baseUnit||'';
+  if(unit==='pack'){
+    var mc=_measureCtxByPid[pid]||{};
+    unit=mc.packLabel||'pack';
+  }
+  var hint='';
+  if(baseUnit==='kg') hint=' <small style="color:#718096">(≈ £'+(cpbu/1000).toFixed(5)+'/g)</small>';
+  if(baseUnit==='l') hint=' <small style="color:#718096">(≈ £'+(cpbu/1000).toFixed(5)+'/ml)</small>';
+  calc.innerHTML='£ <input type="number" step="0.0001" min="0" id="mn_cpbu_'+esc(pid)+'" value="'+display+'" '+
+    'style="width:88px;padding:5px 7px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit" '+
+    'oninput="mnOnCpbuEdit(''+esc(pid)+'')"> <span style="color:var(--muted);font-size:13px">/'+esc(unit)+'</span>'+hint;
+  if(store){ store.setAttribute('data-cost-a',String(cpbu)); }
+}
+function mnOnCpbuEdit(pid){
+  var inp=document.getElementById('mn_cpbu_'+pid);
+  var store=document.getElementById('mn_store_'+pid);
+  if(!inp||!store) return;
+  var v=parseFloat(inp.value)||0;
+  store.setAttribute('data-cost-a',String(v));
+  store.setAttribute('data-manual','1');
+  mnRecalcB_(pid);
+}
+function mnRecalc(pid){
+  var store=document.getElementById('mn_store_'+pid);
+  var aEl=document.getElementById('mn_a_'+pid);
+  var calc=document.getElementById('mn_acalc_'+pid);
+  if(!store||!aEl||!calc) return;
+  var baseUnit=aEl.value;
+  if(baseUnit==='na'){
+    calc.innerHTML='<span style="color:#718096">Not tracked for this product</span>';
+    store.setAttribute('data-cost-a','0');
+    mnRecalcB_(pid);
+    return;
+  }
+  var keepManual=store.getAttribute('data-manual')==='1';
+  var manual=parseFloat(store.getAttribute('data-cost-a'))||0;
+  if(keepManual&&manual>0){
+    mnPaintCostA_(pid,manual,baseUnit);
+    mnDefaultPackB_(pid,baseUnit);
+    mnRecalcB_(pid);
+    return;
+  }
+  var mc=_measureCtxByPid[pid]||{};
+  var vatEl=document.getElementById('mn_vat_'+pid);
+  calc.innerHTML='<span style="color:var(--muted)">Calculating…</span>';
+  google.script.run.withSuccessHandler(function(r){
+    if(!r||!r.success){
+      calc.innerHTML='<span style="color:#c53030">Cannot convert â pick a matching unit or type ÃÂÃÂ£/A</span>';
+      mnPaintCostA_(pid,0,baseUnit);
+      
+      calc.innerHTML='£ <input type="number" step="0.0001" min="0" id="mn_cpbu_'+esc(pid)+'" value="" '+
+        'style="width:88px;padding:5px 7px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit" '+
+        'oninput="mnOnCpbuEdit(''+esc(pid)+'')"> <span style="color:var(--muted)">/'+esc(baseUnit)+'</span>'+
+        ' <span style="color:#c53030;font-size:11px">type cost or use Incorrect calcs</span>';
+      mnDefaultPackB_(pid,baseUnit);
+      return;
+    }
+    if(r.costPerBaseUnit>0){
+      store.setAttribute('data-manual','');
+      mnPaintCostA_(pid,r.costPerBaseUnit,baseUnit);
+      if(r.packCostEx>0) store.setAttribute('data-pack-cost',String(r.packCostEx));
+    } else {
+      calc.innerHTML='£ <input type="number" step="0.0001" min="0" id="mn_cpbu_'+esc(pid)+'" value="" '+
+        'style="width:88px;padding:5px 7px;border:1px solid var(--border);border-radius:6px;font-size:13px;font-family:inherit" '+
+        'oninput="mnOnCpbuEdit(''+esc(pid)+'')"> <span style="color:var(--muted)">/'+esc(baseUnit)+'</span>';
+    }
+    mnDefaultPackB_(pid,baseUnit);
+    mnRecalcB_(pid);
+  }).withFailureHandler(function(){
+    calc.innerHTML='<span style="color:#c53030">Recalc failed â enter ÃÂÃÂ£/A manually</span>';
+  }).previewProductMeasureCost({
+    baseUnit: baseUnit,
+    measureB: (document.getElementById('mn_b_'+pid)||{}).value||'',
+    packCost: parseFloat(store.getAttribute('data-pack-cost'))||mc.packCost||0,
+    packCount: parseFloat(store.getAttribute('data-pack-count'))||1,
+    packSize: parseFloat(store.getAttribute('data-pack-size'))||0,
+    packMeasure: store.getAttribute('data-pack-measure')||'',
+    unit: store.getAttribute('data-unit')||'',
+    vatBasis: vatEl?vatEl.value:'ex',
+    vatRate: mc.vatRate||'20%',
+    productName: (mc&&mc.productName)||(store.getAttribute('data-product-name'))||''
+  });
+}
+ 
+function mnDefaultPackB_(pid, baseUnit){
+  if(!/^(kg|l)$/i.test(String(baseUnit||''))) return;
+  var bEl=document.getElementById('mn_b_'+pid);
+  if(!bEl||bEl.value) return;
+  bEl.value='pack';
+}
+ 
+function mnEnsureOpt_(sel, value, label){
+  if(!sel||value==null||value==='') return;
+  for(var i=0;i<sel.options.length;i++){ if(sel.options[i].value===value) return; }
+  var opt=document.createElement('option');
+  opt.value=value;
+  opt.textContent=label||('per '+value);
+  sel.appendChild(opt);
+}
+
+
+function mnSwapAB(pid){
+  var store=document.getElementById('mn_store_'+pid);
+  var aEl=document.getElementById('mn_a_'+pid);
+  var bEl=document.getElementById('mn_b_'+pid);
+  var bCalc=document.getElementById('mn_bcalc_'+pid);
+  if(!store||!aEl||!bEl) return;
+  var unitA=aEl.value||'';
+  var unitB=bEl.value||'';
+  if(!unitB){ toast('Set Measure B (Secondary) first, then Swap',1); return; }
+  if(unitA==='na'){ toast('Clear N/A on Measure A (Primary) before swapping',1); return; }
+  var costA=parseFloat(store.getAttribute('data-cost-a'))||0;
+  var costB=parseFloat(store.getAttribute('data-cost-b'))||0;
+  var mc=_measureCtxByPid[pid]||{};
+  var packLabel=mc.packLabel||'pack';
+  mnEnsureOpt_(aEl, unitB, unitB==='pack'?('per '+packLabel+' (whole)'):('per '+unitB));
+  mnEnsureOpt_(bEl, unitA, unitA==='pack'?('per '+packLabel):('per '+unitA));
+  aEl.value=unitB;
+  bEl.value=unitA;
+  store.setAttribute('data-cost-a', costB>0?String(costB):'0');
+  store.setAttribute('data-cost-b', costA>0?String(costA):'0');
+  store.setAttribute('data-manual', costB>0?'1':'');
+  if(costB>0){
+    mnPaintCostA_(pid, costB, unitB);
+  } else {
+    var calc=document.getElementById('mn_acalc_'+pid);
+    if(calc) calc.innerHTML='<span style="color:#b45309">Enter ÃÂÃÂ£ / Primary after swap</span>';
+  }
+  if(bCalc){
+    if(costA>0){
+      bCalc.innerHTML='<strong>'+fmtP(costA)+' / '+esc(unitA)+'</strong> <span style="opacity:.7">(swapped)</span>';
+    } else {
+      bCalc.innerHTML='<span style="color:#718096">Optional</span>';
+    }
+  }
+}
+function mnRecalcB_(pid){
+  var store=document.getElementById('mn_store_'+pid);
+  var bEl=document.getElementById('mn_b_'+pid);
+  var bCalc=document.getElementById('mn_bcalc_'+pid);
+  if(!store||!bEl||!bCalc) return;
+  var b=bEl.value;
+  if(!b){
+    bCalc.innerHTML='<span style="color:#718096">Optional</span>';
+    store.setAttribute('data-cost-b','0');
+    return;
+  }
+  var costA=parseFloat(store.getAttribute('data-cost-a'))||0;
+  var packCost=parseFloat(store.getAttribute('data-pack-cost'))||0;
+  if(b==='pack'&&packCost>0){
+    bCalc.innerHTML='<strong>'+fmtP(packCost)+' / pack</strong> <span style="opacity:.7">(invoice pack)</span>';
+    store.setAttribute('data-cost-b',String(packCost));
+    return;
+  }
+  if(!(costA>0)){
+    bCalc.innerHTML='<span style="color:#b45309">Set Measure A cost first</span>';
+    return;
+  }
+  var mc=_measureCtxByPid[pid]||{};
+  var _catProd=null;
+  for(var _ci=0;_ci<allProducts.length;_ci++){ if(allProducts[_ci].productId===pid){ _catProd=allProducts[_ci]; break; } }
+  google.script.run.withSuccessHandler(function(r){
+    if(r&&r.success&&r.costPerSecondary>0){
+      var note=(r.dilution&&r.dilution.ratio)?(' <span style="opacity:.7">(syrup '+r.dilution.ratio+':1)</span>'):' <span style="opacity:.7">(auto from Measure A)</span>';
+      bCalc.innerHTML='<strong>'+fmtP(r.costPerSecondary)+' / '+esc(b)+'</strong>'+note;
+      store.setAttribute('data-cost-b',String(r.costPerSecondary));
+    } else {
+      bCalc.innerHTML='<span style="color:#b45309">Cannot derive yet</span>';
+      store.setAttribute('data-cost-b','0');
+    }
+  }).previewProductMeasureCost({
+    baseUnit: (document.getElementById('mn_a_'+pid)||{}).value||'',
+    measureB: b,
+    packCost: packCost,
+    packCount: parseFloat(store.getAttribute('data-pack-count'))||1,
+    packSize: parseFloat(store.getAttribute('data-pack-size'))||0,
+    packMeasure: store.getAttribute('data-pack-measure')||'',
+    costPerBaseUnit: costA,
+    productName: (mc&&mc.productName)||store.getAttribute('data-product-name')||'',
+    category: (mc&&mc.category)||(_catProd&&_catProd.category)||''
+  });
+}
+function mnDiagnose(pid){
+  var store=document.getElementById('mn_store_'+pid);
+  var out=document.getElementById('mn_fix_'+pid);
+  var aEl=document.getElementById('mn_a_'+pid);
+  var mc=_measureCtxByPid[pid]||{};
+  if(!out) return;
+  out.style.display='block';
+  out.innerHTML='<div style="font-size:12px;color:var(--muted)">Analysing this line…</div>';
+  
+  var prod=null;
+  for(var i=0;i<allProducts.length;i++){ if(allProducts[i].productId===pid){ prod=allProducts[i]; break; } }
+  var payload={
+    supplier: (prod&&prod.supplier)||mc.supplier||'',
+    description: (prod&&prod.name)||'',
+    quantity: mc.qty!=null?String(mc.qty):'',
+    uom: mc.unit||'',
+    unitPrice: mc.unitPrice,
+    lineTotal: mc.lineNet||mc.unitPrice,
+    baseUnit: aEl?aEl.value:'',
+    currentCostPerBaseUnit: store?(store.getAttribute('data-cost-a')||''):'',
+    packSize: store?(store.getAttribute('data-pack-count')||''):'',
+    packSizeText: mc.packLabel||'',
+    packDescription: '',
+    pdfFileId: (store&&store.getAttribute('data-pdf'))||mc.pdfFileId||'',
+    note: ''
+  };
+  google.script.run.withSuccessHandler(function(res){ mnRenderFix_(pid,res); })
+    .withFailureHandler(function(err){
+      out.innerHTML='<div style="font-size:12px;color:var(--red)">Diagnosis failed: '+esc((err&&err.message)||String(err))+'</div>';
+    }).diagnosePackLine(payload);
+}
+function mnRenderFix_(pid,res){
+  var out=document.getElementById('mn_fix_'+pid);
+  var store=document.getElementById('mn_store_'+pid);
+  if(!out) return;
+  if(!res||!res.success){
+    out.innerHTML='<div style="font-size:12px;color:var(--red)">'+esc((res&&res.error)||'No diagnosis')+'</div>';
+    return;
+  }
+  var c=res.corrected||{};
+  var html='';
+  html+=res.sawInvoice
+    ?'<div style="font-size:11px;color:var(--muted);margin-bottom:6px">✓ read from the invoice PDF</div>'
+    :'<div style="font-size:11px;color:#b45309;margin-bottom:6px">⚠ invoice not available — fields only</div>';
+  if(res.methodsUsed&&res.methodsUsed.length){
+    html+='<div style="font-size:11px;color:#065f46;background:#ecfdf5;border:1px solid #6ee7b7;border-radius:6px;padding:6px 8px;margin-bottom:6px">'+
+      'Learned from Incorrect calcs — '+(esc((window._mnFixMeta&&window._mnFixMeta[pid]&&window._mnFixMeta[pid].supplier)||''))+' methods: '+esc(res.methodsUsed.join(', '))+'</div>';
+  }
+  html+='<div style="font-size:12px;line-height:1.5;margin-bottom:8px">'+esc(res.diagnosis||'')+'</div>';
+  if(c.costPerBaseUnit!=null){
+    html+='<div style="font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 10px;margin-bottom:8px">'+
+      '<b>Corrected:</b> '+esc(String(c.packCount||''))+' × '+esc(String(c.packSize||''))+esc(String(c.packMeasure||''))+
+      ' → £'+esc(String(c.costPerBaseUnit))+'</div>';
+  }
+  html+='<button type="button" class="btn-sm btn-save" onclick="mnApplyFix(''+esc(pid)+'')">Apply &amp; learn for supplier</button>';
+  out.innerHTML=html;
+  
+  window._mnFix=window._mnFix||{};
+  window._mnFix[pid]=c;
+  window._mnFixMeta=window._mnFixMeta||{};
+  var prod=null;
+  for(var i=0;i<allProducts.length;i++){ if(allProducts[i].productId===pid){ prod=allProducts[i]; break; } }
+  window._mnFixMeta[pid]={
+    supplier:(prod&&prod.supplier)||'',
+    description:(prod&&prod.name)||'',
+    rule:res.rule||null,
+    method:res.method||null,
+    validation:res.validation||null
+  };
+  if(c.costPerBaseUnit>0&&store){
+    var aEl=document.getElementById('mn_a_'+pid);
+    if(c.baseUnit&&aEl){ aEl.value=c.baseUnit; }
+    store.setAttribute('data-manual','1');
+    store.setAttribute('data-cost-a',String(c.costPerBaseUnit));
+    if(c.packCount) store.setAttribute('data-pack-count',String(c.packCount));
+    if(c.packSize) store.setAttribute('data-pack-size',String(c.packSize));
+    if(c.packMeasure) store.setAttribute('data-pack-measure',String(c.packMeasure));
+    mnPaintCostA_(pid,parseFloat(c.costPerBaseUnit),aEl?aEl.value:(c.baseUnit||''));
+    mnRecalcB_(pid);
+  }
+}
+function mnApplyFix(pid){
+  var c=(window._mnFix&&window._mnFix[pid])||{};
+  if(!(c.costPerBaseUnit>0)){ toast('No corrected cost to apply',1); return; }
+  var store=document.getElementById('mn_store_'+pid);
+  var aEl=document.getElementById('mn_a_'+pid);
+  var meta=(window._mnFixMeta&&window._mnFixMeta[pid])||{};
+  if(c.baseUnit&&aEl) aEl.value=c.baseUnit;
+  if(store){
+    store.setAttribute('data-manual','1');
+    store.setAttribute('data-cost-a',String(c.costPerBaseUnit));
+    if(c.packCount) store.setAttribute('data-pack-count',String(c.packCount));
+    if(c.packSize) store.setAttribute('data-pack-size',String(c.packSize));
+    if(c.packMeasure) store.setAttribute('data-pack-measure',String(c.packMeasure));
+  }
+  mnPaintCostA_(pid,parseFloat(c.costPerBaseUnit),aEl?aEl.value:'');
+  
+  var learnPayload={
+    supplier:meta.supplier||'',
+    description:meta.description||'',
+    packCount:c.packCount,
+    packSize:c.packSize,
+    packMeasure:c.packMeasure,
+    example:(c.packSize&&c.packMeasure)?(String(c.packSize)+c.packMeasure):'',
+    forceParenthetical:true,
+    notes:'Products Incorrect calcs'
+  };
+  if(meta.rule&&meta.rule.match){
+    learnPayload.match=meta.rule.match;
+    learnPayload.action=meta.rule.action;
+    learnPayload.expect=meta.rule.expect;
+    learnPayload.params=meta.rule.params;
+  }
+  if(meta.method&&meta.method.notes){
+    google.script.run.approveProposedRule({
+      scope:'method', supplier:meta.method.supplier||meta.supplier||'', notes:meta.method.notes
+    });
+  }
+  google.script.run.withSuccessHandler(function(r){
+    var msg='Corrected cost applied';
+    if(r&&r.success&&r.seeded>0) msg+=' â learned for '+(meta.supplier||'supplier');
+    toast(msg+' â click Save measures & confirm');
+  }).withFailureHandler(function(){
+    toast('Corrected cost applied â click Save measures & confirm');
+  }).recordSupplierLineLearn(learnPayload);
+}
+function mnSave(pid){
+  var store=document.getElementById('mn_store_'+pid);
+  var aEl=document.getElementById('mn_a_'+pid);
+  var bEl=document.getElementById('mn_b_'+pid);
+  var btn=document.getElementById('mn_save_'+pid);
+  if(!aEl) return;
+  var baseUnit=aEl.value;
+  var costA=0;
+  var inp=document.getElementById('mn_cpbu_'+pid);
+  if(inp) costA=parseFloat(inp.value)||0;
+  else if(store) costA=parseFloat(store.getAttribute('data-cost-a'))||0;
+  if(baseUnit!=='na'&&!(costA>0)){ toast('Enter Cost A (ÃÂÃÂ£ / Measure A)',1); return; }
+  var payload={
+    baseUnit: baseUnit,
+    costPerBaseUnit: costA,
+    secondaryUnit: bEl?bEl.value:'',
+    costPerSecondary: store?parseFloat(store.getAttribute('data-cost-b'))||0:0,
+    packCost: store?parseFloat(store.getAttribute('data-pack-cost'))||0:0,
+    packCount: store?parseFloat(store.getAttribute('data-pack-count'))||1:1,
+    packSize: store?parseFloat(store.getAttribute('data-pack-size'))||0:0,
+    packMeasure: store?store.getAttribute('data-pack-measure')||'':'',
+    unit: store?store.getAttribute('data-unit')||'':'',
+    qty: store?parseFloat(store.getAttribute('data-qty'))||1:1
+  };
+  if(btn){ btn.disabled=true; btn.textContent='Saving…'; }
+  google.script.run.withSuccessHandler(function(r){
+    if(btn){ btn.disabled=false; btn.textContent='Save measures & confirm'; }
+    if(!r||!r.success){ toast((r&&r.error)||'Save failed',1); return; }
+    toast(r.message||'Saved');
+    
+    for(var i=0;i<allProducts.length;i++){
+      if(allProducts[i].productId!==pid) continue;
+      allProducts[i].baseUnit=r.baseUnit==='na'?'':r.baseUnit;
+      allProducts[i].measure=r.baseUnit==='na'?'':r.baseUnit;
+      allProducts[i].costPerBaseUnit=r.costPerBaseUnit||0;
+      allProducts[i].primaryCost=r.costPerBaseUnit||0;
+      allProducts[i].primaryCostKind='base';
+      allProducts[i].secondaryUnit=r.secondaryUnit||'';
+      allProducts[i].costPerSecondary=r.costPerSecondary||0;
+      allProducts[i].classSource='manual';
+      allProducts[i].classDate=new Date().toISOString().slice(0,10);
+      break;
+    }
+    paintMeasureProgress_();
+    var nextId=mnFindNextIncomplete_(pid);
+    if(nextId){
+      if(!incompleteOnly) applyNeedsAttentionFilter_(true);
+      expandedIds={};if(nextId)expandedIds[String(nextId)]=true;
+      render();
+      setTimeout(function(){
+        var row=document.querySelector('.row-click.expanded');
+        if(row&&row.scrollIntoView){ try{ row.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){ row.scrollIntoView(); } }
+      }, 200);
+      toast('Saved â next product');
+    } else {
+      expandedIds={};
+      render();
+    }
+  }).withFailureHandler(function(e){
+    if(btn){ btn.disabled=false; btn.textContent='Save measures & confirm'; }
+    toast((e&&e.message)||'Save failed',1);
+  }).saveProductMeasures(pid,payload);
+}
+function mnFindNextIncomplete_(afterPid){
+  var pool=getFiltered();
+  if(!incompleteOnly){
+    pool=allProducts.filter(function(p){
+      if(activeDept==='Unclassified') return !(p.department||'').toString().trim();
+      return p.department===activeDept && isIncomplete(p);
+    });
+  }
+  var idx=-1;
+  for(var i=0;i<pool.length;i++){ if(String(pool[i].productId)===String(afterPid)){ idx=i; break; } }
+  for(var j=idx+1;j<pool.length;j++){
+    if(isIncomplete(pool[j])&&String(pool[j].productId)!==String(afterPid)) return pool[j].productId;
+  }
+  for(var k=0;k<pool.length;k++){
+    if(isIncomplete(pool[k])&&String(pool[k].productId)!==String(afterPid)) return pool[k].productId;
+  }
+  return null;
+}
+function mnGoNextIncomplete_(){
+  var cur=Object.keys(expandedIds)[0]||null;
+  var next=mnFindNextIncomplete_(cur||'');
+  if(!next){ toast('No more products needing measure'); return; }
+  if(!incompleteOnly) applyNeedsAttentionFilter_(true);
+  expandedIds={};if(next)expandedIds[String(next)]=true;
+  render();
+  setTimeout(function(){
+    var row=document.querySelector('.row-click.expanded');
+    if(row&&row.scrollIntoView){ try{ row.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){ row.scrollIntoView(); } }
+  }, 200);
+}
+document.addEventListener('keydown',function(ev){
+  var t=ev.target;
+  var tag=(t&&t.tagName)?t.tagName.toLowerCase():'';
+  if(tag==='input'||tag==='textarea'||tag==='select'||(t&&t.isContentEditable)) return;
+  if((ev.key==='n'||ev.key==='N')&&!ev.ctrlKey&&!ev.metaKey&&!ev.altKey){
+    if(document.getElementById('content')){ ev.preventDefault(); mnGoNextIncomplete_(); }
+  }
+});
+function mnSendToQuestions(pid){
+  if(!pid) return;
+  google.script.run.withSuccessHandler(function(r){
+    if(!r||!r.success){ toast((r&&r.error)||'Enqueue failed',1); return; }
+    if(r.queued>0){ toast('Opened in Questions'); nv('questions'); }
+    else if(r.skippedPending){ toast('Already in Questions'); nv('questions'); }
+    else toast(r.message||'Nothing queued',1);
+  }).withFailureHandler(function(e){ toast((e&&e.message)||'Enqueue failed',1); })
+    .enqueueProductsToQuestions([pid]);
+}
+
+
+
+function measureBasisCard_(p, opts){
+  opts=opts||{};
+  var dept=(opts.dept||p.department||'').toString().toLowerCase();
+  var measure=productMeasure_(p);
+  var cpbu=productCostPerMeasure_(p);
+  var packAg=parseFloat(p.packCost)||0;
+  var pv=parseFloat(p.packSizeValue)||0;
+  var pu=(p.packSizeUnit||'').toString().trim();
+  var secU=(p.secondaryUnit||'').toString().trim().toLowerCase();
+  if(secU==='litre'||secU==='liter') secU='l';
+  var secLab=formatMeasureLabelJS_(secU);
+  var secC=parseFloat(p.costPerSecondary)||0;
+  var h='<div class="dp-sect"><h4>Recording basis</h4><div class="mb-card">';
+  h+='<div class="mb-row"><span class="mb-k">Measure A</span><span class="mb-v mb-pill">'+(measure?esc(formatMeasureLabelJS_(measure)):'â')+'</span></div>';
+  h+='<div class="mb-row"><span class="mb-k">Cost A <span style="font-weight:500;opacity:.55;text-transform:none;letter-spacing:0;font-size:10px">(ex VAT)</span></span><span class="mb-v mb-cost">'+(cpbu>0?(fmtP(cpbu)+(measure?(' / '+esc(formatMeasureLabelJS_(measure))):'')):'â')+'</span></div>';
+  if(secU&&secC>0){
+    h+='<div class="mb-sec">Measure B: <b>'+esc(secLab||secU)+'</b> ÃÂÃÂ· <b>'+fmtP(secC)+' / '+esc(secLab||secU)+'</b> <span style="opacity:.55;font-size:11px">(ex VAT)</span></div>';
+  } else if(dept==='bar'){
+    if(isDraughtProduct_(p)){
+      var sizeLabel=(pv>0?(String(pv)+(pu?(' '+pu):'')):(pu||'')).trim();
+      h+='<div class="mb-sec">Keg / cask: <b>'+(packAg>0?fmtP(packAg):'â')+'</b>'+(sizeLabel?(' ÃÂÃÂ· '+esc(sizeLabel)):'')+'</div>';
+    } else if(measure!=='l'){
+      var litres=packSizeInBaseJS_(pv, pu, 'l');
+      if(litres>0&&packAg>0){
+        h+='<div class="mb-sec muted">Compare: <b>'+fmtP(packAg/litres)+' / l</b> <span style="opacity:.75">('+esc(String(pv))+(pu?(' '+esc(pu)):'')+' pack)</span></div>';
+      } else if(litres>0&&cpbu>0&&(measure==='each'||measure==='pack'||measure==='bottle')){
+        h+='<div class="mb-sec muted">Compare: <b>'+fmtP(cpbu/litres)+' / l</b></div>';
+      }
+    }
+  } else {
+    if(measure==='kg'&&cpbu>0) h+='<div class="mb-sec muted">'+fmtPfine(cpbu/1000)+' / g</div>';
+    if(measure==='l'&&cpbu>0) h+='<div class="mb-sec muted">'+fmtPfine(cpbu/1000)+' / ml</div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+
+
+function wineGlassPricingCard_(p){
+  var bottle=parseFloat(p.costPerBaseUnit)||0;
+  var bu=String(p.baseUnit||'').toLowerCase().trim();
+  if(!(bottle>0)&&(bu==='each'||bu==='bottle'||bu==='pack'||!bu)){
+    bottle=parseFloat(p.packCost)||parseFloat(p.currentCost)||0;
+  }
+  if(!(bottle>0)) return '';
+  var pv=parseFloat(p.packSizeValue)||0;
+  var pu=(p.packSizeUnit||'').toString();
+  var bottleL=packSizeInBaseJS_(pv,pu,'l');
+  if(!(bottleL>0)){
+    var nm=(p.name||p.productName||'').toString();
+    var m=nm.match(/(\d+(?:\.\d+)?)\s*cl/i);
+    if(m) bottleL=parseFloat(m[1])/100;
+    else{ m=nm.match(/(\d+)\s*ml/i); if(m) bottleL=parseFloat(m[1])/1000; }
+  }
+  if(!(bottleL>0)) bottleL=0.75;
+  var tgp=parseFloat(p.targetGP)||68;
+  var vatR=parseFloat(p.vatRate); if(!(vatR>0)) vatR=0.2;
+  if(vatR>1) vatR=vatR/100;
+  var sizes=[125,175,250];
+  var h='<div class="dp-sect"><h4>Wine glasses</h4>';
+  h+='<div style="font-size:11px;color:var(--muted);margin-bottom:8px">From bottle <b>'+fmtP(bottle)+'</b> ÃÂÃÂ· '+bottleL.toFixed(2)+' L ÃÂÃÂ· target GP '+tgp+'%</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
+  sizes.forEach(function(ml){
+    var costG=bottle*(ml/1000)/bottleL;
+    var sellEx=costG/(1-tgp/100);
+    var sellInc=Math.ceil(sellEx*(1+vatR)*20)/20;
+    h+='<div style="background:rgba(79,124,255,.06);border:1px solid rgba(79,124,255,.22);border-radius:10px;padding:10px;text-align:center">';
+    h+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:4px">'+ml+' ml</div>';
+    h+='<div style="font-size:20px;font-weight:800;font-family:DM Mono;line-height:1.1;color:var(--accent)">'+fmtP(sellInc)+'</div>';
+    h+='<div style="font-size:10px;color:var(--muted);margin-top:4px">inc VAT</div>';
+    h+='<div style="font-size:11px;margin-top:6px;color:var(--text)">cost '+fmtP(costG)+' ÃÂÃÂ· ex '+fmtP(Math.round(sellEx*100)/100)+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='<div style="font-size:10px;color:var(--muted);margin-top:8px">Suggested till prices at '+tgp+'% GP (5p round). Bottle / Measure A stays the purchase basis.</div>';
+  h+='</div>';
+  return h;
+}
+
+ 
+function shortPortionLabelFromBreakdown_(desc){
+  var raw=(desc||'').toString().trim();
+  if(!raw) return '';
+  var head=raw.split(/[~(]/)[0].trim();
+  if(!head) return '';
+  if(/^\d/.test(head)) return head;
+  head=head.replace(/\s+portion$/i,'').trim();
+  if(!head) return '';
+  
+  head=head.replace(/\s*\(\s*each\s*\)\s*$/i,'').replace(/\s+each$/i,'').trim();
+  if(!head) return '';
+  return '1 '+head.toLowerCase();
+}
+
+ 
+function extractGramsFromText_(text){
+  var raw=(text||'').toString();
+  if(!raw) return 0;
+  var range=raw.match(/(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*g/i);
+  if(range) return (parseFloat(range[1])+parseFloat(range[2]))/2;
+  var gm=raw.match(/~?\s*(\d+(?:\.\d+)?)\s*g/i);
+  if(gm) return parseFloat(gm[1]);
+  var kg=raw.match(/(\d+(?:\.\d+)?)\s*kg/i);
+  if(kg) return parseFloat(kg[1])*1000;
+  return 0;
+}
+
+
+
+function guessKitchenPortionGrams_(productName){
+  var desc=(productName||'').toString().toLowerCase();
+  if(!desc) return null;
+  if(/sausage/.test(desc)) return {grams:67, label:'Sausage (~67g each, ~15 per kg)'};
+  if(/burger|patty|pattie/.test(desc)) return {grams:170, label:'Burger patty (~170g / 6oz)'};
+  if(/chicken.*breast|breast.*chicken/.test(desc)) return {grams:190, label:'Chicken breast (~190g each)'};
+  if(/chicken.*thigh|thigh.*chicken/.test(desc)) return {grams:120, label:'Chicken thigh (~120g each)'};
+  if(/ribeye|rib eye|rib-eye/.test(desc)) return {grams:280, label:'Ribeye steak (~280g / 10oz)'};
+  if(/sirloin/.test(desc)) return {grams:250, label:'Sirloin steak (~250g / 9oz)'};
+  if(/rump/.test(desc)&&!/lamb/.test(desc)) return {grams:250, label:'Rump steak (~250g / 9oz)'};
+  if(/steak/.test(desc)) return {grams:250, label:'Steak (~250g / 9oz)'};
+  if(/lamb.*chop|chop.*lamb/.test(desc)) return {grams:150, label:'Lamb chop (~150g each)'};
+  if(/pork.*chop|chop.*pork/.test(desc)) return {grams:200, label:'Pork chop (~200g)'};
+  if(/salmon.*fillet|fillet.*salmon/.test(desc)) return {grams:180, label:'Salmon fillet (~180g)'};
+  if(/cod.*fillet|fillet.*cod/.test(desc)) return {grams:180, label:'Cod fillet (~180g)'};
+  if(/fillet/.test(desc)) return {grams:180, label:'Fillet (~180g)'};
+  if(/mince/.test(desc)) return {grams:150, label:'Mince portion (~150g)'};
+  if(/halloumi/.test(desc)) return {grams:80, label:'Halloumi slice (~80g)'};
+  return null;
+}
+
+
+
+function enrichKitchenPortionBreakdown_(productName, grams){
+  var desc=(productName||'').toString().toLowerCase();
+  var g=parseFloat(grams)||0;
+  var perKg=g>0?Math.round(1000/g):0;
+  var gBit=g>0?('~'+Math.round(g)+'g'):'';
+  var perBit=perKg>0?(', ~'+perKg+' per kg'):'';
+  var tail=perKg>0?(' ('+perKg+' portions per kg)'):'';
+  if(/sausage/.test(desc)) return 'Sausage ('+gBit+' each'+perBit+')'+tail;
+  if(/burger|patty|pattie/.test(desc)) return 'Burger patty ('+gBit+(gBit?' / ~6oz':'')+perBit+')'+tail;
+  if(/chicken.*breast|breast.*chicken/.test(desc)) return 'Chicken breast ('+gBit+' each'+perBit+')'+tail;
+  if(/ribeye|rib eye|rib-eye/.test(desc)) return 'Ribeye steak ('+gBit+perBit+')'+tail;
+  if(/sirloin/.test(desc)) return 'Sirloin steak ('+gBit+perBit+')'+tail;
+  if(/rump/.test(desc)&&!/lamb/.test(desc)) return 'Rump steak ('+gBit+perBit+')'+tail;
+  if(/steak/.test(desc)) return 'Steak ('+gBit+perBit+')'+tail;
+  if(/lamb.*chop|chop.*lamb/.test(desc)) return 'Lamb chop ('+gBit+' each'+perBit+')'+tail;
+  if(/pork.*chop|chop.*pork/.test(desc)) return 'Pork chop ('+gBit+perBit+')'+tail;
+  if(/salmon.*fillet|fillet.*salmon/.test(desc)) return 'Salmon fillet ('+gBit+perBit+')'+tail;
+  if(/cod.*fillet|fillet.*cod/.test(desc)) return 'Cod fillet ('+gBit+perBit+')'+tail;
+  if(/fillet/.test(desc)) return 'Fillet ('+gBit+perBit+')'+tail;
+  if(/mince/.test(desc)) return 'Mince portion ('+gBit+perBit+')'+tail;
+  if(/halloumi/.test(desc)) return 'Halloumi slice ('+gBit+perBit+')'+tail;
+  if(g>0) return Math.round(g)+'g portion'+tail;
+  return '';
+}
+
+ 
+function isThinKitchenPortionLabel_(text){
+  var t=(text||'').toString().trim();
+  if(!t) return true;
+  if(/^\d+(\.\d+)?g\s*portion$/i.test(t)) return true;
+  if(extractGramsFromText_(t)>0) return false;
+  
+  if(/\(\s*each\s*\)/i.test(t)||/each/i.test(t)) return true;
+  if(/^[A-Za-z][A-Za-z\s/&'-]{1,40}$/.test(t)) return true;
+  return false;
+}
+
+
+
+function kitchenPortionContextHtml_(p, aiServing, portionData){
+  var grams=0, cost=0, breakdown='';
+  portionData=portionData||{};
+  if(aiServing){
+    grams=parseFloat(aiServing.portionWeightGrams)||0;
+    cost=parseFloat(aiServing.costPerServe)||0;
+    breakdown=(aiServing.portionDescription||aiServing.unitDescription||'').toString().trim();
+  }
+  if(!breakdown){
+    breakdown=(portionData.portionDescription||p.portionDescription||'').toString().trim();
+  }
+  if(!(grams>0)&&breakdown) grams=extractGramsFromText_(breakdown);
+  
+  if(!(cost>0)){
+    cost=parseFloat(portionData.costPerPortion)||parseFloat(p.costPerPortion)||0;
+  }
+  
+  if(!(grams>0)){
+    var ssv=parseFloat(p.serveSizeValue)||0;
+    var ssu=(p.serveSizeUnit||'').toString().toLowerCase();
+    if(ssv>0&&(/g/.test(ssu)||ssu==='g'||/portion|main/.test(ssu))) grams=ssv;
+    else if(ssv>0&&ssv<=500&&!ssu) grams=ssv; 
+  }
+  
+  var guessed=null;
+  if(!(grams>0)){
+    guessed=guessKitchenPortionGrams_(p.name||'');
+    if(guessed) grams=guessed.grams;
+  }
+  
+  var measure=productMeasure_(p);
+  var cpbu=productCostPerMeasure_(p);
+  if(grams>0&&cpbu>0&&(measure==='kg'||measure==='l')){
+    cost=Math.round(cpbu*(grams/1000)*100)/100;
+  }
+  var thin=isThinKitchenPortionLabel_(breakdown);
+  if(!breakdown||thin){
+    var enriched=enrichKitchenPortionBreakdown_(p.name||'', grams);
+    if(!enriched&&guessed) enriched=guessed.label;
+    if(enriched) breakdown=enriched;
+  }
+  if(!(grams>0)&&!(cost>0)&&!breakdown){
+    if(measure==='kg'||measure==='l'){
+      return '<div style="font-size:12px;color:var(--muted);margin-bottom:8px">ÃÂ°ÃÂÃÂÃÂ½ÃÂ¯ÃÂ¸ÃÂ Portion is set per dish for weighed ingredients â not at product level.</div>';
+    }
+    return '';
+  }
+  var shortLab=shortPortionLabelFromBreakdown_(breakdown);
+  var h='<div class="dp-sect"><h4>Portion for kitchen</h4><div class="mb-card">';
+  
+  h+='<div class="mb-row"><span class="mb-k">Portion</span><span class="mb-v mb-cost">';
+  var heroBits=[];
+  if(grams>0) heroBits.push(esc(String(Math.round(grams)))+'g');
+  if(cost>0) heroBits.push(fmtP(cost));
+  if(shortLab) heroBits.push(esc(shortLab));
+  if(heroBits.length) h+=heroBits.join(' ÃÂÃÂ· ');
+  else h+='â';
+  h+='</span></div>';
+  if(breakdown){
+    h+='<details class="mb-adv"><summary>What is one portion?</summary>';
+    h+='<div style="color:var(--text);margin-bottom:6px">'+esc(breakdown)+'</div>';
+    h+='<div style="font-size:11px;color:var(--muted)">Dish menu sell price is on Dish Recipes â this is ingredient portion cost only.</div>';
+    h+='</details>';
+  }
+  h+='</div></div>';
+  return h;
+}
+function invoicePackAdvancedHtml_(pid, p, cost, portions, wastage, vatR){
+  var packAg=parseFloat(p.packCost)||0;
+  var editPack=packAg>0?packAg:0;
+  var measure=productMeasure_(p);
+  var cpbu=productCostPerMeasure_(p);
+  if(!(editPack>0)&&cpbu>0&&(measure==='pack'||measure==='each')) editPack=cpbu;
+  if(!(editPack>0)&&cost>0) editPack=cost;
+  var pv=parseFloat(p.packSizeValue)||0;
+  var pu=(p.packSizeUnit||'').toString();
+  var h='<details class="mb-adv"><summary>Invoice pack (advanced)</summary>';
+  h+='<div style="font-size:11px;color:var(--muted);margin-bottom:8px">Stored for audit / recost only â comparison uses Measure A/B above (ex VAT). Pack may still show the invoice shelf/gross figure.</div>';
+  if(pv>0||pu){
+    h+='<div style="margin-bottom:8px">Pack size on file: <b>'+(pv>0?esc(String(pv)):'')+(pu?(' '+esc(pu)):'')+'</b></div>';
+  }
+  h+='<div class="dp-field-row">';
+  h+='<div class="dp-field"><label>Pack Cost (ÃÂÃÂ£)</label>';
+  h+='<input type="number" step="0.01" min="0" id="ec_cost_'+pid+'" value="'+(editPack>0?editPack:'')+'" style="font-weight:700;font-family:DM Mono,monospace" oninput="ecRecalc(''+pid+'','+(portions||0)+','+(wastage||0)+','+(vatR||0.2)+')">';
+  h+='</div>';
+  h+='<div class="dp-field"><label>Portions / Pack</label>';
+  h+='<input type="number" step="0.1" min="0" id="ec_portions_'+pid+'" value="'+(portions||'')+'" oninput="ecRecalc(''+pid+'',0,'+(wastage||0)+','+(vatR||0.2)+')">';
+  h+='</div></div>';
+  h+='<div id="ec_preview_'+pid+'" style="font-size:12px;color:var(--muted);margin:8px 0 10px"></div>';
+  h+='<div style="display:flex;gap:8px;margin-top:8px">';
+  h+='<button class="btn-sm btn-save" onclick="ecSaveCost(''+pid+'')">Save Cost</button>';
+  h+='<button class="btn-sm" style="background:var(--accent);color:#fff" onclick="ecSavePortions(''+pid+'')">Save Portions</button>';
+  h+='</div></details>';
+  return h;
+}
+function esc(s){return(s||'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function toast(m,err){var t=document.createElement('div');t.className='toast '+(err?'toast-err':'toast-ok');t.textContent=(err?'ÃÂ¢ÃÂÃÂ ':'ÃÂ¢ÃÂÃÂ ')+m;document.body.appendChild(t);setTimeout(function(){t.style.opacity='0';setTimeout(function(){t.remove()},300)},3000)}
+
+function exportPDF(){
+  var items=getFiltered();
+  if(!items.length){toast('No products to export',1);return}
+
+  var dept=activeDept;
+  var sub=activeSub?(' â '+activeSub):'';
+  var date=new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  var h='<html><head><style>';
+  h+='*{margin:0;padding:0;box-sizing:border-box}';
+  h+='body{font-family:Arial,sans-serif;font-size:11px;color:#1a1d2e;padding:20px}';
+  h+='h1{font-size:18px;margin-bottom:2px}h2{font-size:13px;color:#6b7280;margin-bottom:12px;font-weight:400}';
+  h+='.cat-hdr{background:#f0f2f8;padding:6px 10px;font-weight:700;font-size:12px;margin-top:14px;border-bottom:2px solid #e2e6f0}';
+  h+='table{width:100%;border-collapse:collapse;margin-bottom:4px}';
+  h+='th{padding:5px 8px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;border-bottom:2px solid #e2e6f0;background:#f8f9fb}';
+  h+='th.r{text-align:right}';
+  h+='td{padding:4px 8px;border-bottom:1px solid #f0f2f8;font-size:11px}';
+  h+='td.r{text-align:right;font-family:Courier New,monospace}';
+  h+='.gp-g{color:#16a34a;font-weight:700}.gp-w{color:#d97706;font-weight:700}.gp-b{color:#dc2626;font-weight:700}';
+  h+='.sub{font-size:9px;color:#9ca3af}';
+  h+='.footer{margin-top:20px;padding-top:8px;border-top:1px solid #e2e6f0;font-size:9px;color:#9ca3af;display:flex;justify-content:space-between}';
+  h+='@media print{body{padding:10px}@page{size:landscape;margin:10mm}}';
+  h+='</style></head><body>';
+
+  var deptIcon={Bar:'ÃÂ°ÃÂÃÂÃÂº',Kitchen:'ÃÂ°ÃÂÃÂÃÂ³',Rooms:'ÃÂ°ÃÂÃÂÃÂÃÂ¯ÃÂ¸ÃÂ',Joint:'ÃÂ°ÃÂÃÂÃÂ§'};
+  h+='<h1>'+(deptIcon[dept]||'')+' '+dept+' Products'+sub+'</h1>';
+  h+='<h2>Kinfold Inns â '+date+' â '+items.length+' products</h2>';
+
+  
+  var groups={};
+  items.forEach(function(p){var c=(p.category||'Uncategorised').replace(dept+' - ','');if(!groups[c])groups[c]=[];groups[c].push(p)});
+
+  Object.keys(groups).sort().forEach(function(cat){
+    var prods=groups[cat];
+    h+='<div class="cat-hdr">'+cat+' ('+prods.length+')</div>';
+    h+='<table>';
+
+    if(dept==='Bar'){
+      h+='<thead><tr><th>Product</th><th>Supplier</th><th>Measure A</th><th class="r">ÃÂÃÂ£ / A</th><th>Measure B</th><th class="r">ÃÂÃÂ£ / B</th><th class="r">Sell</th><th class="r">GP%</th><th class="r">Target</th></tr></thead><tbody>';
+      prods.sort(function(a,b){return(a.name||'').localeCompare(b.name||'')});
+      prods.forEach(function(p){
+        var cells=measureListCells_(p);
+        var portions=parseFloat(p.portionsPerPack)||0;
+        var cpp=productCostPerMeasure_(p)||(portions>0?(p.cost||0)/portions:(p.cost||0));
+        var sell=parseFloat(p.sellPrice)||0;
+        var vatR2=parseFloat(p.vatRate)||0.2;var sellEx2=sell/(1+vatR2);var gp=sellEx2>0&&cpp>0?((sellEx2-cpp)/sellEx2*100):0;
+        var tgp=parseFloat(p.targetGP)||0;
+        var gpCls=gp>=tgp?'gp-g':gp>=tgp-10?'gp-w':gp>0?'gp-b':'';
+        h+='<tr><td><strong>'+esc(p.name)+'</strong>';
+        if(p.packDescription)h+='<br><span class="sub">'+esc(p.packDescription)+'</span>';
+        h+='</td><td>'+esc(p.supplier)+'</td>';
+        h+='<td>'+esc(productMeasure_(p)||'â')+'</td>';
+        h+='<td class="r"><strong>'+cells.aCost+'</strong></td>';
+        h+='<td>'+esc(secondaryMeasure_(p)||'â')+'</td>';
+        h+='<td class="r">'+cells.bCost+'</td>';
+        h+='<td class="r"><strong>'+fmtP(sell)+'</strong></td>';
+        h+='<td class="r"><span class="'+gpCls+'">'+(gp>0?gp.toFixed(1)+'%':'â')+'</span></td>';
+        h+='<td class="r">'+(tgp?tgp+'%':'â')+'</td></tr>';
+      });
+    } else if(dept==='Kitchen'){
+      h+='<thead><tr><th>Ingredient</th><th>Supplier</th><th>Measure A</th><th class="r">ÃÂÃÂ£ / A</th><th>Measure B</th><th class="r">ÃÂÃÂ£ / B</th></tr></thead><tbody>';
+      prods.sort(function(a,b){return(a.name||'').localeCompare(b.name||'')});
+      prods.forEach(function(p){
+        var cells=measureListCells_(p);
+        h+='<tr><td><strong>'+esc(p.name)+'</strong>';
+        if(p.portionDescription)h+='<br><span class="sub">'+esc(p.portionDescription)+'</span>';
+        h+='</td><td>'+esc(p.supplier)+'</td>';
+        h+='<td>'+esc(productMeasure_(p)||'â')+'</td>';
+        h+='<td class="r"><strong>'+cells.aCost+'</strong></td>';
+        h+='<td>'+esc(secondaryMeasure_(p)||'â')+'</td>';
+        h+='<td class="r">'+cells.bCost+'</td></tr>';
+      });
+    } else {
+      h+='<thead><tr><th>Product</th><th>Supplier</th><th>Measure A</th><th class="r">ÃÂÃÂ£ / A</th><th>Measure B</th><th class="r">ÃÂÃÂ£ / B</th></tr></thead><tbody>';
+      prods.sort(function(a,b){return(a.name||'').localeCompare(b.name||'')});
+      prods.forEach(function(p){
+        var cells=measureListCells_(p);
+        h+='<tr><td><strong>'+esc(p.name)+'</strong></td><td>'+esc(p.supplier)+'</td>';
+        h+='<td>'+esc(productMeasure_(p)||'â')+'</td>';
+        h+='<td class="r">'+cells.aCost+'</td>';
+        h+='<td>'+esc(secondaryMeasure_(p)||'â')+'</td>';
+        h+='<td class="r">'+cells.bCost+'</td></tr>';
+      });
+    }
+    h+='</tbody></table>';
+  });
+
+  h+='<div class="footer"><span>Generated by Kinfold Inns Management System</span><span>'+date+'</span></div>';
+  h+='</body></html>';
+
+  var win=window.open('','_blank','width=1100,height=800');
+  win.document.write(h);
+  win.document.close();
+  setTimeout(function(){win.print()},500);
+}
+
+load();
+
+ 
+var PAGE_BUILD = '2026-08-10st';
+var PAGE_NAME  = 'Products';
+(function(){
+  function paint(text, ok){
+    var el = document.getElementById('buildTag');
+    if (!el) return;
+    el.textContent = text;
+    el.style.color = ok ? '' : '#dc2626';
+    el.style.fontWeight = ok ? '' : '600';
+    el.title = ok ? 'Page and server builds match (' + PAGE_NAME + ')'
+                  : 'STALE DEPLOY â re-paste this page and/or clasp push Code.js';
+  }
+  function check(){
+    if (typeof google === 'undefined' || !google.script || !google.script.run) return;
+    google.script.run
+      .withSuccessHandler(function(info){
+        if (!info) { paint('⚠ no build info', false); return; }
+        if (!info.tracked) { paint('v4.1 · ' + PAGE_BUILD + ' (untracked)', true); return; }
+        if (info.expectedPageBuild === PAGE_BUILD) paint('v4.1 · ' + info.serverBuild, true);
+        else paint('⚠ page ' + PAGE_BUILD + ' ≠ ' + info.expectedPageBuild, false);
+      })
+      .withFailureHandler(function(){ paint('⚠ server build unknown', false); })
+      .getBuildInfo(PAGE_NAME);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', check);
+  else check();
+})();
+</script>
+</body>
+</html>

@@ -11,6 +11,7 @@ Cloud agent could not access private `charlesknew-alt/kinfold-invoicing` or clas
 | 3 | **Invoice Hub** restyled (Assistant/Questions light+teal) + client 55s timeout so Loading can’t hang forever | `InvoiceHub.html`, `Code.patches.js` (`getInvoiceHubData` notes) |
 | 4 | **Questions pub dropdown** → `reassignInvoiceToPub` | `QuestionsReview.html` |
 | 5 | **Draught Pricing** pack→pint repair: empty Saleable + £/pt === Cost £ made @GP/@Cash/Blended nonsense (£100+/pt). Client recomputes saleable pints + pillars from pack size | `DraughtPricing.html` (`?page=draughtpricing`) |
+| 6 | **Products detail** Cost/Serve + Hit GP Target used pack £ (£124) while Measure A correctly showed £1.41/pint → suggested sell £496. Prefer Measure A / derived portions | `Products.html` |
 
 ## Apply (on your PC)
 

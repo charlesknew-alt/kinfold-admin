@@ -164,3 +164,14 @@ function getInvoiceArchive_SIGNATURE_(filters) {
 //        costPerPint = packPrice / saleablePints
 //        then sellAtGP / sellAtCash / sellAtBlended from costPerPint
 // Empty Sell £ means Product Master has no sell price — use Set / till import.
+
+// ---------------------------------------------------------------------------
+// 7) Products.html renderDetail — Cost/Serve & Hit GP Target used pack £
+// ---------------------------------------------------------------------------
+// Symptom: Measure A shows £1.41/pint, but Cost/Serve = £124 and Hit GP Target = £496
+//   (124 / (1-0.70) * 1.2). Price change log may show -99% “crash” (pack→pint rewrite).
+// Cause: renderDetail used currentCost/portionsPerPack; when portions missing,
+//   cppEffective fell back to pack currentCost.
+// Fix (client): prefer productCostPerMeasure_ / costPerBaseUnit; derive portions
+//   from pack size or packCost/measureCost; guard draught products against £/serve > £20.
+// Server: keep portionsPerPack + costPerBaseUnit in sync (same REPAIR_draughtPortionData).
