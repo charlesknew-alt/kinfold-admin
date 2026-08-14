@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_self">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draught Pricing - Kinfold Inns</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f6fa; --surface: #ffffff; --surface2: #f0f2f8; --border: #e2e6f0;
+      --text: #1a1d2e; --muted: #6b7280;
+      --accent: #4f7cff; --green: #16a34a; --amber: #d97706; --red: #dc2626;
+      --eb-stripe: #7c4a1e; --wm-stripe: #1e3a8a;
+      --blended-bg: #eff6ff; --blended-border: #93c5fd; --blended-text: #1e3a8a;
+      --current-bg: #fef9e7;
+      --row-hover: #f9fafb;
+      --alert-bg: #fef2f2; --alert-border: #fca5a5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 16px 20px; font-size: 13px; }
+
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
+    .page-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+    .page-sub { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'DM Mono', monospace; }
+    .btn { padding: 7px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; transition: opacity 0.15s; }
+    .btn:hover { opacity: 0.85; }
+    .btn-ghost { background: var(--surface); color: var(--muted); border: 1px solid var(--border); }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-success { background: var(--green); color: white; }
+    .btn-danger  { background: var(--surface); color: var(--red); border: 1px solid var(--alert-border); }
+
+    .loading { padding: 60px 0; text-align: center; color: var(--muted); }
+    .empty { padding: 24px; text-align: center; color: var(--muted); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+
+
+    .app { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 220px; min-width: 220px; background: #f8fafc; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 20px 16px; border-bottom: 1px solid var(--border); }
+    .sidebar-logo .pub-name { font-size: 15px; font-weight: 700; }
+    .sidebar-logo .system-tag { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: 'DM Mono', monospace; }
+    .nav-section { padding: 14px 10px 8px; }
+    .nav-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; padding: 0 8px; margin-bottom: 6px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px;
+      cursor: pointer; font-size: 13px; font-weight: 500; color: var(--muted);
+      border: none; background: none; width: 100%; text-align: left; text-decoration: none;
+    }
+    .nav-item:hover { background: #eef0f8; color: var(--text); }
+    .nav-item.active { background: rgba(79,124,255,0.1); color: #4f7cff; }
+    .nav-item .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+    .main { flex: 1; min-width: 0; padding: 16px 20px; }
+    body { padding: 0; }
+    @media (max-width: 800px) {
+      .sidebar { display: none; }
+      body { padding: 12px; }
+      .main { padding: 0; }
+    }
+
+    .pub-section { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 20px; }
+    .pub-header { padding: 12px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; user-select: none; color: white; }
+    .pub-section[data-pub="eb"] .pub-header { background: var(--eb-stripe); }
+    .pub-section[data-pub="wm"] .pub-header { background: var(--wm-stripe); }
+    .pub-caret { font-size: 11px; transition: transform 0.15s; }
+    .pub-section.collapsed .pub-caret { transform: rotate(-90deg); }
+    .pub-section.collapsed .pub-body { display: none; }
+    .pub-name { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+    .pub-meta { font-size: 11px; opacity: 0.85; font-family: 'DM Mono', monospace; margin-left: auto; }
+    .pub-meta .meta-sep { opacity: 0.5; margin: 0 6px; }
+    .pub-warn { background: rgba(255,255,255,0.18); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+    .pub-alert-count { background: var(--red); color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+
+    .pub-body { overflow-x: auto; }
+
+    table.draught { width: 100%; border-collapse: collapse; min-width: 1100px; }
+    table.draught thead th { padding: 8px 6px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); font-weight: 600; text-align: right; border-bottom: 1px solid var(--border); background: #fbfcfe; white-space: nowrap; }
+    table.draught thead th.left { text-align: left; }
+    table.draught thead th.eng { background: #f3f0ff; color: #5b3fc9; }
+    table.draught thead th.cur { background: var(--current-bg); color: #7a5500; }
+    
+    table.draught tbody tr.prow { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+    table.draught tbody tr.prow.has-alert { border-left: 3px solid var(--red); }
+    table.draught tbody tr.prow.has-alert.expandable { cursor: pointer; }
+    table.draught tbody tr.prow:hover { background: var(--row-hover); }
+    table.draught tbody tr.prow.has-alert:hover { background: var(--alert-bg); }
+    
+    table.draught tbody td { padding: 6px 6px; vertical-align: middle; font-size: 12px; }
+    table.draught tbody td.num { text-align: right; font-family: 'DM Mono', monospace; }
+    table.draught tbody td.cur { background: var(--current-bg); }
+    table.draught tbody tr.prow:hover td.cur { background: #fbf3d3; }
+    table.draught tbody tr.prow.has-alert td.cur { background: #fef3c7; }
+    table.draught tbody tr.prow.has-alert:hover td.cur { background: #fbe4a1; }
+    
+    .col-product { min-width: 200px; max-width: 260px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .col-product .pid { font-size: 9px; color: var(--muted); font-weight: 400; font-family: 'DM Mono', monospace; margin-left: 4px; }
+    .alert-icon { display: inline-block; color: var(--red); margin-right: 5px; font-weight: 700; }
+    
+    .cat-badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; font-family: 'DM Mono', monospace; }
+    .cat-cask  { background: rgba(146,64,14,0.12);   color: #92400e; }
+    .cat-lager { background: rgba(217,119,6,0.12);   color: #d97706; }
+    .cat-cider { background: rgba(22,163,74,0.12);   color: #16a34a; }
+    .cat-craft { background: rgba(124,92,255,0.12);  color: #7c5cff; }
+
+    .gp-good { color: var(--green); font-weight: 600; }
+    .gp-warn { color: var(--amber); font-weight: 600; }
+    .gp-bad  { color: var(--red); font-weight: 700; }
+    .muted-cell { color: #aab1c0; font-weight: 400; }
+
+    .change-badge { display: inline-block; padding: 1px 4px; border-radius: 3px; font-size: 9px; font-weight: 700; font-family: 'DM Mono', monospace; }
+    .change-up   { background: rgba(220,38,38,0.12); color: var(--red); }
+    .change-down { background: rgba(22,163,74,0.12); color: var(--green); }
+
+    .pillar { cursor: pointer; padding: 3px 6px; border-radius: 4px; transition: background 0.12s; display: inline-block; font-family: 'DM Mono', monospace; }
+    .pillar:hover { background: rgba(79,124,255,0.08); }
+    .pillar.blended { background: var(--blended-bg); color: var(--blended-text); font-weight: 700; }
+    .pillar.blended:hover { background: #dbeafe; }
+    .pillar .sub { display: block; font-size: 8.5px; color: var(--muted); margin-top: 1px; font-weight: 400; }
+    .pillar.blended .sub { color: var(--blended-text); opacity: 0.75; }
+
+    .set-cell { white-space: nowrap; }
+    .set-cell input { padding: 3px 6px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; width: 56px; text-align: right; }
+    .set-cell input:focus { outline: none; border-color: var(--accent); }
+    .set-cell button { padding: 3px 10px; background: var(--green); color: white; border: none; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-left: 3px; }
+    .set-cell button:hover { opacity: 0.85; }
+    .set-cell button:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; }
+
+     
+    .alert-panel-row td { background: var(--alert-bg); padding: 0 !important; border-bottom: 1px solid var(--alert-border); }
+    .alert-panel { padding: 14px 18px; }
+    .alert-panel-title { font-size: 12px; font-weight: 700; color: var(--red); display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .alert-panel-title .pill { background: rgba(220,38,38,0.12); color: var(--red); padding: 2px 8px; border-radius: 12px; font-size: 10px; font-family: 'DM Mono', monospace; }
+    .alert-impact { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px; }
+    .impact-block { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+    .impact-block .label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+    .impact-block .row { font-size: 12px; line-height: 1.5; font-family: 'DM Mono', monospace; }
+    .impact-block .row .was { color: var(--muted); }
+    .impact-block .row .now { font-weight: 700; }
+    .impact-block .row .now.down { color: var(--red); }
+    .impact-block .row .now.up { color: var(--green); }
+    
+    .alert-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .alert-actions .group { display: flex; gap: 4px; align-items: center; }
+    .alert-actions input { padding: 5px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; width: 70px; text-align: right; }
+    .alert-actions input:focus { outline: none; border-color: var(--accent); }
+    .alert-actions .label { font-size: 11px; color: var(--muted); }
+
+    .subcat-row td { background: #f5f6fa; padding: 6px 12px !important; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; color: var(--muted); }
+    .subcat-row td .targets { float: right; font-family: 'DM Mono', monospace; font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0; }
+
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--text); color: white; padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 100; }
+    .toast.show { opacity: 1; }
+    .toast.error { background: var(--red); }
+    .toast.success { background: var(--green); }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="pub-name">Kinfold Inns</div>
+      <div class="system-tag">Invoicing</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Workflow</div>
+      <a class="nav-item" href="#" data-page="home" onclick="return navGo(event,'')"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" href="#" data-page="questions" onclick="return navGo(event,'questions')"><span class="nav-icon">❓</span> Questions</a>
+      <a class="nav-item" href="#" data-page="failed" onclick="return navGo(event,'failed')"><span class="nav-icon">⚠️</span> Failed</a>
+      <a class="nav-item" href="#" data-page="inbound" onclick="return navGo(event,'inbound')"><span class="nav-icon">📥</span> Inbound</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Pricing</div>
+      <a class="nav-item" href="#" data-page="pricing" onclick="return navGo(event,'pricing')"><span class="nav-icon">💰</span> Pricing</a>
+      <a class="nav-item active" href="#" data-page="draughtpricing" onclick="return false;"><span class="nav-icon">🍺</span> Draught Pricing</a>
+      <a class="nav-item" href="#" data-page="products" onclick="return navGo(event,'products')"><span class="nav-icon">📦</span> Products</a>
+      <a class="nav-item" href="#" data-page="recostblocked" onclick="return navGo(event,'recostblocked')"><span class="nav-icon">🛡️</span> Recost Blocked</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Finance</div>
+      <a class="nav-item" href="#" data-page="statements" onclick="return navGo(event,'statements')"><span class="nav-icon">📑</span> Statements</a>
+      <a class="nav-item" href="#" data-page="xero" onclick="return navGo(event,'xero')"><span class="nav-icon">📤</span> Xero Export</a>
+      <a class="nav-item" href="#" data-page="archive" onclick="return navGo(event,'archive')"><span class="nav-icon">📁</span> Archive</a>
+    </div>
+  </div>
+  <div class="main">
+
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Draught Pricing</div>
+    <div class="page-sub" id="pageSub">Loading…</div>
+  </div>
+  <div>
+    <button class="btn btn-ghost" onclick="loadData()">↻ Refresh</button>
+  </div>
+</div>
+
+<div id="content">
+  <div class="loading">Loading draught products…</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+  var _webAppUrl = '';
+  try {
+    google.script.run.withSuccessHandler(function(u){ _webAppUrl = u || ''; }).getWebAppUrl();
+  } catch (e) {}
+  function navGo(e, page) {
+    if (e) e.preventDefault();
+    var go = function(base) {
+      var url = base + (page ? ('?page=' + page) : '');
+      try { window.top.postMessage({ type: 'navigate', url: url }, '*'); } catch (err) {}
+      try { window.top.postMessage({ type: 'kinfold-page-change', page: page || 'Dashboard' }, '*'); } catch (err2) {}
+      setTimeout(function(){ window.location.href = url; }, 200);
+    };
+    if (_webAppUrl) go(_webAppUrl);
+    else {
+      google.script.run.withSuccessHandler(function(u){ _webAppUrl = u || ''; go(_webAppUrl); }).getWebAppUrl();
+    }
+    return false;
+  }
+
+  var pageData = null;
+  var expanded = {};   
+  
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function fmt(v, d) {
+    if (typeof v !== 'number' || isNaN(v) || v === 0) return '—';
+    return v.toFixed(d === undefined ? 2 : d);
+  }
+  function fmtDate(d) {
+    if (!d) return '—';
+    try {
+      var date = (d instanceof Date) ? d : new Date(d);
+      if (isNaN(date.getTime())) return '—';
+      return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    } catch(_) { return '—'; }
+  }
+  function gpClass(gp, target) {
+    if (!gp || gp <= 0) return 'gp-bad';
+    if (gp < -50 || gp > 95) return 'gp-bad';
+    if (target && gp >= target) return 'gp-good';
+    if (target && gp >= target - 5) return 'gp-warn';
+    if (gp >= 65) return 'gp-good';
+    if (gp >= 55) return 'gp-warn';
+    return 'gp-bad';
+  }
+  function catBadgeClass(sub) {
+    var m = { 'Cask': 'cat-cask', 'Lager': 'cat-lager', 'Cider': 'cat-cider', 'Craft Keg': 'cat-craft' };
+    return m[sub] || '';
+  }
+
+
+  // --- Client-side economics repair -----------------------------------------
+  // Server sometimes returns costPerPint === packPrice and empty saleablePints
+  // (portion data missing). Recalculate from packDesc so £/pt and pillars make sense.
+  var PINT_LITRES = 0.56826125; // UK pint
+  var repairedEconomics = 0;
+
+  function parsePackPortions_(packDesc, name) {
+    var s = String(packDesc || name || '').toLowerCase();
+    var m;
+    m = s.match(/(\d+(?:\.\d+)?)\s*gal(?:lon)?s?\b/);
+    if (m) {
+      var gals = parseFloat(m[1]);
+      if (gals >= 4 && gals <= 22) return { portions: gals * 8, label: gals + ' gal' };
+    }
+    m = s.match(/(\d+(?:\.\d+)?)\s*l(?:tr|itre)?s?\b/);
+    if (m) {
+      var litres = parseFloat(m[1]);
+      if (litres >= 5 && litres <= 100) return { portions: litres / PINT_LITRES, label: litres + ' L' };
+    }
+    if (/\bfirkin\b/.test(s)) return { portions: 72, label: '9 gal firkin' };
+    if (/\bpin\b/.test(s)) return { portions: 36, label: '4.5 gal pin' };
+    if (/\bkeg\b/.test(s)) return { portions: 50 / PINT_LITRES, label: '50 L keg' };
+    return null;
+  }
+
+  function sellIncVatFromCost_(costPerPint, targetGP, targetCash, vatRate) {
+    vatRate = (vatRate == null ? 0.2 : vatRate);
+    var sellAtGP = 0, sellAtCash = 0;
+    if (costPerPint > 0 && targetGP > 0 && targetGP < 95) {
+      var exGP = costPerPint / (1 - targetGP / 100);
+      sellAtGP = Math.round(exGP * (1 + vatRate) * 100) / 100;
+    }
+    if (costPerPint > 0 && targetCash > 0) {
+      var exCash = costPerPint + targetCash;
+      sellAtCash = Math.round(exCash * (1 + vatRate) * 100) / 100;
+    }
+    var sellAtBlended = 0, gpAtBlended = 0, cashAtBlended = 0;
+    if (sellAtGP > 0 && sellAtCash > 0) {
+      sellAtBlended = Math.round(((sellAtGP + sellAtCash) / 2) * 100) / 100;
+    } else {
+      sellAtBlended = sellAtGP || sellAtCash;
+    }
+    if (sellAtBlended > 0 && costPerPint > 0) {
+      var exB = sellAtBlended / (1 + vatRate);
+      gpAtBlended = Math.round(((exB - costPerPint) / exB) * 1000) / 10;
+      cashAtBlended = Math.round((exB - costPerPint) * 100) / 100;
+    }
+    return { sellAtGP: sellAtGP, sellAtCash: sellAtCash, sellAtBlended: sellAtBlended, gpAtBlended: gpAtBlended, cashAtBlended: cashAtBlended };
+  }
+
+  function looksLikePackAsPint_(p) {
+    if (!(p.packPrice > 0) || !(p.costPerPint > 0)) return false;
+    // Identical or nearly identical → server forgot to divide by saleable pints
+    if (Math.abs(p.costPerPint - p.packPrice) < 0.02) return true;
+    // Pint cost absurdly high for a draught pint
+    if (p.costPerPint > 20) return true;
+    // Engineered sell pillars above £30 (UI rejects those)
+    if ((p.sellAtBlended || 0) > 30 || (p.sellAtGP || 0) > 30) return true;
+    return false;
+  }
+
+  function normalizeProductEconomics_(p, catTargets) {
+    if (!p) return false;
+    var t = (catTargets && catTargets[p.subcategory]) || {};
+    var waste = (p.wastagePct != null ? p.wastagePct : (t.waste != null ? t.waste : 10));
+    var targetGP = (p.targetGP != null ? p.targetGP : (t.gp != null ? t.gp : 0));
+    var targetCash = (p.targetCash != null ? p.targetCash : (t.cash != null ? t.cash : 0));
+    var vatRate = p.vatRate != null ? p.vatRate : 0.2;
+    p.wastagePct = waste;
+    p.targetGP = targetGP;
+    p.targetCash = targetCash;
+    p.vatRate = vatRate;
+
+    var packed = parsePackPortions_(p.packDesc, p.name);
+    var grossPortions = p.portionsPerPack || 0;
+    if (!(grossPortions > 0) && packed) grossPortions = packed.portions;
+    if (!(grossPortions > 0)) return false;
+
+    var saleable = grossPortions * (1 - (waste || 0) / 100);
+    if (!(saleable > 0)) return false;
+
+    var needsFix = looksLikePackAsPint_(p) || !(p.saleablePints > 0) || !(p.portionsPerPack > 0);
+    if (!needsFix) return false;
+
+    p.portionsPerPack = Math.round(grossPortions * 100) / 100;
+    p.saleablePints = Math.round(saleable * 10) / 10;
+    if (p.packPrice > 0) {
+      p.costPerPint = Math.round((p.packPrice / saleable) * 1000) / 1000;
+    }
+    var sug = sellIncVatFromCost_(p.costPerPint, targetGP, targetCash, vatRate);
+    p.sellAtGP = sug.sellAtGP;
+    p.sellAtCash = sug.sellAtCash;
+    p.sellAtBlended = sug.sellAtBlended;
+    p.gpAtBlended = sug.gpAtBlended;
+    p.cashAtBlended = sug.cashAtBlended;
+
+    if (p.sellNow > 0 && p.costPerPint > 0) {
+      var ex = p.sellNow / (1 + vatRate);
+      p.gpNow = Math.round(((ex - p.costPerPint) / ex) * 1000) / 10;
+      p.cashNow = Math.round((ex - p.costPerPint) * 100) / 100;
+    }
+
+    // Alert costs often stored as pack-as-pint too — scale them down
+    if (p.alert && saleable > 1) {
+      var a = p.alert;
+      if (a.oldCost > 20) a.oldCost = Math.round((a.oldCost / saleable) * 1000) / 1000;
+      if (a.newCost > 20) a.newCost = Math.round((a.newCost / saleable) * 1000) / 1000;
+      var asug = sellIncVatFromCost_(a.newCost || p.costPerPint, targetGP, targetCash, vatRate);
+      a.sellAtGP = asug.sellAtGP;
+      a.sellAtCash = asug.sellAtCash;
+      a.sellAtBlended = asug.sellAtBlended;
+    }
+    p._economicsRepaired = true;
+    return true;
+  }
+
+  function normalizePageEconomics_(res) {
+    repairedEconomics = 0;
+    if (!res || !res.pubs) return;
+    var targets = res.categoryTargets || {};
+    res.pubs.forEach(function(pub) {
+      (pub.products || []).forEach(function(p) {
+        if (normalizeProductEconomics_(p, targets)) repairedEconomics++;
+      });
+      var gps = (pub.products || []).filter(function(p) {
+        return p.sellNow > 0 && p.gpNow >= -50 && p.gpNow <= 95;
+      }).map(function(p) { return p.gpNow; });
+      pub.avgGP = gps.length ? Math.round((gps.reduce(function(x,y){return x+y;},0) / gps.length) * 10) / 10 : 0;
+    });
+  }
+
+  function loadData() {
+    document.getElementById('content').innerHTML = '<div class="loading">Loading draught products…</div>';
+    document.getElementById('pageSub').textContent = 'Loading…';
+    google.script.run
+      .withSuccessHandler(function(res) {
+        console.log('[DraughtPricing] response:', res);
+        if (!res) {
+          document.getElementById('content').innerHTML = '<div class="empty"><b>Server returned null/undefined.</b><br>This usually means the server function threw before returning. Open Apps Script editor → Executions tab to see the stack trace. Or click <button class="btn btn-ghost" onclick="runDiagnostic()" style="margin-left:8px">Run Diagnostic</button></div>';
+          document.getElementById('pageSub').textContent = 'Null response';
+          return;
+        }
+        if (!res.success) {
+          document.getElementById('content').innerHTML = '<div class="empty"><b>Server returned failure.</b><br>' + esc(res.error || '(no error message)') + '<br><button class="btn btn-ghost" onclick="runDiagnostic()" style="margin-top:8px">Run Diagnostic</button></div>';
+          document.getElementById('pageSub').textContent = 'Server error';
+          return;
+        }
+        pageData = res;
+        normalizePageEconomics_(pageData);
+        render();
+        var ts = new Date().toLocaleTimeString();
+        var total = (res.pubs[0].productCount || 0) + (res.pubs[1].productCount || 0);
+        var alerts = countActiveAlerts();
+        document.getElementById('pageSub').textContent = total + ' rows · ' + alerts + ' active alerts · last refreshed ' + ts;
+      })
+      .withFailureHandler(function(err) {
+        console.error('[DraughtPricing] failure:', err);
+        document.getElementById('content').innerHTML = '<div class="empty"><b>Failure handler triggered.</b><br>' + esc(err.message || err) + '<br><button class="btn btn-ghost" onclick="runDiagnostic()" style="margin-top:8px">Run Diagnostic</button></div>';
+        document.getElementById('pageSub').textContent = 'Load failed';
+      })
+      .getDraughtProductsForPricing();
+  }
+
+  function runDiagnostic() {
+    document.getElementById('content').innerHTML = '<div class="loading">Running diagnostic…</div>';
+    google.script.run
+      .withSuccessHandler(function(d) {
+        console.log('[DraughtPricing] diagnostic:', d);
+        var html = '<div style="background:white;border:1px solid var(--border);border-radius:8px;padding:16px;font-family:DM Mono,monospace;font-size:11px">';
+        html += '<div style="font-weight:700;margin-bottom:10px">Diagnostic results:</div>';
+        if (d && d.steps) {
+          d.steps.forEach(function(s) {
+            var status = s.error ? '<span style="color:var(--red)">✗ FAILED</span>' : '<span style="color:var(--green)">✓ OK</span>';
+            html += '<div style="padding:6px 0;border-bottom:1px solid var(--border)">';
+            html += status + ' <b>' + esc(s.step) + '</b>';
+            Object.keys(s).forEach(function(k) {
+              if (k === 'step' || k === 'error' || k === 'stack') return;
+              html += ' · ' + esc(k) + ': ' + esc(String(s[k]));
+            });
+            if (s.error) html += '<div style="color:var(--red);margin-top:4px;font-size:10px">' + esc(s.error) + '</div>';
+            if (s.stack) html += '<pre style="background:#f5f6fa;padding:6px;border-radius:4px;font-size:10px;margin-top:4px;white-space:pre-wrap">' + esc(s.stack) + '</pre>';
+            html += '</div>';
+          });
+        } else {
+          html += '<pre>' + esc(JSON.stringify(d, null, 2)) + '</pre>';
+        }
+        html += '<button class="btn btn-primary" onclick="loadData()" style="margin-top:12px">↻ Try loading again</button>';
+        html += '</div>';
+        document.getElementById('content').innerHTML = html;
+      })
+      .withFailureHandler(function(err) {
+        document.getElementById('content').innerHTML = '<div class="empty">Diagnostic also failed: ' + esc(err.message || err) + '</div>';
+      })
+      .pingDraughtPricing();
+  }
+
+  function countActiveAlerts() {
+    if (!pageData) return 0;
+    var seenIds = {};
+    pageData.pubs.forEach(function(pub) {
+      pub.products.forEach(function(p) { if (p.alert) seenIds[p.alert.alertId] = true; });
+    });
+    return Object.keys(seenIds).length;
+  }
+
+  function render() {
+    if (!pageData || !pageData.pubs) return;
+    var html = '';
+    if (repairedEconomics > 0) {
+      html += '<div class="empty" style="margin-bottom:12px;text-align:left;border-left:3px solid var(--amber);">';
+      html += '<b>Pack→pint repair applied on ' + repairedEconomics + ' row' + (repairedEconomics===1?'':'s') + '.</b> ';
+      html += 'Saleable pints and £/pt were recalculated from pack size (wastage applied). ';
+      html += '@GP / @Cash / Blended now use the corrected pint cost. ';
+      html += 'Empty Sell £ means no till/sell price is stored yet — set one with the green Set button. ';
+      html += 'For a permanent server fix, run <code>DRYRUN_repairDraughtPortionData</code> then <code>REPAIR_draughtPortionData</code> in Apps Script.';
+      html += '</div>';
+    }
+    pageData.pubs.forEach(function(pub) { html += renderPubSection(pub, pageData.categoryTargets); });
+    document.getElementById('content').innerHTML = html || '<div class="empty">No products to show.</div>';
+  }
+
+  function renderPubSection(pub, catTargets) {
+    var alertCount = 0;
+    pub.products.forEach(function(p) { if (p.alert) alertCount++; });
+    
+    var html = '<div class="pub-section" data-pub="' + esc(pub.key) + '">';
+    html += '<div class="pub-header" onclick="toggleSection(this)">';
+    html += '<span class="pub-caret">▼</span>';
+    html += '<span class="pub-name">' + esc(pub.name) + '</span>';
+    html += '<span class="pub-meta">' + pub.productCount + ' products';
+    html += '<span class="meta-sep">·</span>';
+    html += 'avg GP ' + (pub.avgGP ? pub.avgGP.toFixed(1) + '%' : '—');
+    if (alertCount > 0) {
+      html += '<span class="meta-sep">·</span>';
+      html += '<span class="pub-alert-count">⚠ ' + alertCount + ' price ' + (alertCount === 1 ? 'alert' : 'alerts') + '</span>';
+    }
+    if (pub.badDataCount > 0) {
+      html += '<span class="meta-sep">·</span>';
+      html += '<span class="pub-warn">' + pub.badDataCount + ' need attention</span>';
+    }
+    html += '</span></div>';
+    
+    html += '<div class="pub-body">';
+    if (pub.products.length === 0) {
+      html += '<div style="padding:16px;color:var(--muted);font-size:12px">No products on this pub's stock list.</div>';
+    } else {
+      html += '<table class="draught">';
+      html += '<thead><tr>';
+      html += '<th class="left">Product</th>';
+      html += '<th class="left">Cat</th>';
+      html += '<th>Pack</th>';
+      html += '<th>Saleable</th>';
+      html += '<th class="cur">Cost £</th>';
+      html += '<th class="cur">£/pt</th>';
+      html += '<th class="cur">Sell £</th>';
+      html += '<th class="cur">GP%</th>';
+      html += '<th class="cur">Cash £</th>';
+      html += '<th class="eng">@GP</th>';
+      html += '<th class="eng">@Cash</th>';
+      html += '<th class="eng">Blended ★</th>';
+      html += '<th class="left">Set new price</th>';
+      html += '</tr></thead><tbody>';
+      
+      var currentSub = null;
+      pub.products.forEach(function(p) {
+        if (p.subcategory !== currentSub) {
+          currentSub = p.subcategory;
+          var t = catTargets[currentSub] || {};
+          html += '<tr class="subcat-row"><td colspan="13">';
+          html += esc(currentSub);
+          html += '<span class="targets">Target ' + (t.gp || '—') + '% GP · £' + (t.cash ? t.cash.toFixed(2) : '—') + ' cash · ' + (t.waste || '—') + '% wastage</span>';
+          html += '</td></tr>';
+        }
+        html += renderProductRow(p, pub.key);
+        var expandKey = pub.key + '|' + p.productId;
+        if (expanded[expandKey] && p.alert) html += renderAlertPanel(p, pub.key);
+      });
+      
+      html += '</tbody></table>';
+    }
+    html += '</div></div>';
+    return html;
+  }
+
+  function renderProductRow(p, pubKey) {
+    var inputId = 'inp-' + p.productId + '-' + pubKey;
+    var btnId = 'btn-' + p.productId + '-' + pubKey;
+    var hasAlert = !!p.alert;
+    var rowClass = 'prow' + (hasAlert ? ' has-alert expandable' : '');
+    var clickAttr = hasAlert ? ' onclick="toggleRow(\'' + pubKey + '\',\'' + p.productId + '\',event)"' : '';
+    
+    var html = '<tr class="' + rowClass + '" data-pid="' + esc(p.productId) + '" data-pub="' + pubKey + '"' + clickAttr + '>';
+    
+    html += '<td class="col-product" title="' + esc(p.name) + '">';
+    if (hasAlert) html += '<span class="alert-icon" title="Active price alert">⚠</span>';
+    html += esc(p.name);
+    html += '<span class="pid">' + esc(p.productId) + '</span></td>';
+    
+    html += '<td><span class="cat-badge ' + catBadgeClass(p.subcategory) + '">' + esc(p.subcategory) + '</span></td>';
+    html += '<td class="num">' + esc(p.packDesc || '—') + '</td>';
+    html += '<td class="num">' + (p.saleablePints ? fmt(p.saleablePints, 1) + ' pt' : '—') + '</td>';
+    
+    html += '<td class="num cur">';
+    if (p.packPrice > 0) {
+      html += '£' + fmt(p.packPrice);
+      if (p.packEstimated) html += '<span class="muted-cell"> *</span>';
+      
+      
+      if (p.costChange && Math.abs(p.costChange.deltaPct) >= 0.5 && Math.abs(p.costChange.deltaPct) <= 50) {
+        var dir = p.costChange.deltaPct > 0 ? 'up' : 'down';
+        var arrow = p.costChange.deltaPct > 0 ? '▲' : '▼';
+        var pct = Math.abs(p.costChange.deltaPct).toFixed(1);
+        html += ' <span class="change-badge change-' + dir + '">' + arrow + pct + '%</span>';
+      }
+    } else {
+      html += '<span class="muted-cell">—</span>';
+    }
+    html += '</td>';
+    
+    html += '<td class="num cur">' + (p.costPerPint > 0 ? '£' + fmt(p.costPerPint, 3) : '<span class="muted-cell">—</span>') + '</td>';
+    html += '<td class="num cur">' + (p.sellNow > 0 ? '£' + fmt(p.sellNow) : '<span class="muted-cell">—</span>') + '</td>';
+    
+    html += '<td class="num cur ' + (p.sellNow > 0 ? gpClass(p.gpNow, p.targetGP) : '') + '">';
+    html += (p.sellNow > 0 ? fmt(p.gpNow, 1) + '%' : '<span class="muted-cell">—</span>');
+    html += '</td>';
+    
+    html += '<td class="num cur">' + (p.sellNow > 0 ? '£' + fmt(p.cashNow) : '<span class="muted-cell">—</span>') + '</td>';
+    
+    if (p.sellAtGP > 0) {
+      html += '<td class="num"><span class="pillar" onclick="event.stopPropagation();useSuggestion(\'' + p.productId + '\',\'' + pubKey + '\',' + p.sellAtGP + ')">£' + fmt(p.sellAtGP) + '</span></td>';
+      html += '<td class="num"><span class="pillar" onclick="event.stopPropagation();useSuggestion(\'' + p.productId + '\',\'' + pubKey + '\',' + p.sellAtCash + ')">£' + fmt(p.sellAtCash) + '</span></td>';
+      html += '<td class="num"><span class="pillar blended" onclick="event.stopPropagation();useSuggestion(\'' + p.productId + '\',\'' + pubKey + '\',' + p.sellAtBlended + ')">£' + fmt(p.sellAtBlended) + '<span class="sub">' + fmt(p.gpAtBlended, 1) + '% / £' + fmt(p.cashAtBlended) + '</span></span></td>';
+    } else {
+      html += '<td class="num muted-cell">—</td><td class="num muted-cell">—</td><td class="num muted-cell">—</td>';
+    }
+    
+    html += '<td class="set-cell" onclick="event.stopPropagation()"><input type="number" step="0.05" id="' + inputId + '" placeholder="0.00" />';
+    html += '<button id="' + btnId + '" onclick="commitPrice(\'' + p.productId + '\',\'' + pubKey + '\')">Set</button></td>';
+    
+    html += '</tr>';
+    return html;
+  }
+
+  function renderAlertPanel(p, pubKey) {
+    var a = p.alert;
+    
+    
+    var sellNow = p.sellNow || 0;
+    var vatRate = p.vatRate || 0.2;
+    
+    var oldGPAtSell = 0, oldCashAtSell = 0, newGPAtSell = 0, newCashAtSell = 0;
+    if (sellNow > 0) {
+      var exVAT = sellNow / (1 + vatRate);
+      if (a.oldCost > 0) {
+        oldGPAtSell = ((exVAT - a.oldCost) / exVAT) * 100;
+        oldCashAtSell = exVAT - a.oldCost;
+      }
+      if (a.newCost > 0) {
+        newGPAtSell = ((exVAT - a.newCost) / exVAT) * 100;
+        newCashAtSell = exVAT - a.newCost;
+      }
+    }
+    
+    
+    var ppp = p.portionsPerPack || 0;
+    var oldPackPrice = ppp > 0 ? a.oldCost * ppp * (1 - p.wastagePct/100) : 0;
+    var newPackPrice = ppp > 0 ? a.newCost * ppp * (1 - p.wastagePct/100) : 0;
+    
+    var html = '<tr class="alert-panel-row"><td colspan="13"><div class="alert-panel">';
+    html += '<div class="alert-panel-title">';
+    html += '⚠ Cost increased — alert ' + esc(a.alertId);
+    html += '<span class="pill">' + fmtDate(a.date) + '</span>';
+    html += '</div>';
+    
+    html += '<div class="alert-impact">';
+    html += '<div class="impact-block">';
+    html += '<div class="label">Pack price</div>';
+    html += '<div class="row"><span class="was">£' + fmt(oldPackPrice) + '</span> → <span class="now down">£' + fmt(newPackPrice) + '</span>  ▲' + fmt(a.deltaPct, 1) + '%</div>';
+    html += '<div class="row"><span class="was">£' + fmt(a.oldCost, 3) + '/pt</span> → <span class="now down">£' + fmt(a.newCost, 3) + '/pt</span></div>';
+    html += '</div>';
+    
+    html += '<div class="impact-block">';
+    html += '<div class="label">Impact at current £' + fmt(sellNow) + ' sell</div>';
+    if (sellNow > 0) {
+      html += '<div class="row">GP: <span class="was">' + fmt(oldGPAtSell, 1) + '%</span> → <span class="now ' + (newGPAtSell < oldGPAtSell ? 'down' : 'up') + '">' + fmt(newGPAtSell, 1) + '%</span></div>';
+      html += '<div class="row">Cash: <span class="was">£' + fmt(oldCashAtSell) + '</span> → <span class="now ' + (newCashAtSell < oldCashAtSell ? 'down' : 'up') + '">£' + fmt(newCashAtSell) + '</span> per pint</div>';
+    } else {
+      html += '<div class="row" style="color:var(--muted)">No sell price set yet</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+    
+    html += '<div class="alert-actions">';
+    if (a.sellAtBlended > 0) {
+      html += '<button class="btn btn-success" onclick="adoptAlertPrice(\'' + p.productId + '\',\'' + pubKey + '\',' + a.sellAtBlended + ',\'' + esc(a.alertId) + '\')">Adopt Blended £' + fmt(a.sellAtBlended) + '</button>';
+    }
+    if (a.sellAtGP > 0 && a.sellAtGP !== a.sellAtBlended) {
+      html += '<button class="btn btn-ghost" onclick="adoptAlertPrice(\'' + p.productId + '\',\'' + pubKey + '\',' + a.sellAtGP + ',\'' + esc(a.alertId) + '\')">@GP £' + fmt(a.sellAtGP) + '</button>';
+    }
+    if (a.sellAtCash > 0 && a.sellAtCash !== a.sellAtBlended) {
+      html += '<button class="btn btn-ghost" onclick="adoptAlertPrice(\'' + p.productId + '\',\'' + pubKey + '\',' + a.sellAtCash + ',\'' + esc(a.alertId) + '\')">@Cash £' + fmt(a.sellAtCash) + '</button>';
+    }
+    html += '<div class="group"><span class="label">or custom</span>';
+    html += '<input type="number" step="0.05" id="alert-inp-' + p.productId + '-' + pubKey + '" placeholder="0.00" />';
+    html += '<button class="btn btn-primary" onclick="commitAlertCustom(\'' + p.productId + '\',\'' + pubKey + '\',\'' + esc(a.alertId) + '\')">Set</button>';
+    html += '</div>';
+    html += '<button class="btn btn-danger" onclick="dismissAlert(\'' + esc(a.alertId) + '\')">Dismiss alert</button>';
+    html += '</div>';
+    
+    html += '</div></td></tr>';
+    return html;
+  }
+
+  function toggleSection(headerEl) {
+    headerEl.parentElement.classList.toggle('collapsed');
+  }
+  function toggleRow(pubKey, productId, ev) {
+    if (ev) {
+      var t = ev.target;
+      
+      if (t.tagName === 'BUTTON' || t.tagName === 'INPUT' || t.closest && (t.closest('button') || t.closest('input') || t.closest('.pillar') || t.closest('.set-cell'))) return;
+    }
+    var key = pubKey + '|' + productId;
+    expanded[key] = !expanded[key];
+    render();
+  }
+  function useSuggestion(productId, pubKey, price) {
+    var input = document.getElementById('inp-' + productId + '-' + pubKey);
+    if (input) { input.value = price.toFixed(2); input.focus(); }
+  }
+  function commitPrice(productId, pubKey, alertId) {
+    var input = document.getElementById('inp-' + productId + '-' + pubKey);
+    var btn = document.getElementById('btn-' + productId + '-' + pubKey);
+    var sell = parseFloat(input.value) || 0;
+    if (sell <= 0 || sell < 1 || sell > 30) {
+      showToast('Enter a sell price between £1 and £30', 'error');
+      return;
+    }
+    commitSell(productId, pubKey, sell, alertId, btn);
+  }
+  function commitAlertCustom(productId, pubKey, alertId) {
+    var input = document.getElementById('alert-inp-' + productId + '-' + pubKey);
+    var sell = parseFloat(input.value) || 0;
+    if (sell <= 0 || sell < 1 || sell > 30) {
+      showToast('Enter a sell price between £1 and £30', 'error');
+      return;
+    }
+    commitSell(productId, pubKey, sell, alertId, null);
+  }
+  function adoptAlertPrice(productId, pubKey, price, alertId) {
+    commitSell(productId, pubKey, price, alertId, null);
+  }
+  function commitSell(productId, pubKey, sell, alertId, btn) {
+    if (btn) { btn.disabled = true; btn.textContent = '…'; }
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (btn) { btn.disabled = false; btn.textContent = 'Set'; }
+        if (res && res.success) {
+          showToast('£' + sell.toFixed(2) + ' set for ' + (pubKey === 'wm' ? 'Windmill' : 'Eight Bells'), 'success');
+          
+          if (alertId) {
+            google.script.run
+              .withSuccessHandler(function(){ loadData(); })
+              .withFailureHandler(function(){ loadData(); })
+              .dismissDraughtPriceAlert(alertId);
+          } else {
+            
+            updateLocalSellPrice(productId, pubKey, sell);
+            render();
+          }
+        } else {
+          showToast('Failed: ' + ((res && res.error) || 'unknown'), 'error');
+        }
+      })
+      .withFailureHandler(function(err) {
+        if (btn) { btn.disabled = false; btn.textContent = 'Set'; }
+        showToast('Error: ' + (err.message || err), 'error');
+      })
+      .manualSellPriceUpdate(productId, sell, pubKey);
+  }
+  function updateLocalSellPrice(productId, pubKey, sell) {
+    if (!pageData || !pageData.pubs) return;
+    pageData.pubs.forEach(function(pub) {
+      if (pub.key !== pubKey) return;
+      pub.products.forEach(function(p) {
+        if (p.productId !== productId) return;
+        var ex = sell / (1 + (p.vatRate || 0.2));
+        p.sellNow = sell;
+        p.gpNow = p.costPerPint > 0 ? Math.round(((ex - p.costPerPint) / ex) * 1000) / 10 : 0;
+        p.cashNow = p.costPerPint > 0 ? Math.round((ex - p.costPerPint) * 100) / 100 : 0;
+      });
+      var gps = pub.products.filter(function(p) { return p.sellNow > 0 && p.gpNow >= -50 && p.gpNow <= 95; }).map(function(p) { return p.gpNow; });
+      pub.avgGP = gps.length ? Math.round((gps.reduce(function(x,y){return x+y;}, 0) / gps.length) * 10) / 10 : 0;
+    });
+  }
+  function dismissAlert(alertId) {
+    if (!confirm('Dismiss this price alert without changing the sell price?')) return;
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res && res.success) {
+          showToast('Alert dismissed', 'success');
+          loadData();
+        } else {
+          showToast('Could not dismiss: ' + ((res && res.error) || 'unknown'), 'error');
+        }
+      })
+      .withFailureHandler(function(err) {
+        showToast('Error: ' + (err.message || err), 'error');
+      })
+      .dismissDraughtPriceAlert(alertId);
+  }
+  function showToast(msg, type) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + (type || '');
+    setTimeout(function() { t.className = 'toast'; }, 2500);
+  }
+
+  loadData();
+</script>
+
+  </div><!-- /.main -->
+</div><!-- /.app -->
+</body>
+</html>

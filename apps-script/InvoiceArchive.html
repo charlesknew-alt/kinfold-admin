@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_top">
+  <title>Invoice Archive - Kinfold Inns</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --surface: #fff;
+      --surface2: #f0ebe3;
+      --line: #e8e1d6;
+      --text: #1c1917;
+      --muted: #78716c;
+      --accent: #0f766e;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --green: #15803d;
+      --blue: #1d4ed8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at top left, rgba(15,118,110,.1), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; }
+    .header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 18px;
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+    }
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(26px, 4vw, 34px); font-weight: 700; letter-spacing: -.02em;
+    }
+    .sub { color: var(--muted); margin-top: 4px; font-size: 13px; max-width: 40rem; line-height: 1.45; }
+    .btn {
+      border: 1px solid var(--line); background: #fff; color: var(--text);
+      padding: 10px 14px; border-radius: 10px; font: inherit; font-size: 13px;
+      font-weight: 700; cursor: pointer;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn.primary:hover { filter: brightness(1.05); color: #fff; }
+    .btn[disabled] { opacity: .55; cursor: default; }
+
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 14px; padding: 14px 16px; margin-bottom: 14px;
+    }
+    .fg { display: flex; flex-direction: column; gap: 4px; }
+    .fg.grow { flex: 1; min-width: 180px; }
+    .fg label {
+      font-size: 11px; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .4px;
+    }
+    .fg input, .fg select {
+      padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px;
+      font: inherit; font-size: 13px; background: #fff; color: var(--text); min-width: 140px;
+    }
+    .fg input:focus, .fg select:focus { outline: none; border-color: var(--accent); }
+
+    .layout {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 14px;
+    }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+    .panel {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden; min-height: 320px;
+      display: flex; flex-direction: column;
+    }
+    .panel h2 {
+      font-size: 14px; font-weight: 700; padding: 12px 14px;
+      border-bottom: 1px solid var(--line); background: var(--surface2);
+    }
+    .list { overflow: auto; flex: 1; max-height: 70vh; }
+    .row {
+      padding: 12px 14px; border-bottom: 1px solid var(--line); cursor: pointer;
+      transition: background .12s;
+    }
+    .row:hover, .row.active { background: rgba(15,118,110,.06); }
+    .row .top { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+    .row .inv { font-weight: 700; }
+    .row .meta { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .pub {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 700;
+    }
+    .pub.wm { background: rgba(29,78,216,.1); color: var(--blue); }
+    .pub.eb { background: rgba(180,83,9,.12); color: var(--amber); }
+
+    .detail { padding: 14px; overflow: auto; flex: 1; }
+    .kv { font-size: 13px; margin-bottom: 8px; }
+    .kv strong { color: var(--muted); font-weight: 600; margin-right: 6px; }
+    table.lines { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+    table.lines th, table.lines td {
+      padding: 7px 6px; border-bottom: 1px solid var(--line); text-align: left;
+    }
+    table.lines th {
+      font-size: 10px; text-transform: uppercase; letter-spacing: .4px;
+      color: var(--muted); background: var(--surface2);
+    }
+    .price { text-align: right; font-family: 'DM Mono', monospace; white-space: nowrap; }
+    .empty, .loading {
+      padding: 40px 16px; text-align: center; color: var(--muted); font-size: 14px;
+    }
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid var(--line); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin .7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .err { color: var(--red); }
+    a.pdf { color: var(--accent); font-weight: 700; text-decoration: none; }
+    a.pdf:hover { text-decoration: underline; }
+    .foot { padding: 10px 14px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div>
+        <div class="eyebrow">Kinfold Inns</div>
+        <h1>Invoice Archive</h1>
+        <p class="sub">Find a PDF and its line items by pub, supplier, or date.</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn primary" type="button" id="btnLoad" onclick="loadArchive()">Search</button>
+        <button class="btn" type="button" onclick="goBack()">Dashboard</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="fg">
+        <label>Pub</label>
+        <select id="fPub">
+          <option value="">All pubs</option>
+          <option value="Windmill">Windmill</option>
+          <option value="Eight">Eight Bells</option>
+        </select>
+      </div>
+      <div class="fg grow">
+        <label>Supplier</label>
+        <input id="fSupplier" type="text" placeholder="e.g. Booker, Matthew Clark">
+      </div>
+      <div class="fg">
+        <label>From</label>
+        <input id="fFrom" type="date">
+      </div>
+      <div class="fg">
+        <label>To</label>
+        <input id="fTo" type="date">
+      </div>
+      <div class="fg grow">
+        <label>Search</label>
+        <input id="fQ" type="text" placeholder="Invoice # or product…">
+      </div>
+    </div>
+
+    <div class="layout">
+      <div class="panel">
+        <h2>Invoices</h2>
+        <div class="list" id="list">
+          <div class="loading"><span class="spinner"></span>Loading archive…</div>
+        </div>
+        <div class="foot" id="foot" style="display:none"></div>
+      </div>
+      <div class="panel">
+        <h2>Details</h2>
+        <div class="detail" id="detail">
+          <div class="empty">Select an invoice to see PDF and lines.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var all = [];
+    var selectedId = null;
+    var loadTimer = null;
+
+    window.onload = function() {
+      try { window.top.postMessage({ type: 'kinfold-page-change', page: 'Invoice Archive' }, '*'); } catch (e) {}
+      // Sensible default: last 90 days
+      var to = new Date();
+      var from = new Date(); from.setDate(from.getDate() - 90);
+      document.getElementById('fTo').value = to.toISOString().slice(0, 10);
+      document.getElementById('fFrom').value = from.toISOString().slice(0, 10);
+      loadArchive();
+      ['fPub','fSupplier','fFrom','fTo','fQ'].forEach(function(id){
+        document.getElementById(id).addEventListener(id === 'fPub' ? 'change' : 'keydown', function(ev){
+          if (id === 'fPub' || ev.key === 'Enter') loadArchive();
+        });
+      });
+    };
+
+    var webAppUrl = '';
+    google.script.run.withSuccessHandler(function(u){ webAppUrl = u; }).getWebAppUrl();
+    function goBack(){
+      var u = (webAppUrl || '') + '';
+      try { window.top.postMessage({ type: 'navigate', url: u }, '*'); } catch (e) {}
+      setTimeout(function(){ window.location.href = u; }, 250);
+    }
+
+    function filters(){
+      return {
+        pub: document.getElementById('fPub').value || '',
+        supplier: (document.getElementById('fSupplier').value || '').trim(),
+        from: document.getElementById('fFrom').value || '',
+        to: document.getElementById('fTo').value || '',
+        q: (document.getElementById('fQ').value || '').trim()
+      };
+    }
+
+    function loadArchive(){
+      var btn = document.getElementById('btnLoad');
+      btn.disabled = true;
+      document.getElementById('list').innerHTML = '<div class="loading"><span class="spinner"></span>Loading archive…</div>';
+      document.getElementById('detail').innerHTML = '<div class="empty">Select an invoice to see PDF and lines.</div>';
+      selectedId = null;
+
+      if (loadTimer) clearTimeout(loadTimer);
+      var settled = false;
+      loadTimer = setTimeout(function(){
+        if (settled) return;
+        settled = true;
+        btn.disabled = false;
+        document.getElementById('list').innerHTML =
+          '<div class="loading err">Timed out loading archive. Narrow the date range and try again.</div>';
+      }, 55000);
+
+      var f = filters();
+      google.script.run
+        .withSuccessHandler(function(data){
+          if (settled) return;
+          settled = true;
+          if (loadTimer) clearTimeout(loadTimer);
+          btn.disabled = false;
+          onData(data);
+        })
+        .withFailureHandler(function(err){
+          if (settled) return;
+          settled = true;
+          if (loadTimer) clearTimeout(loadTimer);
+          btn.disabled = false;
+          document.getElementById('list').innerHTML =
+            '<div class="loading err">Could not load archive: ' + esc(err && err.message ? err.message : err) + '</div>';
+        })
+        .getInvoiceArchive(f);
+    }
+
+    function onData(data){
+      data = data || {};
+      // Accept several shapes from getInvoiceArchive
+      all = data.invoices || data.rows || data.items || (Array.isArray(data) ? data : []);
+      renderList();
+    }
+
+    function clientFilter(rows){
+      var f = filters();
+      var q = (f.q || '').toLowerCase();
+      return rows.filter(function(r){
+        if (f.pub && String(r.pub || '').indexOf(f.pub) < 0) return false;
+        if (f.supplier) {
+          var s = String(r.supplier || '').toLowerCase();
+          if (s.indexOf(f.supplier.toLowerCase()) < 0) return false;
+        }
+        if (q) {
+          var hay = [
+            r.invoiceNumber, r.supplier, r.pub, r.detail
+          ].concat((r.lines || []).map(function(l){ return l.description || l.product || l.name || ''; })).join(' ').toLowerCase();
+          if (hay.indexOf(q) < 0) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderList(){
+      var rows = clientFilter(all);
+      var el = document.getElementById('list');
+      var foot = document.getElementById('foot');
+      if (!rows.length) {
+        el.innerHTML = '<div class="empty">No invoices match these filters.</div>';
+        foot.style.display = 'none';
+        return;
+      }
+      var html = '';
+      rows.forEach(function(r, i){
+        var id = rowKey(r, i);
+        var pc = String(r.pub || '').indexOf('Windmill') > -1 ? 'wm' : 'eb';
+        var pl = String(r.pub || '').indexOf('Windmill') > -1 ? 'WM' : 'EB';
+        var dt = formatDate(r.invoiceDate || r.date);
+        html += '<div class="row' + (selectedId === id ? ' active' : '') + '" onclick="selectRow(\'' + jsStr(id) + '\')">'
+          + '<div class="top"><span class="inv">' + esc(r.invoiceNumber || '—') + '</span>'
+          + '<span class="pub ' + pc + '">' + pl + '</span></div>'
+          + '<div class="meta">' + esc(r.supplier || '—') + (dt ? ' · ' + esc(dt) : '')
+          + (r.grossTotal != null ? ' · £' + Number(r.grossTotal).toFixed(2) : '')
+          + '</div></div>';
+      });
+      el.innerHTML = html;
+      foot.style.display = 'block';
+      foot.textContent = rows.length + ' invoice' + (rows.length === 1 ? '' : 's');
+    }
+
+    function rowKey(r, i){
+      return String(r.invoiceId || r.id || ((r.invoiceNumber || '') + '|' + (r.pub || '') + '|' + i));
+    }
+
+    function findRow(id){
+      for (var i = 0; i < all.length; i++) {
+        if (rowKey(all[i], i) === id) return all[i];
+      }
+      return null;
+    }
+
+    function selectRow(id){
+      selectedId = id;
+      renderList();
+      var r = findRow(id);
+      if (!r) {
+        document.getElementById('detail').innerHTML = '<div class="empty">Not found.</div>';
+        return;
+      }
+      var lines = r.lines || r.lineItems || [];
+      var html = '';
+      html += '<div class="kv"><strong>Supplier</strong>' + esc(r.supplier || '—') + '</div>';
+      html += '<div class="kv"><strong>Invoice #</strong>' + esc(r.invoiceNumber || '—') + '</div>';
+      html += '<div class="kv"><strong>Pub</strong>' + esc(r.pub || '—') + '</div>';
+      html += '<div class="kv"><strong>Date</strong>' + esc(formatDate(r.invoiceDate || r.date) || '—') + '</div>';
+      if (r.netTotal != null || r.vatTotal != null || r.grossTotal != null) {
+        html += '<div class="kv"><strong>Totals</strong>'
+          + 'Net £' + Number(r.netTotal || 0).toFixed(2)
+          + ' · VAT £' + Number(r.vatTotal || 0).toFixed(2)
+          + ' · Gross £' + Number(r.grossTotal || 0).toFixed(2) + '</div>';
+      }
+      var pdf = r.pdfFileId || r.fileId || r.pdfId;
+      if (pdf) {
+        html += '<div class="kv"><a class="pdf" href="https://drive.google.com/file/d/' +
+          encodeURIComponent(pdf) + '/view" target="_blank" rel="noopener">Open PDF</a></div>';
+      }
+      if (lines.length) {
+        html += '<table class="lines"><thead><tr><th>Description</th><th>Qty</th><th class="price">Net</th></tr></thead><tbody>';
+        lines.forEach(function(l){
+          html += '<tr><td>' + esc(l.description || l.product || l.name || '—') + '</td>'
+            + '<td>' + esc(l.qty != null ? l.qty : (l.quantity != null ? l.quantity : '')) + '</td>'
+            + '<td class="price">' + (l.net != null || l.lineNet != null || l.amount != null
+              ? ('£' + Number(l.net != null ? l.net : (l.lineNet != null ? l.lineNet : l.amount)).toFixed(2))
+              : '') + '</td></tr>';
+        });
+        html += '</tbody></table>';
+      } else {
+        html += '<div class="empty" style="padding:16px 0">No line items returned for this invoice.</div>';
+      }
+      document.getElementById('detail').innerHTML = html;
+    }
+
+    function formatDate(d){
+      if (!d) return '';
+      try {
+        var dt = (d instanceof Date) ? d : new Date(d);
+        if (isNaN(dt.getTime())) return String(d);
+        return dt.toLocaleDateString('en-GB');
+      } catch (e) { return String(d); }
+    }
+
+    function esc(s){
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function jsStr(s){
+      return String(s == null ? '' : s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    }
+  </script>
+</body>
+</html>

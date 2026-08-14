@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#f5f6fa;--surface:#fff;--surface2:#f0f2f8;--border:#e2e6f0;--text:#1a1d2e;--muted:#6b7280;--accent:#4f7cff;--green:#16a34a;--amber:#d97706;--red:#dc2626;--teal:#0d9488}
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{min-height:100%;overflow-y:auto}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    .page-wrap{max-width:1440px;margin:0 auto;padding:20px 24px}
+
+    .topbar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:12px}
+    .topbar-left h1{font-size:22px;font-weight:700;letter-spacing:-.4px}
+    .topbar-left p{font-size:12px;color:var(--muted);margin-top:2px}
+    .topbar-left .build{font-size:11px;margin-top:3px}
+    .topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .auto{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}
+    .auto input{accent-color:var(--accent)}
+    .btn-back{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+    .btn-back:hover{background:var(--surface2)}
+
+    .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .chip{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;min-width:96px;display:flex;flex-direction:column;gap:2px}
+    .chip .n{font-size:20px;font-weight:700;letter-spacing:-.5px}
+    .chip .l{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+    .chip.total .n{color:var(--text)}
+    .chip.processed .n{color:var(--green)}
+    .chip.failed .n{color:var(--red)}
+    .chip.statement .n{color:var(--teal)}
+    .chip.duplicate .n{color:var(--amber)}
+    .chip.skipped .n{color:var(--muted)}
+
+    .filterbar{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+    .fgroup{display:flex;flex-direction:column;gap:4px}
+    .fgroup.grow{flex:1;min-width:220px}
+    .fgroup label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .fgroup select,.fgroup input{font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);min-width:160px}
+    .fgroup input{width:100%}
+    .fgroup select:focus,.fgroup input:focus{outline:none;border-color:var(--accent)}
+
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+    .tablewrap{overflow-x:auto}
+    table.data{width:100%;border-collapse:collapse;font-size:13px}
+    table.data thead th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700;padding:11px 14px;border-bottom:1px solid var(--border);background:var(--surface2);position:sticky;top:0;white-space:nowrap}
+    table.data tbody td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+    table.data tbody tr:last-child td{border-bottom:none}
+    table.data tbody tr:hover{background:rgba(79,124,255,.03)}
+    .col-when{white-space:nowrap;color:var(--muted);font-size:12px}
+    .doc-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(79,124,255,.45);cursor:pointer}
+    .doc-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
+    .doc-link::after{content:' \2197';font-size:.8em;opacity:.55}
+    .col-doc{font-weight:600;max-width:340px;word-break:break-word}
+    .col-doc .sender{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:1px}
+    .col-sup{max-width:180px;word-break:break-word}
+    .col-detail{color:var(--muted);font-size:12px;max-width:300px;word-break:break-word}
+    .mono{font-family:'DM Mono',monospace;font-size:12px}
+
+    .pill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;border:1px solid var(--border);background:var(--surface2);color:var(--text)}
+    .badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.2px;white-space:nowrap}
+    .b-processed{background:rgba(22,163,74,.1);color:var(--green)}
+    .b-failed{background:rgba(220,38,38,.1);color:var(--red)}
+    .b-statement{background:rgba(13,148,136,.1);color:var(--teal)}
+    .b-duplicate{background:rgba(217,119,6,.12);color:var(--amber)}
+    .b-skipped{background:rgba(107,114,128,.12);color:var(--muted)}
+    .b-blacklisted{background:rgba(26,29,46,.1);color:var(--text)}
+
+    .state{padding:48px 20px;text-align:center;color:var(--muted);font-size:14px}
+    .tablefoot{padding:10px 14px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);background:var(--surface2)}
+    .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .col-act{white-space:nowrap}
+    .act{display:inline-flex;align-items:center;gap:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;text-decoration:none;margin:0 2px 2px 0}
+    .act:hover{background:var(--surface2)}
+    .act[disabled]{opacity:.55;cursor:default}
+    .act-view{color:var(--accent);border-color:rgba(79,124,255,.4)}
+    .act-retry{color:var(--red);border-color:rgba(220,38,38,.35)}
+    .act-force{color:var(--teal);border-color:rgba(13,148,136,.35)}
+    .act-del{color:#9b2c2c;border-color:#f1c5c5}
+
+    #toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);opacity:0;transition:all .25s;background:var(--text);color:#fff;padding:11px 18px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:9999;max-width:90vw}
+    #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    #toast.ok{background:var(--green)} #toast.warn{background:var(--amber)} #toast.err{background:var(--red)}
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Inbound Activity</h1>
+        <p>Live history of every document received — email, Drive (EzzyBills) and uploads</p>
+        <p class="build" style="color:var(--muted)">Build: <span id="buildVer">checking…</span></p>
+      </div>
+      <div class="topbar-actions">
+        <label class="auto"><input type="checkbox" id="autoRefresh" checked> Auto-refresh</label>
+        <button class="btn-back" onclick="load(true)">Refresh</button>
+        <button class="btn-back" onclick="goBack()">Back to Dashboard</button>
+      </div>
+    </div>
+
+    <div class="chips" id="chips"></div>
+
+    <div class="filterbar">
+      <div class="fgroup">
+        <label>Source</label>
+        <select id="fSource" onchange="render()"><option value="">All sources</option></select>
+      </div>
+      <div class="fgroup">
+        <label>Outcome</label>
+        <select id="fOutcome" onchange="render()"><option value="">All outcomes</option></select>
+      </div>
+      <div class="fgroup grow">
+        <label>Search</label>
+        <input id="fSearch" type="text" placeholder="document, supplier, sender, invoice #…" oninput="render()">
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="loading" class="state"><span class="spinner"></span>Loading inbound activity…</div>
+      <div id="empty" class="state" style="display:none;">Nothing received yet. As emails, Drive exports and uploads come in, they'll appear here.</div>
+      <div class="tablewrap" id="tablewrap" style="display:none;">
+        <table class="data">
+          <thead><tr>
+            <th>Received</th><th>Source</th><th>Document</th><th>Supplier</th>
+            <th>Pub</th><th>Invoice #</th><th>Outcome</th><th>Detail</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="tablefoot" id="foot" style="display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    var allRows = [];
+    var firstLoad = true;
+
+    window.onload = function() {
+      load(false);
+      try { google.script.run.withSuccessHandler(function(v){ var e=document.getElementById('buildVer'); if(e) e.textContent=v||'unknown'; }).getCodeVersion(); } catch(e){}
+      try { window.top.postMessage({type:'kinfold-page-change', page:'Inbound Activity'}, '*'); } catch(e){}
+      setInterval(function(){
+        var cb = document.getElementById('autoRefresh');
+        if (cb && cb.checked) load(true);
+      }, 30000);
+    };
+
+    var webAppUrl = '';
+    google.script.run.withSuccessHandler(function(url){ webAppUrl = url; }).getWebAppUrl();
+    function navigateApp(qs){
+      if (!webAppUrl) return;
+      var u = webAppUrl + qs;
+      try { window.top.postMessage({type:'navigate', url:u}, '*'); } catch(e){}
+      setTimeout(function(){ window.location.href = u; }, 300);
+    }
+    function goBack(){ navigateApp(''); }
+
+    function load(silent){
+      if (!silent) {
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('empty').style.display = 'none';
+        document.getElementById('tablewrap').style.display = 'none';
+        document.getElementById('foot').style.display = 'none';
+      }
+      google.script.run
+        .withSuccessHandler(onData)
+        .withFailureHandler(function(err){
+          document.getElementById('loading').innerHTML =
+            '<span style="color:var(--red)">Could not load inbound activity: ' + esc(String(err)) + '</span>';
+          document.getElementById('loading').style.display = 'block';
+        })
+        .getInboundLog(500);
+    }
+
+    function onData(data){
+      data = data || {};
+      allRows = data.rows || [];
+      populateSelect('fSource', data.sources || []);
+      populateSelect('fOutcome', data.outcomes || []);
+      document.getElementById('loading').style.display = 'none';
+      firstLoad = false;
+      render();
+    }
+
+    function populateSelect(id, values){
+      var sel = document.getElementById(id);
+      var current = sel.value;
+      var allLabel = sel.options[0].text;
+      sel.innerHTML = '';
+      var o0 = document.createElement('option'); o0.value=''; o0.textContent=allLabel; sel.appendChild(o0);
+      values.forEach(function(v){
+        if (!v) return;
+        var o = document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o);
+      });
+      sel.value = current;
+    }
+
+    function render(){
+      var src = document.getElementById('fSource').value;
+      var out = document.getElementById('fOutcome').value;
+      var q = (document.getElementById('fSearch').value || '').toLowerCase().trim();
+
+      var rows = allRows.filter(function(r){
+        if (src && r.source !== src) return false;
+        if (out && r.outcome !== out) return false;
+        if (q) {
+          var hay = (r.document + ' ' + r.supplier + ' ' + r.sender + ' ' + r.invoiceNumber + ' ' + r.pub + ' ' + r.detail).toLowerCase();
+          if (hay.indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+
+      renderChips(allRows);
+
+      var tbody = document.getElementById('tbody');
+      if (!allRows.length) {
+        document.getElementById('empty').style.display = 'block';
+        document.getElementById('tablewrap').style.display = 'none';
+        document.getElementById('foot').style.display = 'none';
+        return;
+      }
+      document.getElementById('empty').style.display = 'none';
+      document.getElementById('tablewrap').style.display = 'block';
+
+      function docCell(r) {
+        var name = esc(r.document || '—');
+        if (!r.fileId) return name;
+        return '<a href="https://drive.google.com/file/d/' + encodeURIComponent(r.fileId) + '/view"' +
+               ' target="_blank" rel="noopener" class="doc-link" title="Open PDF in Drive">' +
+               name + '</a>';
+      }
+
+      var html = '';
+      rows.forEach(function(r, idx){
+        html += '<tr data-idx="' + idx + '">'
+          + '<td class="col-when">' + esc(r.receivedStr) + '</td>'
+          + '<td>' + sourcePill(r.source) + '</td>'
+          + '<td class="col-doc">' + docCell(r)
+              + (r.sender ? '<span class="sender">' + esc(r.sender) + '</span>' : '') + '</td>'
+          + '<td class="col-sup">' + esc(r.supplier || '—') + '</td>'
+          + '<td>' + esc(r.pub || '—') + '</td>'
+          + '<td class="mono">' + esc(r.invoiceNumber || '—')
+              + (r.invoiceDate ? '<br><span style="color:var(--muted)">' + esc(r.invoiceDate) + '</span>' : '') + '</td>'
+          + '<td>' + outcomeBadge(r.outcome) + '</td>'
+          + '<td class="col-detail">' + esc(r.detail || '') + '</td>'
+          + '<td class="col-act">' + actionCell(r) + '</td>'
+          + '</tr>';
+      });
+      tbody.innerHTML = html;
+
+      var foot = document.getElementById('foot');
+      foot.style.display = 'block';
+      foot.textContent = 'Showing ' + rows.length + ' of ' + allRows.length + ' recent events'
+        + (allRows.length >= 500 ? ' (most recent 500)' : '');
+    }
+
+    function renderChips(rows){
+      var counts = {Processed:0, Failed:0, Statement:0, Duplicate:0, Skipped:0, Blacklisted:0};
+      rows.forEach(function(r){ if (counts[r.outcome] != null) counts[r.outcome]++; });
+      var chips = [
+        {cls:'total', l:'Received', n:rows.length},
+        {cls:'processed', l:'Processed', n:counts.Processed},
+        {cls:'failed', l:'Failed', n:counts.Failed},
+        {cls:'statement', l:'Statements', n:counts.Statement},
+        {cls:'duplicate', l:'Duplicates', n:counts.Duplicate},
+        {cls:'skipped', l:'Skipped', n:counts.Skipped}
+      ];
+      var html = '';
+      chips.forEach(function(c){
+        html += '<div class="chip ' + c.cls + '"><span class="n">' + c.n + '</span><span class="l">' + c.l + '</span></div>';
+      });
+      document.getElementById('chips').innerHTML = html;
+    }
+
+    function sourcePill(src){
+      return '<span class="pill">' + esc(src || '—') + '</span>';
+    }
+
+    function outcomeBadge(o){
+      var cls = 'b-skipped';
+      if (o === 'Processed') cls = 'b-processed';
+      else if (o === 'Failed') cls = 'b-failed';
+      else if (o === 'Statement') cls = 'b-statement';
+      else if (o === 'Duplicate') cls = 'b-duplicate';
+      else if (o === 'Blacklisted') cls = 'b-blacklisted';
+      return '<span class="badge ' + cls + '">' + esc(o || '—') + '</span>';
+    }
+
+    function esc(s){
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;');
+    }
+
+    function jsStr(s){
+      return String(s == null ? '' : s)
+        .replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    }
+
+    function actionCell(r){
+      var parts = [];
+      if (r.fileId) {
+        parts.push('<a class="act act-view" href="https://drive.google.com/file/d/' + encodeURIComponent(r.fileId) +
+          '/view" target="_blank" rel="noopener" title="Open the document">View</a>');
+      }
+      if (r.outcome === 'Failed' && r.fileId) {
+        parts.push('<button class="act act-retry" onclick="reprocessRow(\'' + jsStr(r.fileId) + '\',false,this)" title="Run ingestion again">Reprocess</button>');
+      } else if (r.outcome === 'Skipped' && r.fileId) {
+        parts.push('<button class="act act-force" onclick="reprocessRow(\'' + jsStr(r.fileId) + '\',true,this)" title="Process this despite being skipped">Process</button>');
+      }
+      // Delete on Processed rows — removes this invoice + lines + questions only
+      if (r.outcome === 'Processed' && (r.invoiceId || r.fileId || r.invoiceNumber)) {
+        var key = r.invoiceId || '';
+        var fid = r.fileId || '';
+        var inv = r.invoiceNumber || '';
+        var pub = r.pub || '';
+        parts.push(
+          '<button class="act act-del" onclick="deleteProcessedRow(this,\'' + jsStr(key) + '\',\'' +
+          jsStr(fid) + '\',\'' + jsStr(inv) + '\',\'' + jsStr(pub) + '\',\'' + jsStr(r.supplier || '') +
+          '\')" title="Delete this invoice, its lines, and related questions">Delete</button>'
+        );
+      }
+      if (!parts.length) return '<span style="color:var(--muted)">—</span>';
+      return parts.join('');
+    }
+
+    function deleteProcessedRow(btn, invoiceId, fileId, invoiceNumber, pub, supplier){
+      var label = (supplier || 'invoice') + (invoiceNumber ? ' #' + invoiceNumber : '') + (pub ? ' (' + pub + ')' : '');
+      var msg =
+        'Delete this invoice entirely?\n\n' +
+        label + '\n\n' +
+        'This removes the invoice, its line items, and any related Questions for this copy.\n' +
+        'Other pub copies of the same invoice are left alone.\n' +
+        'Product Master learning is not reversed.\n\n' +
+        'This cannot be undone.';
+      if (!confirm(msg)) return;
+
+      var orig = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;margin:0"></span>';
+
+      function onOk(res){
+        res = res || {};
+        if (res.success) {
+          toast('Deleted — ' + (res.linesDeleted || 0) + ' lines, ' +
+            (res.questionsDeleted || res.questionsIgnored || 0) + ' questions cleared', 'ok');
+          setTimeout(function(){ load(true); }, 600);
+        } else {
+          btn.disabled = false; btn.innerHTML = orig;
+          toast((res.error || 'Delete failed'), 'err');
+        }
+      }
+      function onFail(err){
+        btn.disabled = false; btn.innerHTML = orig;
+        toast('Delete failed: ' + String(err && err.message ? err.message : err), 'err');
+      }
+
+      // Prefer invoiceId from getInboundLog; otherwise resolve via fileId / invoice# + pub
+      if (invoiceId) {
+        google.script.run.withSuccessHandler(onOk).withFailureHandler(onFail).deleteInvoiceById(invoiceId);
+      } else {
+        google.script.run.withSuccessHandler(onOk).withFailureHandler(onFail)
+          .deleteInvoiceByInboundRef(fileId || '', invoiceNumber || '', pub || '');
+      }
+    }
+
+    function reprocessRow(fileId, force, btn){
+      if (!fileId) return;
+      var orig = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;margin:0"></span>';
+      google.script.run
+        .withSuccessHandler(function(res){
+          res = res || {};
+          if (res.success) toast('Processed — ' + (res.supplier || 'invoice') + (res.pub ? ' / ' + res.pub : ''), 'ok');
+          else if (res.isStatement) toast('Moved to Statements folder', 'ok');
+          else if (res.duplicate) toast('Already in the books (duplicate)', 'warn');
+          else if (res.skipped) toast('Still skipped: ' + (res.error || ''), 'warn');
+          else toast('Failed: ' + (res.error || 'unknown error'), 'err');
+          setTimeout(function(){ load(true); }, 1000);
+        })
+        .withFailureHandler(function(err){
+          btn.disabled = false; btn.innerHTML = orig;
+          toast('Error: ' + String(err), 'err');
+        })
+        .reprocessInboundItem(fileId, force);
+    }
+
+    var _toastT = null;
+    function toast(msg, kind){
+      var t = document.getElementById('toast');
+      if (!t) { t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+      t.className = ''; if (kind) t.classList.add(kind);
+      t.textContent = msg;
+      void t.offsetWidth;
+      t.classList.add('show');
+      if (_toastT) clearTimeout(_toastT);
+      _toastT = setTimeout(function(){ t.classList.remove('show'); }, 4000);
+    }
+  </script>
+</body>
+</html>

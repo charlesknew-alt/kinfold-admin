@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_top">
+  <title>Invoice Hub - Kinfold Inns</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --surface: #fff;
+      --surface2: #f0ebe3;
+      --line: #e8e1d6;
+      --text: #1c1917;
+      --muted: #78716c;
+      --accent: #0f766e;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --green: #15803d;
+      --blue: #1d4ed8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at top left, rgba(15,118,110,.1), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 12px; margin-bottom: 18px;
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 6px;
+    }
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(26px, 4vw, 34px); font-weight: 700; letter-spacing: -.02em;
+    }
+    .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line); background: #fff; color: var(--text);
+      padding: 10px 14px; border-radius: 10px; font: inherit; font-size: 13px;
+      font-weight: 700; cursor: pointer;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn.primary:hover { filter: brightness(1.05); color: #fff; }
+
+    .stat-row { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .stat {
+      flex: 1; min-width: 120px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+    }
+    .stat .num { font-size: 22px; font-weight: 700; font-family: 'DM Mono', monospace; }
+    .stat .label { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+    .num-accent { color: var(--accent); }
+    .num-green { color: var(--green); }
+    .num-amber { color: var(--amber); }
+    .num-red { color: var(--red); }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 14px; padding: 18px 20px; margin-bottom: 16px;
+    }
+    .tab-row { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+    .tab-btn {
+      padding: 10px 16px; border: none; background: transparent; cursor: pointer;
+      font: inherit; font-size: 13px; font-weight: 700; color: var(--muted);
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .search-bar { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+    .search-bar input, .search-bar select {
+      padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px;
+      font: inherit; font-size: 13px; background: #fff; color: var(--text);
+    }
+    .search-bar input { flex: 1; min-width: 200px; }
+    .search-bar input:focus, .search-bar select:focus { outline: none; border-color: var(--accent); }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th {
+      background: var(--surface2); padding: 10px 8px; text-align: left;
+      font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase;
+      border-bottom: 1px solid var(--line); white-space: nowrap; cursor: pointer; user-select: none;
+    }
+    th:hover { color: var(--accent); }
+    td { padding: 9px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    tr:hover td { background: rgba(15,118,110,.03); }
+    .pub-badge { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; display: inline-block; }
+    .pub-wm { background: rgba(29,78,216,.1); color: var(--blue); }
+    .pub-eb { background: rgba(180,83,9,.12); color: var(--amber); }
+    .status-badge { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; display: inline-block; }
+    .st-linked { background: rgba(21,128,61,.12); color: var(--green); }
+    .st-unlinked { background: rgba(185,28,28,.1); color: var(--red); }
+    .price { text-align: right; white-space: nowrap; font-family: 'DM Mono', monospace; }
+    .inv-num { font-weight: 700; }
+    a.pdf-link { color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 700; }
+    a.pdf-link:hover { text-decoration: underline; }
+    .sort-arrow { font-size: 9px; margin-left: 2px; opacity: .4; }
+    th.sa .sort-arrow { opacity: 1; color: var(--accent); }
+
+    .loading { text-align: center; padding: 48px 20px; color: var(--muted); font-size: 14px; }
+    .spinner {
+      display: inline-block; width: 18px; height: 18px;
+      border: 2px solid var(--line); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin .7s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .err { color: var(--red); }
+    .note {
+      border-left: 3px solid var(--accent); background: rgba(15,118,110,.06);
+      padding: 10px 12px; border-radius: 0 10px 10px 0; font-size: 12px;
+      color: var(--muted); margin-bottom: 12px; line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div class="eyebrow">Kinfold Inns</div>
+        <h1>Invoice Hub</h1>
+        <p class="sub">Browse processed invoices, statements, and supplier totals.</p>
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="button" onclick="refreshData()">Refresh</button>
+        <button class="btn" type="button" onclick="kinfoldNavigate('home')">Dashboard</button>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num num-accent" id="sInv">—</div><div class="label">Invoices</div></div>
+      <div class="stat"><div class="num num-green" id="sNet">—</div><div class="label">Net Total</div></div>
+      <div class="stat"><div class="num num-amber" id="sVat">—</div><div class="label">VAT</div></div>
+      <div class="stat"><div class="num num-accent" id="sGross">—</div><div class="label">Gross</div></div>
+      <div class="stat"><div class="num num-green" id="sLnk">—</div><div class="label">Linked</div></div>
+      <div class="stat"><div class="num num-red" id="sUnl">—</div><div class="label">Unlinked</div></div>
+    </div>
+
+    <div class="card">
+      <div class="tab-row">
+        <button class="tab-btn active" type="button" onclick="setTab('invoices',this)">Invoices</button>
+        <button class="tab-btn" type="button" onclick="setTab('statements',this)">Statements</button>
+        <button class="tab-btn" type="button" onclick="setTab('suppliers',this)">By Supplier</button>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="q" placeholder="Search invoices, suppliers..." oninput="render()">
+        <select id="fpub" onchange="render()">
+          <option value="">All Pubs</option>
+          <option value="Windmill">Windmill</option>
+          <option value="Eight">Eight Bells</option>
+        </select>
+        <select id="fst" onchange="render()">
+          <option value="">All Status</option>
+          <option value="linked">Linked</option>
+          <option value="unlinked">Unlinked</option>
+        </select>
+      </div>
+      <div id="out"><div class="loading"><span class="spinner"></span>Loading…</div></div>
+    </div>
+  </div>
+  <script>
+    var invs = [], stmts = [], tab = 'invoices', sc = '', sd = 'desc';
+    var loadTimer = null;
+    var LOAD_MS = 55000; // Apps Script soft limit awareness — show error instead of hanging forever
+
+    function load(){
+      if (loadTimer) clearTimeout(loadTimer);
+      var settled = false;
+      loadTimer = setTimeout(function(){
+        if (settled) return;
+        settled = true;
+        document.getElementById('out').innerHTML =
+          '<div class="loading err">Timed out loading Invoice Hub data.<br>' +
+          '<span style="color:var(--muted);font-size:12px">The sheet scan may be too large. Try Refresh, or use Archive for a filtered view.</span><br><br>' +
+          '<button class="btn primary" type="button" onclick="refreshData()">Retry</button></div>';
+      }, LOAD_MS);
+
+      google.script.run
+        .withSuccessHandler(function(d){
+          if (settled) return;
+          settled = true;
+          if (loadTimer) clearTimeout(loadTimer);
+          d = d || {};
+          invs = d.invoices || [];
+          stmts = d.statements || [];
+          stats();
+          render();
+        })
+        .withFailureHandler(function(e){
+          if (settled) return;
+          settled = true;
+          if (loadTimer) clearTimeout(loadTimer);
+          document.getElementById('out').innerHTML =
+            '<div class="loading err">Could not load: ' + esc(e && e.message ? e.message : e) +
+            '<br><br><button class="btn primary" type="button" onclick="refreshData()">Retry</button></div>';
+        })
+        .getInvoiceHubData();
+    }
+
+    function refreshData(){
+      document.getElementById('out').innerHTML = '<div class="loading"><span class="spinner"></span>Loading…</div>';
+      load();
+    }
+
+    function stats(){
+      document.getElementById('sInv').textContent = invs.length;
+      var n = 0, v = 0, g = 0, l = 0;
+      invs.forEach(function(i){
+        n += Number(i.netTotal) || 0;
+        v += Number(i.vatTotal) || 0;
+        g += Number(i.grossTotal) || 0;
+        if (i.linked) l++;
+      });
+      document.getElementById('sNet').textContent = '£' + n.toFixed(0);
+      document.getElementById('sVat').textContent = '£' + v.toFixed(0);
+      document.getElementById('sGross').textContent = '£' + g.toFixed(0);
+      document.getElementById('sLnk').textContent = l;
+      document.getElementById('sUnl').textContent = invs.length - l;
+    }
+
+    function setTab(t, b){
+      tab = t;
+      document.querySelectorAll('.tab-btn').forEach(function(x){ x.classList.remove('active'); });
+      if (b) b.classList.add('active');
+      render();
+    }
+
+    function fil(){
+      var q = (document.getElementById('q').value || '').toLowerCase();
+      var p = document.getElementById('fpub').value;
+      var s = document.getElementById('fst').value;
+      return invs.filter(function(i){
+        if (q && (i.invoiceNumber || '').toLowerCase().indexOf(q) < 0 &&
+            (i.supplier || '').toLowerCase().indexOf(q) < 0) return false;
+        if (p && (i.pub || '').indexOf(p) < 0) return false;
+        if (s === 'linked' && !i.linked) return false;
+        if (s === 'unlinked' && i.linked) return false;
+        return true;
+      });
+    }
+
+    function render(){
+      if (tab === 'invoices') rInv();
+      else if (tab === 'statements') rStmt();
+      else rSup();
+    }
+
+    function doSort(c){
+      if (sc === c) sd = sd === 'asc' ? 'desc' : 'asc';
+      else { sc = c; sd = 'desc'; }
+      render();
+    }
+
+    function srt(items){
+      if (!sc) return items;
+      return items.slice().sort(function(a, b){
+        var va, vb;
+        switch (sc) {
+          case 'inv': va = (a.invoiceNumber || '').toLowerCase(); vb = (b.invoiceNumber || '').toLowerCase(); break;
+          case 'sup': va = (a.supplier || '').toLowerCase(); vb = (b.supplier || '').toLowerCase(); break;
+          case 'pub': va = a.pub || ''; vb = b.pub || ''; break;
+          case 'date': va = a.invoiceDate || ''; vb = b.invoiceDate || ''; break;
+          case 'net': va = Number(a.netTotal) || 0; vb = Number(b.netTotal) || 0; break;
+          case 'vat': va = Number(a.vatTotal) || 0; vb = Number(b.vatTotal) || 0; break;
+          case 'gross': va = Number(a.grossTotal) || 0; vb = Number(b.grossTotal) || 0; break;
+          case 'lines': va = Number(a.lines) || 0; vb = Number(b.lines) || 0; break;
+          default: return 0;
+        }
+        if (va < vb) return sd === 'asc' ? -1 : 1;
+        if (va > vb) return sd === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function th(l, c){
+      var cls = sc === c ? ' sa' : '';
+      var a = sc === c ? (sd === 'asc' ? '↑' : '↓') : '↕';
+      return '<th class="' + cls + '" onclick="doSort(\'' + c + '\')">' + l +
+        ' <span class="sort-arrow">' + a + '</span></th>';
+    }
+
+    function rInv(){
+      var items = srt(fil());
+      if (!items.length) {
+        document.getElementById('out').innerHTML = '<div class="loading">No invoices match</div>';
+        return;
+      }
+      var h = '<table><thead><tr>' + th('Invoice #','inv') + th('Supplier','sup') + th('Pub','pub') +
+        th('Date','date') + th('Lines','lines') + th('Net','net') + th('VAT','vat') + th('Gross','gross') +
+        '<th>Status</th><th>PDF</th></tr></thead><tbody>';
+      items.forEach(function(i){
+        var pc = (i.pub || '').indexOf('Windmill') > -1 ? 'pub-wm' : 'pub-eb';
+        var pl = (i.pub || '').indexOf('Windmill') > -1 ? 'WM' : 'EB';
+        var sc2 = i.linked ? 'st-linked' : 'st-unlinked';
+        var sl = i.linked ? 'Linked' : 'Unlinked';
+        var dt = i.invoiceDate ? new Date(i.invoiceDate).toLocaleDateString('en-GB') : '—';
+        h += '<tr><td class="inv-num">' + esc(i.invoiceNumber) + '</td><td>' + esc(i.supplier) + '</td>';
+        h += '<td><span class="pub-badge ' + pc + '">' + pl + '</span></td><td>' + dt + '</td>';
+        h += '<td style="text-align:center">' + (i.lines || 0) + '</td>';
+        h += '<td class="price">£' + (Number(i.netTotal) || 0).toFixed(2) + '</td>';
+        h += '<td class="price">£' + (Number(i.vatTotal) || 0).toFixed(2) + '</td>';
+        h += '<td class="price" style="font-weight:700">£' + (Number(i.grossTotal) || 0).toFixed(2) + '</td>';
+        h += '<td><span class="status-badge ' + sc2 + '">' + sl + '</span></td>';
+        h += '<td>' + (i.pdfFileId
+          ? '<a class="pdf-link" href="https://drive.google.com/file/d/' + i.pdfFileId + '/view" target="_blank">PDF</a>'
+          : '—') + '</td></tr>';
+      });
+      h += '</tbody></table><div style="padding:8px;font-size:12px;color:var(--muted)">' + items.length + ' invoices</div>';
+      document.getElementById('out').innerHTML = h;
+    }
+
+    function rStmt(){
+      if (!stmts.length) {
+        document.getElementById('out').innerHTML = '<div class="loading">No statements</div>';
+        return;
+      }
+      var h = '<table><thead><tr><th>Supplier</th><th>Period</th><th>Invoices</th><th>Net</th><th>VAT</th><th>Gross</th><th>Reconciled</th></tr></thead><tbody>';
+      stmts.forEach(function(s){
+        var rc = s.reconciled ? 'st-linked' : 'st-unlinked';
+        var rl = s.reconciled ? 'Yes' : 'No';
+        h += '<tr><td style="font-weight:600">' + esc(s.supplier) + '</td><td>' + esc(s.period) + '</td>';
+        h += '<td style="text-align:center">' + (s.invoiceCount || 0) + '</td>';
+        h += '<td class="price">£' + (Number(s.netTotal) || 0).toFixed(2) + '</td>';
+        h += '<td class="price">£' + (Number(s.vatTotal) || 0).toFixed(2) + '</td>';
+        h += '<td class="price" style="font-weight:700">£' + (Number(s.grossTotal) || 0).toFixed(2) + '</td>';
+        h += '<td><span class="status-badge ' + rc + '">' + rl + '</span></td></tr>';
+      });
+      h += '</tbody></table>';
+      document.getElementById('out').innerHTML = h;
+    }
+
+    function rSup(){
+      var items = fil(), sups = {};
+      items.forEach(function(i){
+        var s = i.supplier || 'Unknown';
+        if (!sups[s]) sups[s] = { supplier: s, count: 0, net: 0, vat: 0, gross: 0, pubs: {} };
+        sups[s].count++;
+        sups[s].net += Number(i.netTotal) || 0;
+        sups[s].vat += Number(i.vatTotal) || 0;
+        sups[s].gross += Number(i.grossTotal) || 0;
+        sups[s].pubs[i.pub || '?'] = true;
+      });
+      var arr = Object.keys(sups).map(function(k){ return sups[k]; })
+        .sort(function(a, b){ return b.gross - a.gross; });
+      var h = '<table><thead><tr><th>Supplier</th><th>Pubs</th><th>Invoices</th><th>Net</th><th>VAT</th><th>Gross</th></tr></thead><tbody>';
+      arr.forEach(function(s){
+        var ps = Object.keys(s.pubs).map(function(p){
+          return p.indexOf('Windmill') > -1 ? 'WM' : 'EB';
+        }).join(', ');
+        h += '<tr><td style="font-weight:700">' + esc(s.supplier) + '</td><td>' + ps + '</td>';
+        h += '<td style="text-align:center">' + s.count + '</td>';
+        h += '<td class="price">£' + s.net.toFixed(2) + '</td>';
+        h += '<td class="price">£' + s.vat.toFixed(2) + '</td>';
+        h += '<td class="price" style="font-weight:700">£' + s.gross.toFixed(2) + '</td></tr>';
+      });
+      h += '</tbody></table><div style="padding:8px;font-size:12px;color:var(--muted)">' + arr.length + ' suppliers</div>';
+      document.getElementById('out').innerHTML = h;
+    }
+
+    function esc(s){
+      return (s || '').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+    }
+
+    function kinfoldNavigate(p){
+      try { window.parent.postMessage({ type: 'kinfold-page-change', page: p }, '*'); } catch (e) {}
+      google.script.run.withSuccessHandler(function(u){
+        var url = u + (p === 'home' ? '' : ('?page=' + p));
+        try { window.top.postMessage({ type: 'navigate', url: url }, '*'); } catch (e2) {}
+        setTimeout(function(){ window.top.location.href = url; }, 200);
+      }).getWebAppUrl();
+    }
+
+    try { window.top.postMessage({ type: 'kinfold-page-change', page: 'Invoice Hub' }, '*'); } catch (e) {}
+    load();
+  </script>
+</body>
+</html>
